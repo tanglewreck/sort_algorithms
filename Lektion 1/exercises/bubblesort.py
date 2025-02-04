@@ -1,9 +1,11 @@
 # coding: utf-8
+
 """
 Bubblesort a random list of ints in increasing order.
 Uses numpy to generate a list of N integers.
 Run with '-O' to get rid of debug messages.
 Comes with rudimentary commandline argument handling (using sys.argv)
+NOTE: camelcase variable-names in use :) 
 """
 
 import numpy as np
@@ -73,12 +75,13 @@ def main():
     # Check if there's a first argument
     try:
         if sys.argv[1]:
-            errorMessage = "Input must be integers (<min> <max> <N>)"
+            errorMessage = "Input must be integers"
             try:
                 min: int = int(sys.argv[1])
-                print(f"Assigned min ({min})")
+                if __debug__:
+                    print(f"Assigned min ({min})")
             except ValueError as e:
-                print(errorMessage, file=sys.stderr)
+                print(f"{errorMessage}: {e}", file=sys.stderr)
                 raise
         
         # Check if there's a second argument
@@ -86,10 +89,11 @@ def main():
             if sys.argv[2]:
                 try:
                     max: int = int(sys.argv[2])
-                    print(f"Assigned max ({max})")
+                    if __debug__:
+                        print(f"Assigned max ({max})")
                 except ValueError as e:
-                    print(errorMessage, file=sys.stderr)
-                    raise
+                    print(f"{errorMessage}: {e}", file=sys.stderr)
+                    raise SystemExit(1)
 
             # Check if there's a third argument
             try:
@@ -97,8 +101,8 @@ def main():
                     try:
                         numbersToGenerate: int = int(sys.argv[3])
                     except ValueError as e:
-                        print(errorMessage, file=sys.stderr)
-                        raise
+                        print(f"{errorMessage}: {e}", file=sys.stderr)
+                        raise SystemExit(1)
                 else:
                     numbersToGenerate = N
             except IndexError:
