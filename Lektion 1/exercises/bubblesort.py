@@ -48,12 +48,22 @@ def bubbleSort(theList: list):
             print(f"Got an IndexError: {e}")
 
 
+
     # Store the lenght of the list in a variable 
     listLen: int = len(theList)
 
+    saveList = theList + [0]
     # Loop through the list, twice, and switch elements as necessary
-    for indexOne in range(listLen):
-        for indexTwo in range(indexOne, listLen):
+    for indexOne in range(listLen):  # loop from 0 to listLen - 1
+        if __debug__:
+            print(f"interation: {indexOne}")
+            # print(saveList, theList)
+
+        for indexTwo in range(indexOne + 1, listLen):  # loop from indexOne to listLen -1
+            saveList = theList + [0]  # Don't remember how to deep-copy a list
+            saveList.pop()            # so this will have to do.
+            if __debug__:
+                print(f"{saveList}\t", end="")
             # if __debug__:
             #    print(f"indices: ({indexOne, indexTwo})")
 
@@ -61,12 +71,20 @@ def bubbleSort(theList: list):
                 # if __debug__:
                 # print(f"switching: ({indexOne, indexTwo})\t({theList[indexOne], theList[indexTwo]})")
                 switchPlace(theList, indexOne, indexTwo)
-    if __debug__:
-        print()
+                if __debug__:
+                    print("---> swapped <---\t", end="")
+            else:
+                if __debug__:
+                    print("---> no swap <---\t", end="")
+            if __debug__:
+                print(theList)
+        if __debug__:
+            print()
 
-
-def main():
-
+def getCommandLineArguments() -> list:
+    """
+    Get commandline arguments using sys.argv.
+    """
     # Assign default values 
     min = MIN
     max = MAX
@@ -120,7 +138,6 @@ def main():
         print("assigned default value to min")
         min = MIN
 
-
     # Sanity check
     if max < min:
         raise SystemExit(1, "max must be larger than min")
@@ -128,12 +145,22 @@ def main():
     if __debug__:
         print(f"min, max, numbersToGenerate = {min}, {max}, {numbersToGenerate}")
 
-    # Generate random numbers
+    return (min, max, numbersToGenerate)
+
+
+
+def main():
+
+    (min, max, numbersToGenerate) = getCommandLineArguments()
+
+    # Generate a list of random numbers 
     myList = generateRandomNumbers(min, max, numbersToGenerate)
-    if __debug__:
-        print(f"in = {myList}")
-        print()
+    #if __debug__:
+    #    print(f"in = {myList}")
+    #    print()
+
     # Sort the list and print the result
+    # myList = [72, 37, 4, 17, 9]
     bubbleSort(myList)
     print(f"out = {myList}")
 
