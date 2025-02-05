@@ -10,6 +10,7 @@ NOTE: camelcase variable-names in use :)
 
 import numpy as np
 import sys
+import timeit
 
 N = 10     # Number of numbers in the list
 MIN = 1    # Min size of a number in the list
@@ -165,4 +166,10 @@ def main():
     print(f"out = {myList}")
 
 if __name__ == "__main__":
-    main()
+    iterations = 100_000_000
+    t = timeit.Timer(stmt="main")
+    try:
+        elapsed = t.timeit(iterations)
+        print(f"elapsed = {elapsed} ({iterations} iterations)")
+    except:
+        print("EEEEEERRROR")
