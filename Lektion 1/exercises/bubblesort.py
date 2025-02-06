@@ -17,16 +17,20 @@ MIN = 1    # Min size of a number in the list
 MAX = 100  # Max size of a number in the list
 
 
-def generateRandomNumbers(min = MIN, max = MAX, numbersToGenerate = N) -> list:
+def generateRandomNumbers(min = MIN, max = MAX,
+                          numbersToGenerate = N,
+                          verbose=False) -> list:
     """
     Generate random integers btw min (inclusive) and max (inclusive).
     """
     try:
-        return [int(n) for n in
-                        np.random.choice(range(min, max + 1),
-                                         size=numbersToGenerate,
-                                         replace=False)
-                ]
+        randomList = [int(n) for n in np.random.choice(range(min, max + 1),
+                                      size=numbersToGenerate,
+                                      replace=False)]
+        if verbose:
+            print(randomList)
+        return randomList
+
     except ValueError as e:
         print(e)
         raise SystemExit(1)
@@ -149,13 +153,12 @@ def getCommandLineArguments() -> list:
     return (min, max, numbersToGenerate)
 
 
-
 def main():
 
     (min, max, numbersToGenerate) = getCommandLineArguments()
 
     # Generate a list of random numbers 
-    myList = generateRandomNumbers(min, max, numbersToGenerate)
+    myList = generateRandomNumbers(min, max, numbersToGenerate, verbose=False)
     #if __debug__:
     #    print(f"in = {myList}")
     #    print()
@@ -165,7 +168,9 @@ def main():
     bubbleSort(myList)
     print(f"out = {myList}")
 
+
 if __name__ == "__main__":
+    # Time main() (no output generated)
     iterations = 100_000_000
     t = timeit.Timer(stmt="main")
     try:
@@ -173,3 +178,5 @@ if __name__ == "__main__":
         print(f"elapsed = {elapsed} ({iterations} iterations)")
     except:
         print("EEEEEERRROR")
+    # Run main once again (generates output)
+    main()
