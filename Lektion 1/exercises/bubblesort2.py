@@ -29,13 +29,13 @@ def bubbleSort(theList: list = L, verbose = False):
                 swapped = True   
                 numberOfSwaps += 1
                 if verbose:
-                    print(f"({i} > {i1})--->  swapped <--- {theListCopy}")
+                    print(f"---> ({i} > {i1}) swapped  <--- {theListCopy}")
                 (theListCopy[index],
                  theListCopy[index + 1]) = (theListCopy[index + 1],
                                             theListCopy[index])
             else:
                 if verbose:
-                    print(f"({i} <= {i1})---> no swap <--- {theListCopy}")
+                    print(f"---> ({i} <= {i1}) no swap <--- {theListCopy}")
         if verbose:
             print()
         iteration += 1
@@ -50,7 +50,9 @@ def main():
     sumOfComparisons = 0
     for k in range(iterations):
         intList = [int(x) for x in np.random.randint(MIN, MAX, N,dtype=int)]
-        (intListSorted, numberOfSwaps, numberOfComparisons) = bubbleSort(intList)
+        (intListSorted,
+         numberOfSwaps,
+         numberOfComparisons) = bubbleSort(intList)
         sumOfSwaps += numberOfSwaps
         sumOfComparisons += numberOfComparisons
         # print(numberOfSwaps)
@@ -64,7 +66,9 @@ if __name__ == "__main__":
     #t = timeit.Timer("main")
     #elapsed = t.timeit(100_000_000)
     #print(elapsed)
-    (sortedList, numberOfSwaps, numberOfComparisons) = bubbleSort(L)
+    (sortedList,
+     numberOfSwaps,
+     numberOfComparisons) = bubbleSort(L, verbose=False)
     #print(f"Number of swaps: {numberOfSwaps}")
     #print(f"Number of comparisons: {numberOfComparisons}")
     main()
