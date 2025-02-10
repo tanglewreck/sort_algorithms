@@ -1,7 +1,7 @@
 # coding: utf-8
 
 """
-Bubblesort a random list of ints in increasing order.
+mySortAlgorithm-sort a random list of ints in increasing order.
 Uses numpy to generate a list of N integers.
 Run with '-O' to get rid of debug messages.
 Comes with rudimentary commandline argument handling (using sys.argv)
@@ -10,7 +10,7 @@ NOTE: camelCase variable-names in use :)
 pylint:
 pylint --function-naming-style camelCase \
        --variable-naming-style camelCase \
-       --argument-naming-style cameCase bubblesort.py
+       --argument-naming-style cameCase mysortalgorithm.py
 
 """
 
@@ -26,97 +26,6 @@ N = 100
 MIN = 1
 # Max size of a number in the list
 MAX = 1000
-
-
-def generateRandomNumbers(minimum = MIN, maximum = MAX,
-                          numbersToGenerate = N,
-                          verbose=False) -> list:
-    """
-    Generate random integers btw min (inclusive) and max (inclusive).
-    """
-    try:
-        randomList = [int(n) for n in np.random.choice(range(minimum, maximum + 1),
-                                      size=numbersToGenerate,
-                                      replace=False)]
-        if verbose:
-            print(randomList)
-        return randomList
-
-    except ValueError as e:
-        print(e)
-        raise SystemExit(1) from e
-
-
-def bubbleSort(theList: list):
-    """
-    This functions sorts a list of numbers using a modified version
-    of bubblesort. 
-    """
-
-    def switchPlace(theList: list, positionOne: int, positionTwo: int) -> None:
-        """
-        Utility function that swaps places of two elements.
-        The position of the elements are given by the (integer)
-        parameters 'positionOne' and 'positionTwo.
-        """
-        try:
-            theList[positionOne], theList[positionTwo] = theList[positionTwo], theList[positionOne]
-        except IndexError as e:
-            print(f"Got an IndexError: {e}")
-
-
-
-    # Store the length of the list in a variable, for easy access
-    listLen: int = len(theList)
-
-    # We count the number of comparisons and swaps made
-    numberOfComparisons = 0
-    numberOfSwaps = 0
-
-    saveList = theList + [0]
-    # Loop through the list, twice, and switch elements as necessary
-    # After each (outer) iteration, another least element will have been
-    # added at the front of the list, which means we do not have to
-    # consider those elements as we move along the list.
-    # Another way of putting this is that the list elements that are put at the
-    # beginning of the list are in their correct position, so we can ignore
-    # those elements as we progress further down the list.
-
-    firstIndex = 0  # Position of the first unsorted element
-    for indexOne in range(firstIndex, listLen):
-        # The variable 'firstIndex' is incremented by 1 with each
-        # iteration of the loop, making the list of numbers
-        # to compare monotonically shorter.
-        if __debug__:
-            print(f"interation: {indexOne} (firstIndex = {firstIndex})")
-            # print(saveList, theList)
-
-        for indexTwo in range(indexOne + 1, listLen):  # loop from indexOne to listLen -1
-            saveList = theList + [0]  # Don't remember how to deep-copy a list
-            saveList.pop()            # so this will have to do.
-            if __debug__:
-                print(f"{saveList}\t", end="")
-            # if __debug__:
-            #    print(f"indices: ({indexOne, indexTwo})")
-
-            numberOfComparisons += 1
-            if theList[indexOne] > theList[indexTwo]:
-                numberOfSwaps += 1
-                switchPlace(theList, indexOne, indexTwo)
-                if __debug__:
-                    print("---> swapped <---\t", end="")
-            else:
-                if __debug__:
-                    print("---> no swap <---\t", end="")
-            if __debug__:
-                print(theList)
-        if __debug__:
-            print()
-        firstIndex += 1
-    if __debug__:
-        print(f"Number of comparisons: {numberOfComparisons}")
-        print(f"Number of swaps: {numberOfSwaps}")
-    return (theList, numberOfSwaps, numberOfComparisons)
 
 
 def getCommandLineArguments() -> list:
@@ -171,16 +80,107 @@ def getCommandLineArguments() -> list:
     return (minimum, maximum, numbersToGenerate)
 
 
+def generateRandomNumbers(minimum = MIN, maximum = MAX,
+                          numbersToGenerate = N,
+                          verbose=False) -> list:
+    """
+    Generate random integers btw min (inclusive) and max (inclusive).
+    """
+    try:
+        randomList = [int(n) for n in np.random.choice(range(minimum, maximum + 1),
+                                      size=numbersToGenerate,
+                                      replace=False)]
+        if verbose:
+            print(randomList)
+        return randomList
+
+    except ValueError as e:
+        print(e)
+        raise SystemExit(1) from e
+
+
+def mySortAlgorithm(theList: list, verbose = False):
+    """
+    This functions sorts a list of numbers using a modified version
+    of bubblesort (??) 
+    """
+
+    def switchPlace(theList: list, positionOne: int, positionTwo: int) -> None:
+        """
+        Utility function that swaps places of two elements.
+        The position of the elements are given by the (integer)
+        parameters 'positionOne' and 'positionTwo.
+        """
+        try:
+            theList[positionOne], theList[positionTwo] = theList[positionTwo], theList[positionOne]
+        except IndexError as e:
+            print(f"Got an IndexError: {e}")
+
+
+
+    # Store the length of the list in a variable, for easy access
+    listLen: int = len(theList)
+
+    # We count the number of comparisons and swaps made
+    numberOfComparisons = 0
+    numberOfSwaps = 0
+
+    saveList = theList + []
+    # Loop through the list, twice, and switch elements as necessary
+    # After each (outer) iteration, another least element will have been
+    # added at the front of the list, which means we do not have to
+    # consider those elements as we move along the list.
+    # Another way of putting this is that the list elements that are put at the
+    # beginning of the list are in their correct position, so we can ignore
+    # those elements as we progress further down the list.
+
+    firstIndex = 0  # Position of the first unsorted element
+    for indexOne in range(firstIndex, listLen):
+        # The variable 'firstIndex' is incremented by 1 with each
+        # iteration of the loop, making the list of numbers
+        # to compare monotonically shorter.
+        if verbose:
+            print(f"interation: {indexOne} (firstIndex = {firstIndex})")
+            # print(saveList, saveList)
+
+        for indexTwo in range(indexOne + 1, listLen):  # loop from indexOne to listLen -1
+            # saveList = theList + []  # Don't remember how to deep-copy a list
+            if verbose:
+                print(f"{saveList}\t", end="")
+            # if verbose:
+            #    print(f"indices: ({indexOne, indexTwo})")
+
+            numberOfComparisons += 1
+            if saveList[indexOne] > saveList[indexTwo]:
+                numberOfSwaps += 1
+                switchPlace(saveList, indexOne, indexTwo)
+                if verbose:
+                    print("---> swapped <---\t", end="")
+            else:
+                if verbose:
+                    print("---> no swap <---\t", end="")
+            if verbose:
+                print(saveList)
+        if verbose:
+            print()
+        firstIndex += 1
+    if verbose:
+        print(f"Number of comparisons: {numberOfComparisons}")
+        print(f"Number of swaps: {numberOfSwaps}")
+    return (saveList, numberOfSwaps, numberOfComparisons)
+
+
 def main():
     """ main  """
-
+    # Get commandline arguments (minimum, maximum, number numbers to generate)
     (minimum, maximum, numbersToGenerate) = getCommandLineArguments()
-
+    
     # Generate a list of random numbers
-    # myList = generateRandomNumbers(minimum, maximum, numbersToGenerate, verbose=False)
-    # bubbleSort(myList)
-    # if __debug__:
-    #    print(f"out = {myList}")
+    myList = generateRandomNumbers(minimum, maximum, numbersToGenerate, verbose=False)
+    mySortedList, numberOfSwaps, numberOfComparisons = mySortAlgorithm(myList, verbose=False)
+    if __debug__:
+        print(f"in = {myList}")
+        print(f"out = {mySortedList}")
 
     iterations = 100_000
     iterations = 10_000
@@ -188,7 +188,7 @@ def main():
     sumOfComparisons = 0
     for k in range(iterations):
         intList = generateRandomNumbers(minimum, maximum, numbersToGenerate)
-        (intListSorted, numberOfSwaps, numberOfComparisons) = bubbleSort(intList)
+        (intListSorted, numberOfSwaps, numberOfComparisons) = mySortAlgorithm(intList)
         sumOfSwaps += numberOfSwaps
         sumOfComparisons += numberOfComparisons
         # print(numberOfSwaps)
