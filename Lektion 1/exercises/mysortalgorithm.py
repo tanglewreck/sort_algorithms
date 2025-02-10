@@ -153,7 +153,8 @@ def mySortAlgorithm(theList: list, verbose = False):
             numberOfComparisons += 1
             if saveList[indexOne] > saveList[indexTwo]:
                 numberOfSwaps += 1
-                switchPlace(saveList, indexOne, indexTwo)
+                #switchPlace(saveList, indexOne, indexTwo)
+                saveList[indexOne], saveList[indexTwo] = saveList[indexTwo], saveList[indexOne]
                 if verbose:
                     print("---> swapped <---\t", end="")
             else:

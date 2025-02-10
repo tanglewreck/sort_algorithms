@@ -2,9 +2,16 @@
 import numpy as np
 import timeit
 
+# MIN = 1
+# MAX = 10
+# N = 10
+
+# Number of numbers in the list
+N = 100
+# Min size of a number in the list
 MIN = 1
-MAX = 10
-N = 10
+# Max size of a number in the list
+MAX = 1000
 
 L = [int(x) for x in np.random.randint(MIN, MAX, N,dtype=int)]
 
