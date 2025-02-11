@@ -6,12 +6,12 @@ import timeit
 # MAX = 10
 # N = 10
 
-# Number of numbers in the list
-N = 100
 # Min size of a number in the list
 MIN = 1
 # Max size of a number in the list
-MAX = 1000
+MAX = 10
+# Number of numbers in the list
+N = 5
 
 L = [int(x) for x in np.random.randint(MIN, MAX, N,dtype=int)]
 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
     #print(elapsed)
     (sortedList,
      numberOfSwaps,
-     numberOfComparisons) = bubbleSort(L, verbose=False)
-    #print(f"Number of swaps: {numberOfSwaps}")
-    #print(f"Number of comparisons: {numberOfComparisons}")
-    main()
+     numberOfComparisons) = bubbleSort(L, verbose=True)
+    print(f"Number of swaps: {numberOfSwaps}")
+    print(f"Number of comparisons: {numberOfComparisons}")
+    # main()
