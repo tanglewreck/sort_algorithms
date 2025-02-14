@@ -3,14 +3,16 @@
 """
 mySortAlgorithm-sort a random list of ints in increasing order.
 Uses numpy to generate a list of N integers.
-Run with '-O' to get rid of debug messages.
+
+Run with '-O' to get rid of debug messages:
+    python -O bubblesort.py
+
 Comes with rudimentary commandline argument handling (using sys.argv)
-NOTE: camelCase variable-names in use :)
 
 pylint:
 pylint --function-naming-style camelCase \
        --variable-naming-style camelCase \
-       --argument-naming-style cameCase mysortalgorithm.py
+       --argument-naming-style camelCase mysortalgorithm.py
 
 """
 
@@ -27,16 +29,16 @@ N = 100
 # Min size of a number in the list
 MIN = 1
 # Max size of a number in the list
-MAX = 1000
+MAX = 100_000
 # Number of iterations while measuring performance
-ITERATIONS = 10_000
+ITERATIONS = 20_000
 
 
 def getCommandLineArguments(minimum: int = MIN,
                             maximum: int = MAX,
                             numbersToGenerate: int = N) -> list:
     """
-    Get commandline arguments using sys.argv (instead of using the 
+    Get commandline arguments using sys.argv (instead of using the
     argparse module).
 
     First argument: minimum (smallest integer to generate)
@@ -72,7 +74,7 @@ def getCommandLineArguments(minimum: int = MIN,
         print(textwrap.dedent(f"""
               WARNING: Maximum must be larger than minimum.
               Switching order.
-              Usage: {USAGE}
+              Usage: {sys.argv[0]}<min> <max> <N>
         """))
         (minimum, maximum) = (maximum, minimum)
     if (maximum - minimum ) < (numbersToGenerate - 1):
@@ -87,7 +89,7 @@ def getCommandLineArguments(minimum: int = MIN,
     return (minimum, maximum, numbersToGenerate)
 
 
-def generateRandomList(minimum: int = MIN,
+def generateRandomList(minimum:int = MIN,
                        maximum:int = MAX,
                        numbersToGenerate:int = N,
                        verbose=False) -> list:
@@ -108,22 +110,22 @@ def generateRandomList(minimum: int = MIN,
 def mySortAlgorithm(theList: list, verbose = False):
     """
     This functions sorts a list of numbers using a modified version
-    of bubblesort (??) 
+    of bubblesort (??)
     """
 
-    def switchPlace(theList: list, positionOne: int, positionTwo: int) -> None:
-        """
-        Utility function that swaps places of two elements.
-        The position of the elements are given by the (integer)
-        parameters 'positionOne' and 'positionTwo.
-
-        NOTE that using this function implies a performance hit 
-        compared to doing the swap inline.
-        """
-        try:
-            theList[positionOne], theList[positionTwo] = theList[positionTwo], theList[positionOne]
-        except IndexError as e:
-            print(f"Got an IndexError: {e}")
+    #def switchPlace(theList: list, positionOne: int, positionTwo: int) -> None:
+    #    """
+    #    Utility function that swaps places of two elements.
+    #    The position of the elements are given by the (integer)
+    #    parameters 'positionOne' and 'positionTwo.
+    #
+    #    NOTE that using this function implies a performance hit
+    #    compared to doing the swap inline.
+    #    """
+    #    try:
+    #        theList[positionOne], theList[positionTwo] = theList[positionTwo], theList[positionOne]
+    #    except IndexError as e:
+    #        print(f"Got an IndexError: {e}")
 
 
     # Store the length of the list in a variable, for easy access
@@ -136,11 +138,11 @@ def mySortAlgorithm(theList: list, verbose = False):
     # Make a copy of the list and sort this instead of the original
     # so we can compare input and output.
     listCopy = theList + []
-     
+
     # Repeatedly iterate through the list of numbers, compare the first element with
     # the rest of the elements in turn, switching places if the first is larger
-    # than the other element, thus forcing the smallest element of the list to 
-    # the head. 
+    # than the other element, thus forcing the smallest element of the list to
+    # the head.
     #
     # Since, in each iteration, the smallest number is moved to the head of the
     # list in this way, we can optimise by ignoring those numbers we have
@@ -153,7 +155,7 @@ def mySortAlgorithm(theList: list, verbose = False):
     # The variable 'firstIndex' is incremented by one with each
     # iteration of the loop, making the list of numbers
     # to compare monotonically shorter for each run of the loop.
-    firstIndex = 0  
+    firstIndex = 0
 
     for indexOne in range(firstIndex, listLen):
         if verbose:
@@ -166,7 +168,6 @@ def mySortAlgorithm(theList: list, verbose = False):
             numberOfComparisons += 1
             if listCopy[indexOne] > listCopy[indexTwo]:
                 # Make the swap
-                # switchPlace(listCopy, indexOne, indexTwo)
                 listCopy[indexOne], listCopy[indexTwo] = listCopy[indexTwo], listCopy[indexOne]
                 numberOfSwaps += 1
                 if verbose:
@@ -189,19 +190,17 @@ def mySortAlgorithm(theList: list, verbose = False):
 
 def algorithmPerformance(iterations: int = ITERATIONS) -> tuple:
     """Simple performance test of the sorting
-    algorithm, using the average number of swaps 
+    algorithm, using the average number of swaps
     and comparisons over a large number of runs as
     indicators of efficiency."""
 
     sumOfSwaps = 0
     sumOfComparisons = 0
-    for k in range(iterations):
+    for _ in range(iterations):
         # Generate a random list
-        intList = generateRandomList(minimum,
-                                     maximum,
-                                     numbersToGenerate)
+        intList = generateRandomList(MIN, MAX, N)
         # Sort the list
-        (intListSorted,
+        (intList,
          numberOfSwaps,
          numberOfComparisons) = mySortAlgorithm(intList, verbose=False)
 
@@ -210,12 +209,12 @@ def algorithmPerformance(iterations: int = ITERATIONS) -> tuple:
         sumOfComparisons += numberOfComparisons
 
     meanNumberOfSwaps = sumOfSwaps / iterations
-    meanNumberOfComparisons = sumOfComparisons / iterations 
+    meanNumberOfComparisons = sumOfComparisons / iterations
 
     return (meanNumberOfSwaps, meanNumberOfComparisons)
 
 
-def main(minimum: MIN, maximum: MAX, numbersToGenerate: N):
+def main(minimum = MIN, maximum = MAX, numbersToGenerate = N):
     """ main  """
     # Generate a list of random numbers
     myList = generateRandomList(minimum,
@@ -223,27 +222,23 @@ def main(minimum: MIN, maximum: MAX, numbersToGenerate: N):
                                 numbersToGenerate,
                                 verbose=False)
     # Sort the list and collect statistics
-    (mySortedList,
-     numberOfSwaps,
-     numberOfComparisons) = mySortAlgorithm(myList, verbose=False)
-    
+    numberOfComparisons = mySortAlgorithm(myList, verbose=False)[2]
+
 
 if __name__ == "__main__":
     # Get commandline arguments (minimum, maximum, number numbers to generate)
     (minimum,
      maximum,
      numbersToGenerate) = getCommandLineArguments()
-    
+
     # Use the timeit module to measure performance
-    # Time main() (no output generated)
-    iterations = 100_000_000
+    iterations = 1_000_000_000
     t = timeit.Timer(stmt="main")
     try:
         elapsed = t.timeit(iterations)
         print(f"elapsed = {elapsed} ({iterations} iterations)")
     except:
         print("EEEEEERRROR")
-
 
     # Measure performance
     (meanNumberOfSwaps,
@@ -267,3 +262,5 @@ if __name__ == "__main__":
     if __debug__:
         print(f"in = {myList}")
         print(f"out = {mySortedList}")
+
+    main()
