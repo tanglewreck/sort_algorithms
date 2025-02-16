@@ -6,6 +6,7 @@ Run with '-O' to get rid of debug messages:
     python -O bubblesort.py
 
 """
+import functools
 import timeit
 import numpy as np
 
@@ -17,6 +18,8 @@ MIN = 1
 MAX = 100_000
 # Number of iterations while measuring performance
 ITERATIONS = 20_000
+# Number of iterations using the timeite module
+TIMEIT_ITERATIONS = 1_000_000
 
 
 def generateRandomList(minimum:int = MIN,
@@ -83,60 +86,54 @@ def algorithmPerformance(iterations: int = ITERATIONS) -> tuple:
     sumOfComparisons = 0
     for _ in range(iterations):
         # Generate a random list
-        intList = generateRandomList(MIN, MAX, N)
+        randomList = generateRandomList(MIN, MAX, N)
         # Sort the list
-        (intList,
+        (randomList,
          numberOfSwaps,
-         numberOfComparisons) = bubbleSort(intList, verbose=False)
+         numberOfComparisons) = bubbleSort(randomList, verbose=False)
 
         # Update sums
         sumOfSwaps += numberOfSwaps
         sumOfComparisons += numberOfComparisons
 
-    meanNumberOfSwaps = sumOfSwaps / iterations
-    meanNumberOfComparisons = sumOfComparisons / iterations
-
-    return (meanNumberOfSwaps, meanNumberOfComparisons)
+    return (sumOfSwaps / iterations,
+            sumOfComparisons / iterations)
 
 
-def main(minium = MIN, maximum = MAX, numbersToGenerate = N):
+def bubbleSortWrapper():
+    randomList = generateRandomList(MIN, MAX, N, verbose=False)
+    bubbleSort(randomList)
+
+
+def timeIt(timeitIterations: int = TIMEIT_ITERATIONS) -> None:
+    """Time main()"""
+    f = functools.partial(bubbleSortWrapper)
+    t = timeit.Timer(f)
+    elapsed = t.timeit(timeitIterations)
+    print(f"elapsed = {elapsed} ({timeitIterations} iterations)")
+
+
+def main(minimum = MIN, maximum = MAX, numbersToGenerate = N):
     """main"""
-    myList = generateRandomList(minimum,
-                                maximum,
-                                numbersToGenerate,
-                                verbose=False)
-    # Sort the list and collect statistics
-    (myList,
-     numberOfSwaps,
-     numberOfComparisons) = bubbleSort(myList, verbose=False)
-
-
-if __name__ == "__main__":
-
-    iterations = 1_000_000_000
-    t = timeit.Timer("main")
-    try:
-        elapsed = t.timeit(iterations)
-        print(f"elapsed = {elapsed} ({iterations} iterations)")
-    except:
-        print("EEEEEERRROR")
-
-    # Measure performance
+    # Measure execution time
+    timeIt()
+    # Measure performance in terms of (mean) number of
+    # swaps and (mean) number of comparisons
     (meanNumberOfSwaps,
-     meanNumberOfComparisons) = algorithmPerformance()
+     meanNumberOfComparisons) = algorithmPerformance(
+         iterations=ITERATIONS)
     # Print results
     print(f"list-length: {N}, iterations: {ITERATIONS}")
     print(f"Mean number of swaps: {meanNumberOfSwaps}")
     print(f"Mean number of comparisons: {meanNumberOfComparisons}")
 
-    # Sort and display once
-    # Generate a list of random numbers
-    myList = generateRandomList(MIN, MAX, N, verbose=False)
+    # Sort and display once to make verify that the algorithm works
+    randomNumbers = generateRandomList(MIN, MAX, N, verbose=False)
     # Sort the list and collect statistics
-    (mySortedList,
-     numberOfSwaps,
-     numberOfComparisons) = bubbleSort(myList, verbose=False)
+    (sortedRandomNumbers, _, _) = bubbleSort(randomNumbers, verbose=False)
+    print(f"in = {randomNumbers}")
+    print(f"out = {sortedRandomNumbers}")
 
-    if __debug__:
-        print(f"in = {myList}")
-        print(f"out = {mySortedList}")
+if __name__ == "__main__":
+    main()
+
