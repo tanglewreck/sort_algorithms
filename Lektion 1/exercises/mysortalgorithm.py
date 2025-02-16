@@ -16,6 +16,7 @@ pylint --function-naming-style camelCase \
 
 """
 
+import functools
 import sys
 import textwrap
 import timeit
@@ -32,6 +33,8 @@ MIN = 1
 MAX = 100_000
 # Number of iterations while measuring performance
 ITERATIONS = 20_000
+# Number of iterations using the timeite module
+TIMEIT_ITERATIONS = 100_000
 
 
 def getCommandLineArguments(minimum: int = MIN,
@@ -98,8 +101,8 @@ def generateRandomList(minimum:int = MIN,
     """
     try:
         randomList = [int(n) for n in np.random.randint(minimum, maximum, numbersToGenerate)]
-        if verbose:
-            print(randomList)
+        # if verbose:
+        #    print(randomList)
         return randomList
 
     except ValueError as e:
@@ -154,36 +157,36 @@ def mySortAlgorithm(theList: list, verbose = False):
 
     # The variable 'firstIndex' is incremented by one with each
     # iteration of the loop, making the list of numbers
-    # to compare monotonically shorter for each run of the loop.
+    # to compare shorter for (almost) every run of the loop.
     firstIndex = 0
 
     for indexOne in range(firstIndex, listLen):
-        if verbose:
-            print(f"interation: {indexOne} (firstIndex = {firstIndex})")
+        # if verbose:
+        #    print(f"interation: {indexOne} (firstIndex = {firstIndex})")
 
         for indexTwo in range(indexOne + 1, listLen):  # loop from indexOne to listLen -1
-            if verbose:
-                print(f"{listCopy}\t", end="")
+            # if verbose:
+            #    print(f"{listCopy}\t", end="")
 
             numberOfComparisons += 1
             if listCopy[indexOne] > listCopy[indexTwo]:
                 # Make the swap
                 listCopy[indexOne], listCopy[indexTwo] = listCopy[indexTwo], listCopy[indexOne]
                 numberOfSwaps += 1
-                if verbose:
-                    print("---> swapped <---\t", end="")
-            else:
-                if verbose:
-                    print("---> no swap <---\t", end="")
-            if verbose:
-                print(listCopy)
-        if verbose:
-            print()
+                # if verbose:
+                #    print("---> swapped <---\t", end="")
+            # else:
+                # if verbose:
+                #     print("---> no swap <---\t", end="")
+            # if verbose:
+            #    print(listCopy)
+        # if verbose:
+        #     print()
         firstIndex += 1
 
-    if verbose:
-        print(f"Number of comparisons: {numberOfComparisons}")
-        print(f"Number of swaps: {numberOfSwaps}")
+    # if verbose:
+    #    print(f"Number of comparisons: {numberOfComparisons}")
+    #    print(f"Number of swaps: {numberOfSwaps}")
 
     return (listCopy, numberOfSwaps, numberOfComparisons)
 
@@ -214,53 +217,40 @@ def algorithmPerformance(iterations: int = ITERATIONS) -> tuple:
     return (meanNumberOfSwaps, meanNumberOfComparisons)
 
 
+def sortWrapper():
+    randomList = generateRandomList(MIN, MAX, N, verbose=False)
+    mySortAlgorithm(randomList)
+
+
+def timeIt(timeitIterations: int = TIMEIT_ITERATIONS) -> None:
+    """Time main()"""
+    f = functools.partial(sortWrapper)
+    t = timeit.Timer(f)
+    elapsed = t.timeit(timeitIterations)
+    print(f"elapsed = {elapsed} ({timeitIterations} iterations)")
+
+
 def main(minimum = MIN, maximum = MAX, numbersToGenerate = N):
-    """ main  """
-    # Generate a list of random numbers
-    myList = generateRandomList(minimum,
-                                maximum,
-                                numbersToGenerate,
-                                verbose=False)
-    # Sort the list and collect statistics
-    numberOfComparisons = mySortAlgorithm(myList, verbose=False)[2]
-
-
-if __name__ == "__main__":
-    # Get commandline arguments (minimum, maximum, number numbers to generate)
-    (minimum,
-     maximum,
-     numbersToGenerate) = getCommandLineArguments()
-
-    # Use the timeit module to measure performance
-    iterations = 1_000_000_000
-    t = timeit.Timer(stmt="main")
-    try:
-        elapsed = t.timeit(iterations)
-        print(f"elapsed = {elapsed} ({iterations} iterations)")
-    except:
-        print("EEEEEERRROR")
-
-    # Measure performance
+    """main"""
+    # Measure execution time
+    timeIt()
+    # Measure performance in terms of (mean) number of
+    # swaps and (mean) number of comparisons
     (meanNumberOfSwaps,
-     meanNumberOfComparisons) = algorithmPerformance()
+     meanNumberOfComparisons) = algorithmPerformance(
+         iterations=ITERATIONS)
     # Print results
-    print(f"list-length: {numbersToGenerate}, iterations: {ITERATIONS}")
+    print(f"list-length: {N}, iterations: {ITERATIONS}")
     print(f"Mean number of swaps: {meanNumberOfSwaps}")
     print(f"Mean number of comparisons: {meanNumberOfComparisons}")
 
-    # Sort and display once
-    # Generate a list of random numbers
-    myList = generateRandomList(minimum,
-                                maximum,
-                                numbersToGenerate,
-                                verbose=False)
+    # Sort and display once to make verify that the algorithm works
+    ## randomNumbers = generateRandomList(MIN, MAX, N, verbose=False)
     # Sort the list and collect statistics
-    (mySortedList,
-     numberOfSwaps,
-     numberOfComparisons) = mySortAlgorithm(myList, verbose=False)
+    ## (sortedRandomNumbers, _, _) = mySortAlgorithm(randomNumbers, verbose=False)
+    ## print(f"in = {randomNumbers}")
+    ## print(f"out = {sortedRandomNumbers}")
 
-    if __debug__:
-        print(f"in = {myList}")
-        print(f"out = {mySortedList}")
 
+if __name__ == "__main__":
     main()

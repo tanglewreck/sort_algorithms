@@ -19,7 +19,7 @@ MAX = 100_000
 # Number of iterations while measuring performance
 ITERATIONS = 20_000
 # Number of iterations using the timeite module
-TIMEIT_ITERATIONS = 1_000_000
+TIMEIT_ITERATIONS = 100_000
 
 
 def generateRandomList(minimum:int = MIN,
@@ -31,8 +31,6 @@ def generateRandomList(minimum:int = MIN,
     """
     try:
         randomList = [int(n) for n in np.random.randint(minimum, maximum, numbersToGenerate)]
-        if verbose:
-            print(randomList)
         return randomList
 
     except ValueError as e:
@@ -49,30 +47,29 @@ def bubbleSort(theList: list, verbose = False):
     iteration = 1
     while swapped:
         swapped = False
-        if verbose:
-            print(f"iteration: {iteration}")
+        # if verbose:
+        #     print(f"iteration: {iteration}")
         for index in range(len(theListCopy) - 1):
             i = theListCopy[index]
             i1 = theListCopy[index + 1]
             numberOfComparisons += 1
-            if verbose:
-                print(f"index: {index}:")
-                print(f"{theListCopy} ", end="")
+            # if verbose:
+            #    print(f"index: {index}:")
+            #    print(f"{theListCopy} ", end="")
             if theListCopy[index] > theListCopy[index + 1]:
                 swapped = True
                 numberOfSwaps += 1
-                if verbose:
-                    print(f"---> ({i} > {i1}) swapped  <--- {theListCopy}")
+                # if verbose:
+                #     print(f"---> ({i} > {i1}) swapped  <--- {theListCopy}")
                 (theListCopy[index],
                  theListCopy[index + 1]) = (theListCopy[index + 1],
                                             theListCopy[index])
-            else:
-                if verbose:
-                    print(f"---> ({i} <= {i1}) no swap <--- {theListCopy}")
-        if verbose:
-            print()
+            # else:
+            #    if verbose:
+            #        print(f"---> ({i} <= {i1}) no swap <--- {theListCopy}")
+        # if verbose:
+        #    print()
         iteration += 1
-    #print(f"Number of swaps: {numberOfSwaps}")
     return (theListCopy, numberOfSwaps, numberOfComparisons)
 
 
@@ -128,12 +125,11 @@ def main(minimum = MIN, maximum = MAX, numbersToGenerate = N):
     print(f"Mean number of comparisons: {meanNumberOfComparisons}")
 
     # Sort and display once to make verify that the algorithm works
-    randomNumbers = generateRandomList(MIN, MAX, N, verbose=False)
+    ## randomNumbers = generateRandomList(MIN, MAX, N, verbose=False)
     # Sort the list and collect statistics
-    (sortedRandomNumbers, _, _) = bubbleSort(randomNumbers, verbose=False)
-    print(f"in = {randomNumbers}")
-    print(f"out = {sortedRandomNumbers}")
+    ## (sortedRandomNumbers, _, _) = bubbleSort(randomNumbers, verbose=False)
+    ## print(f"in = {randomNumbers}")
+    ## print(f"out = {sortedRandomNumbers}")
 
 if __name__ == "__main__":
     main()
-
