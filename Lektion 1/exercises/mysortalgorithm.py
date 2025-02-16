@@ -39,7 +39,7 @@ TIMEIT_ITERATIONS = 100_000
 
 def getCommandLineArguments(minimum: int = MIN,
                             maximum: int = MAX,
-                            numbersToGenerate: int = N) -> list:
+                            numbersToGenerate: int = N) -> tuple:
     """
     Get commandline arguments using sys.argv (instead of using the
     argparse module).
@@ -110,7 +110,7 @@ def generateRandomList(minimum:int = MIN,
         raise SystemExit(1) from e
 
 
-def mySortAlgorithm(theList: list, verbose = False):
+def mySortAlgorithm(theList: list, verbose = False) -> tuple:
     """
     This functions sorts a list of numbers using a modified version
     of bubblesort (??)
@@ -217,7 +217,8 @@ def algorithmPerformance(iterations: int = ITERATIONS) -> tuple:
     return (meanNumberOfSwaps, meanNumberOfComparisons)
 
 
-def sortWrapper():
+def sortWrapper() -> None:
+    """Wrapper routine used by the timeIt function"""
     randomList = generateRandomList(MIN, MAX, N, verbose=False)
     mySortAlgorithm(randomList)
 
@@ -230,7 +231,7 @@ def timeIt(timeitIterations: int = TIMEIT_ITERATIONS) -> None:
     print(f"elapsed = {elapsed} ({timeitIterations} iterations)")
 
 
-def main(minimum = MIN, maximum = MAX, numbersToGenerate = N):
+def main() -> None:
     """main"""
     # Measure execution time
     timeIt()

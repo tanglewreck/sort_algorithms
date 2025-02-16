@@ -38,7 +38,7 @@ def generateRandomList(minimum:int = MIN,
         raise SystemExit(1) from e
 
 
-def bubbleSort(theList: list, verbose = False):
+def bubbleSort(theList: list, verbose = False) -> tuple:
     """Bubblesort"""
     theListCopy = theList + []
     swapped = True
@@ -50,8 +50,6 @@ def bubbleSort(theList: list, verbose = False):
         # if verbose:
         #     print(f"iteration: {iteration}")
         for index in range(len(theListCopy) - 1):
-            i = theListCopy[index]
-            i1 = theListCopy[index + 1]
             numberOfComparisons += 1
             # if verbose:
             #    print(f"index: {index}:")
@@ -97,20 +95,21 @@ def algorithmPerformance(iterations: int = ITERATIONS) -> tuple:
             sumOfComparisons / iterations)
 
 
-def bubbleSortWrapper():
+def sortWrapper() -> None:
+    """Wrapper routine used by the timeIt function"""
     randomList = generateRandomList(MIN, MAX, N, verbose=False)
     bubbleSort(randomList)
 
 
 def timeIt(timeitIterations: int = TIMEIT_ITERATIONS) -> None:
     """Time main()"""
-    f = functools.partial(bubbleSortWrapper)
+    f = functools.partial(sortWrapper)
     t = timeit.Timer(f)
     elapsed = t.timeit(timeitIterations)
     print(f"elapsed = {elapsed} ({timeitIterations} iterations)")
 
 
-def main(minimum = MIN, maximum = MAX, numbersToGenerate = N):
+def main() -> None:
     """main"""
     # Measure execution time
     timeIt()
@@ -130,6 +129,7 @@ def main(minimum = MIN, maximum = MAX, numbersToGenerate = N):
     ## (sortedRandomNumbers, _, _) = bubbleSort(randomNumbers, verbose=False)
     ## print(f"in = {randomNumbers}")
     ## print(f"out = {sortedRandomNumbers}")
+
 
 if __name__ == "__main__":
     main()
