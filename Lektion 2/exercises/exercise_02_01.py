@@ -13,14 +13,14 @@ import inspect
 import sys
 
 # Globals
-DATA_BASE = "scores.db"
+DATA_BASE = "highscores.db"
 SQLITE3_ERRORS = (IntegrityError,
                   InterfaceError,
                   InternalError,
                   OperationalError)
-USERS = {'user1':[1, 'mier', 0],
-         'user2':[2, 'meri04', 0],
-         'user3':[3, 'mikeri', 0]}
+USERS = {'user1':[1, 'Kalle', 11],
+         'user2':[2, 'Svea', 5],
+         'user3':[3, 'Rune', 8]}
 USERS_TABLE = "users"
 
 
