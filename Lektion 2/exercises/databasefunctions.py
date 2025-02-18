@@ -1,5 +1,16 @@
 """Database functions"""
 
+__ALL__ = [
+    "SQLITE3_ERRORS",
+    "initialise_users_table",
+    "insert_users",
+    "list_users",
+    "update_user_score",
+    "update_user_name"
+
+
+]
+
 from utils import debug_msg, err_msg, sys_msg
 
 from sqlite3 import connect
@@ -109,7 +120,7 @@ def update_user_score(name: str,
             user_data = db_connection.execute(select_code).fetchall()
             # If user exists in the database, update
             if user_data:
-                sys_msg(f"Updating user {name}'s score with {increment}")
+                sys_msg(f"Updating user {name}'s score by {increment}")
                 score = user_data[0][2] + increment
                 update_code = f"""update {USERS_TABLE}
                                   set highscore = {score}
