@@ -7,8 +7,6 @@ __ALL__ = [
     "list_users",
     "update_user_score",
     "update_user_name"
-
-
 ]
 
 from utils import debug_msg, err_msg, sys_msg
