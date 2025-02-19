@@ -39,15 +39,15 @@ def algorithmPerformance(iterations: int = ITERATIONS, func = mySortAlgorithm) -
     return (meanNumberOfSwaps, meanNumberOfComparisons)
 
 
-def sortWrapper(func = mySortAlgorithm) -> None:
+def sortWrapper(algorithm = mySortAlgorithm) -> None:
     """Wrapper routine used by the timeIt function"""
     randomList = generateRandomList()
-    func(randomList)
+    algorithm(randomList)
 
 
-def timeIt(timeitIterations: int = TIMEIT_ITERATIONS, func = mySortAlgorithm) -> None:
+def timeIt(timeitIterations: int = TIMEIT_ITERATIONS, algorithm = mySortAlgorithm) -> None:
     """Time main()"""
-    f = functools.partial(sortWrapper, func=func)
+    f = functools.partial(sortWrapper, algorithm=algorithm)
     t = timeit.Timer(f)
     elapsed = t.timeit(timeitIterations)
     return elapsed
