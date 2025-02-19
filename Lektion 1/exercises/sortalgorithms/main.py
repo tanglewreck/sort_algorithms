@@ -15,26 +15,34 @@ from algorithms.bubblesort import bubbleSort
 
 
 def main() -> None:
-    """main"""
+    """Measure execution time, average number of comparisons
+    and average number of swaps of bubbleSort() and
+    mySortAlgorithm()"""
 
+    # Initialise three lists used for collecting
+    # performance data of the algorithms. Later used
+    # (see below) for comparing the two algorithms.
     executionTimes = []
     averageComparisons = []
     averageSwaps = []
-    for func in (mySortAlgorithm, bubbleSort):
-        # Measure performance of mySortAlgorithm
-        sortAlgorithm = func
+
+    # Once for each algorithm, 
+    # measure the performance
+    for algorithm in (mySortAlgorithm, bubbleSort):
+
+        sortAlgorithm = algorithm
         print(f"Measuring performance of {sortAlgorithm.__name__}")
         print(f"List-length: {N}")
         # Measure execution time
-        print(f"Execution time using the timeit module "
+        print(f"Execution time (using the timeit module) "
               f"({TIMEIT_ITERATIONS} iterations):")
-        elapsed = timeIt(func=sortAlgorithm)
+        elapsed = timeIt(algorithm=sortAlgorithm)
         executionTimes.append(elapsed)
         print(f"Elapsed = %6.4f seconds ({TIMEIT_ITERATIONS} iterations)" % elapsed)
         # Measure performance in terms of (mean) number of
         # swaps and (mean) number of comparisons
-        print(f"Performance in terms of number of comparisons "
-              f"and number of swaps ({ITERATIONS} iterations):")
+        print(f"Number of comparisons "
+              f"and swaps ({ITERATIONS} iterations):")
         (averageNumberOfSwaps,
          averageNumberOfComparisons) = algorithmPerformance(
                                             iterations=ITERATIONS,
