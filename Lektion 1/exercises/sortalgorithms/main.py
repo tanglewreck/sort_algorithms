@@ -65,13 +65,13 @@ def main() -> None:
 
 
     print("= " * 40)
-    print(f"Execution time quotient "
+    print(f"Execution time ratio "
           "(bubbleSort / mySortAlgorithm): %6.4f" % 
           (executionTimes[1] / executionTimes[0]))
-    print(f"Average number of comparisons quotient "
+    print(f"Average number of comparisons ratio "
           "(bubbleSort / mySortAlgorithm): %6.4f" % 
           (averageComparisons[1] / averageComparisons[0]))
-    print("Average number of swaps quotient "
+    print("Average number of swaps ratio "
           "(bubbleSort / mySortAlgorithm): %6.4f" % 
           (averageSwaps[1] / averageSwaps[0]))
     print("= " * 40)
