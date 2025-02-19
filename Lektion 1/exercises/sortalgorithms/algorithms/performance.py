@@ -10,8 +10,9 @@ import timeit
 from . defaults import ITERATIONS, TIMEIT_ITERATIONS
 from . utils import generateRandomList
 from . mysortalgorithm import mySortAlgorithm
+from . bubblesort import bubbleSort
 
-def algorithmPerformance(iterations: int = ITERATIONS) -> tuple:
+def algorithmPerformance(iterations: int = ITERATIONS, func = mySortAlgorithm) -> tuple:
     """Simple performance test of the sorting
     algorithm, using the average number of swaps
     and comparisons over a large number of runs as
@@ -25,7 +26,8 @@ def algorithmPerformance(iterations: int = ITERATIONS) -> tuple:
         # Sort the list
         (intList,
          numberOfSwaps,
-         numberOfComparisons) = mySortAlgorithm(intList)
+         numberOfComparisons) = func(intList)
+         # numberOfComparisons) = mySortAlgorithm(intList)
 
         # Update sums
         sumOfSwaps += numberOfSwaps
@@ -37,15 +39,15 @@ def algorithmPerformance(iterations: int = ITERATIONS) -> tuple:
     return (meanNumberOfSwaps, meanNumberOfComparisons)
 
 
-def sortWrapper() -> None:
+def sortWrapper(func = mySortAlgorithm) -> None:
     """Wrapper routine used by the timeIt function"""
     randomList = generateRandomList()
-    mySortAlgorithm(randomList)
+    func(randomList)
 
 
-def timeIt(timeitIterations: int = TIMEIT_ITERATIONS) -> None:
+def timeIt(timeitIterations: int = TIMEIT_ITERATIONS, func = mySortAlgorithm) -> None:
     """Time main()"""
-    f = functools.partial(sortWrapper)
+    f = functools.partial(sortWrapper, func=func)
     t = timeit.Timer(f)
     elapsed = t.timeit(timeitIterations)
-    print(f"elapsed = {elapsed} ({timeitIterations} iterations)")
+    return elapsed
