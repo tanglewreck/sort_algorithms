@@ -10,7 +10,7 @@
         3. Number of comparisons made
 """
 
-__all__ = ["mySortAlgorithm", "mySortAlgorithmVerbose"]
+__all__ = ["bubbleSortPlus", "bubbleSortPlusVerbose"]
 
 
 #def switchPlace(theList: list, positionOne: int, positionTwo: int) -> None:
@@ -29,7 +29,7 @@ __all__ = ["mySortAlgorithm", "mySortAlgorithmVerbose"]
 #        print(f"Got an IndexError: {e}")
 
 
-def mySortAlgorithm(theList: list) -> tuple:
+def bubbleSortPlus(theList: list) -> tuple:
     """
     This functions sorts a list of numbers using a modified version
     of bubblesort.
@@ -80,7 +80,7 @@ def mySortAlgorithm(theList: list) -> tuple:
     return (listCopy, numberOfSwaps, numberOfComparisons)
 
 
-def mySortAlgorithmVerbose(theList: list) -> tuple:
+def bubbleSortPlusVerbose(theList: list) -> tuple:
     """
     Verbose, otherwise same as above
     """
