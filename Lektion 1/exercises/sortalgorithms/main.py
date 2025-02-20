@@ -10,19 +10,19 @@ from algorithms.performance import timeIt
 from algorithms.performance import algorithmPerformance
 from algorithms.defaults import N, MIN, MAX
 from algorithms.defaults import ITERATIONS, TIMEIT_ITERATIONS
-from algorithms.mysortalgorithm import mySortAlgorithm
+from algorithms.bubblesortplus import bubbleSortPlus
 from algorithms.bubblesort import bubbleSort
 
 
 def main() -> None:
     """Measure execution time, average number of comparisons
     and average number of swaps of bubbleSort() and
-    mySortAlgorithm()"""
+    bubbleSortPlus()"""
 
     # Initialise three lists used for collecting 
     # performance data of each run. Later used
     # (see below) for comparing the two algorithms.
-    executionTimesCollected_mySortAlgorithm = []
+    executionTimesCollected_bubbleSortPlus = []
     executionTimesCollected_bubbleSort = []
 
     averageComparisonsCollected = []
@@ -41,7 +41,7 @@ def main() -> None:
     
         # Once for each algorithm, 
         # measure the performance
-        for algorithm in (mySortAlgorithm, bubbleSort):
+        for algorithm in (bubbleSortPlus, bubbleSort):
     
             sortAlgorithm = algorithm
             print(f"Measuring performance of {sortAlgorithm.__name__}")
@@ -72,28 +72,28 @@ def main() -> None:
             # Sort and display once to make verify that the algorithm works
             ## randomNumbers = generateRandomList(MIN, MAX, N)
             # Sort the list and collect statistics
-            ## (sortedRandomNumbers, _, _) = mySortAlgorithm(randomNumbers)
+            ## (sortedRandomNumbers, _, _) = bubbleSortPlus(randomNumbers)
             ## print(f"in = {randomNumbers}")
             ## print(f"out = {sortedRandomNumbers}")
     
     
-        executionTimesCollected_mySortAlgorithm.append(
+        executionTimesCollected_bubbleSortPlus.append(
             executionTimes[0])
         executionTimesCollected_bubbleSort.append(
             executionTimes[1])
         print("= " * 40)
         print(f"Execution time ratio "
-              "(bubbleSort / mySortAlgorithm): %6.4f" % 
+              "(bubbleSort / bubbleSortPlus): %6.4f" % 
               (executionTimes[1] / executionTimes[0]))
         print(f"Average number of comparisons ratio "
-              "(bubbleSort / mySortAlgorithm): %6.4f" % 
+              "(bubbleSort / bubbleSortPlus): %6.4f" % 
               (averageComparisons[1] / averageComparisons[0]))
         print("Average number of swaps ratio "
-              "(bubbleSort / mySortAlgorithm): %6.4f" % 
+              "(bubbleSort / bubbleSortPlus): %6.4f" % 
               (averageSwaps[1] / averageSwaps[0]))
         print("= " * 40)
 
-    print("%6.4f" % (sum(executionTimesCollected_mySortAlgorithm) / loopCount))
+    print("%6.4f" % (sum(executionTimesCollected_bubbleSortPlus) / loopCount))
     print("%6.4f" % (sum(executionTimesCollected_bubbleSort) / loopCount))
 
 if __name__ == "__main__":
