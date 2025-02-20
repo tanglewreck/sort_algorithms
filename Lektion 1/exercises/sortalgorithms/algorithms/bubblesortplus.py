@@ -70,13 +70,17 @@ def bubbleSortPlus(theList: list) -> tuple:
     firstIndex = 0
 
     for indexOne in range(firstIndex, listLen):
+        done = True
         for indexTwo in range(indexOne + 1, listLen):  # loop from indexOne to listLen -1
             numberOfComparisons += 1
             if listCopy[indexOne] > listCopy[indexTwo]:
                 # Make the swap
                 listCopy[indexOne], listCopy[indexTwo] = listCopy[indexTwo], listCopy[indexOne]
                 numberOfSwaps += 1
+                done = False
         firstIndex += 1
+        if done:
+            break
     return (listCopy, numberOfSwaps, numberOfComparisons)
 
 
