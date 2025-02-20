@@ -44,8 +44,9 @@ def main() -> None:
 
     # Loop and collect data
     print("Measuring performance...")
-    print(f"List-length: {N}\n",
-         f"(MIN, MAX) = ({MIN}, {MAX})")
+    print(f"List-length: {N}")
+    print(f"MIN: {MIN}")
+    print(f"MAX: {MAX}")
     print(f"Number of iterations: {ITERATIONS}")
     print(f"Number of iterations (timeit): {TIMEIT_ITERATIONS}")
     print(f"Number of measurements: {MEASUREMENTS}")
