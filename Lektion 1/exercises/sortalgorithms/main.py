@@ -4,6 +4,9 @@ sortalgorithms.py
 
 Uses bubblesort and a modified version
 of that algorithm to sort lists of numbers.
+
+NOTE: run with '-O' to get rid of (excessive) output
+
 """
 import numpy as np
 
