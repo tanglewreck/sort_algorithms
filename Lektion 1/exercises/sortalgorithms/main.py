@@ -14,11 +14,11 @@ from algorithms.performance import timeIt
 from algorithms.performance import algorithmPerformance
 from algorithms.defaults import N, MIN, MAX
 from algorithms.defaults import ITERATIONS, TIMEIT_ITERATIONS
+from algorithms.defaults import MEASUREMENTS
 from algorithms.bubblesortplus import bubbleSortPlus
 from algorithms.bubblesort import bubbleSort
 # from algorithms.utils import generateRandomList
 
-MEASUREMENTS = 20
 
 def main() -> None:
     """

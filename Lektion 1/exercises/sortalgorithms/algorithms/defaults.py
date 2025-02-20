@@ -17,3 +17,6 @@ MAX = 1000
 ITERATIONS = 200
 # Number of iterations using the timeite module
 TIMEIT_ITERATIONS = 200
+# Number of measurements (the number of 
+# times to run each test)
+MEASUREMENTS = 20
