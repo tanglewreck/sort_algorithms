@@ -112,8 +112,7 @@ def main() -> None:
             print("= " * 40)
             print("Execution time ratio "
                   f"(bubbleSort / bubbleSortPlus): {
-                        (executionTimes[1] / executionTimes[0]):2.2f
-                  }")
+                        (executionTimes[1] / executionTimes[0]):2.2f}")
             print(f"mean number of comparisons ratio "
                   f"(bubbleSort / bubbleSortPlus): {
                         (meanComparisons[1] / meanComparisons[0]):2.2f}")
