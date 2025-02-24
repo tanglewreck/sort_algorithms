@@ -29,7 +29,7 @@ class Circle(Shape):
 
     def __str__(self):
         """Return string representation of the object"""
-        return f"{__doc__} {str(self.color)}, {str(self.radius)}"
+        return f"{str(self.color)}, {str(self.radius)}"
 
 
 
