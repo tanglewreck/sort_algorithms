@@ -9,27 +9,40 @@ __version__ = 0.1
 
 class Flower:
     """Class docstring"""
-    def __init__(self, name: str, color: str):
+    def __init__(self, name: str, color: str = None):
         """Method docstring"""
         self.name = name
         self.color = color
+        self.species = "generisk blomma"
 
     def display_info(self):
         """Method docstring"""
         print(f"{self.name} är en {self.color} blomma.")
 
+    def __str__(self):
+        return f"{self.name}:  {self.color}"
 
-class Tulip():
+    def __repr__(self):
+        return f"{self.name} är en {self.species}"
+
+
+class Tulip(Flower):
     """Class docstring"""
-    def __init__(self, name: str, color: str, petals:int ):
+    def __init__(self, name: str, color: str, petals: int):
         """Method docstring"""
         super().__init__(name, color)
         self.petals = petals
 
     def display_info(self):
         """Method docstring"""
-        print(f"{self.name} är en {self.color} tulpan {self.petals} kronblad.")
+        print(f"{self.name} är en {self.color} tulpan med {self.petals} kronblad.")
+
+    def __str__(self):
+        return f"{self.name} är en {self.color} {self.species} som har {self.petals} kronblad"
 
 
-tulip = Tulip("Vanlig tulpan", "röd") # 6)
+generic_flower = Flower("generic flower", "generic colour")
+# breakpoint()
+tulip = Tulip("Vanlig tulpan", "röd", 6)
+print(tulip)
 tulip.display_info()

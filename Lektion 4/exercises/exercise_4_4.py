@@ -1,7 +1,12 @@
 """
     exercise_4.4.py
-    Date: 2025-02-25
+    Uppgift: Hitta felet i koden och rätta
 """
+
+__date__ = "2025-02-25"
+__author__ = "mier"
+__version__ = 0.1
+
 class Flower:
     """Class docstring"""
     def __init__(self, name, color):
