@@ -19,9 +19,12 @@ class Flower:
         """Method docstring"""
         print(f"{self.name} är en {self.color} blomma.")
 
-
     def __str__(self):
         return f"{self.name}: {self.color}"
+
+    def __add__(self, other):
+        """Method docstring"""
+        return f"{self.name} + {other.name}"
 
 
 class Rose(Flower):
@@ -32,16 +35,9 @@ class Rose(Flower):
         self.fragrance = fragrance
         self.species = "ros"
 
-
     def display_info(self):
         """Method docstring"""
         print(f"{self.name} är en {self.color} {self.species} som doftar {self.fragrance}.")
-
-
-    def __add__(self, other):
-        """Method docstring"""
-        return f"{self.name} + {other.name}"
-
 
     def __str__(self):
         return f"{self.name} är en {self.color} {self.species} som doftar {self.fragrance}"
