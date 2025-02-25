@@ -1,19 +1,18 @@
 """exercise_4.3 doc string"""
 
+
 class Animal:
     """Class doc string"""
-    def __init__(self, name = "Generic animal") -> None:
+    def __init__(self, name="Generic animal") -> None:
         """Method doc string"""
         self.name = name
         self.sound = "nothing"
         self.class_name = "Animal"
 
-
     def make_sound(self) -> str:
         """Method doc string"""
         # print(f"{self.name} says {self.sound}")
         return self.sound
-
 
     def __str__(self) -> str:
         """Method doc string"""
@@ -26,7 +25,7 @@ class Animal:
 
 class Dog(Animal):
     """Class doc string"""
-    def __init__(self, name: str = None ) -> None:
+    def __init__(self, name: str = None) -> None:
         """Method doc string"""
         super().__init__(name)
         self.sound = "woof"
@@ -60,7 +59,6 @@ def main() -> None:
     # Create a cat object and print what it says
     cat = Cat("Pussy")
     print(f"{cat.name} says '{cat.make_sound()}'")
-
 
 
 if __name__ == "__main__":

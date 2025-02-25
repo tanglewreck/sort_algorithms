@@ -4,9 +4,11 @@
 
 """
 
+
 __date__ = "2025-02-25"
 __author__ = "mier"
 __version__ = 0.1
+
 
 class Animal:
     """Class docstring"""
@@ -27,7 +29,8 @@ class Animal:
 
     def __str__(self):
         """Method docstring"""
-        return f"{self.name} is a(n) {self.species} that makes the sound {self.sound}"
+        return f"{self.name} is a(n) {self.species} "\
+               f"that makes the sound {self.sound}"
 
 
 def info():

@@ -3,42 +3,46 @@
     Uppgift: Hitta felet i koden och rätta
 """
 
+
 __date__ = "2025-02-25"
 __author__ = "mier"
 __version__ = 0.1
 
+
 class Flower:
     """Class docstring"""
-    def __init__(self, name: str, color: str = None):
+    def __init__(self, name: str, color: str = None) -> None:
         """Method docstring"""
         self.name = name
         self.color = color
         self.species = "generisk blomma"
 
-    def display_info(self):
+    def display_info(self) -> None:
         """Method docstring"""
         print(f"{self.name} är en {self.color} blomma.")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}:  {self.color}"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.name} är en {self.species}"
 
 
 class Tulip(Flower):
     """Class docstring"""
-    def __init__(self, name: str, color: str, petals: int):
+    def __init__(self, name: str, color: str, petals: int) -> None:
         """Method docstring"""
         super().__init__(name, color)
         self.petals = petals
+        self.species = "tulpan"
 
-    def display_info(self):
+    def display_info(self) -> None:
         """Method docstring"""
-        print(f"{self.name} är en {self.color} tulpan med {self.petals} kronblad.")
+        print(str(self))
 
-    def __str__(self):
-        return f"{self.name} är en {self.color} {self.species} som har {self.petals} kronblad"
+    def __str__(self) -> str:
+        return f"{self.name} är en {self.color} "\
+               f"{self.species} med {self.petals} kronblad"
 
 
 generic_flower = Flower("generic flower", "generic colour")

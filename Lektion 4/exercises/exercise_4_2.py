@@ -1,15 +1,15 @@
 """exercise_4.2 doc string"""
+
+
 class Shape:
     """Class doc string"""
     def __init__(self, color):
         """__init__ doc string"""
         self.color = color
 
-
     def display_color(self):
         """Method doc string"""
         print(f"This shape is {self.color}.")
-
 
     def __str__(self):
         """Return string representation of the object"""
@@ -30,7 +30,6 @@ class Circle(Shape):
     def __str__(self):
         """Return string representation of the object"""
         return f"{str(self.color)}, {str(self.radius)}"
-
 
 
 def main():

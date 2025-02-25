@@ -7,6 +7,7 @@ __date__ = "2025-02-25"
 __author__ = "mier"
 __version__ = 0.1
 
+
 class Flower:
     """Class docstring"""
     def __init__(self, name, color):
@@ -37,10 +38,12 @@ class Rose(Flower):
 
     def display_info(self):
         """Method docstring"""
-        print(f"{self.name} är en {self.color} {self.species} som doftar {self.fragrance}.")
+        print(f"{self.name} är en {self.color} "
+              f"{self.species} som doftar {self.fragrance}.")
 
     def __str__(self):
-        return f"{self.name} är en {self.color} {self.species} som doftar {self.fragrance}"
+        return f"{self.name} är en {self.color} " \
+               f"{self.species} som doftar {self.fragrance}"
 
 
 rose = Rose("Ros", "röd", "sött")

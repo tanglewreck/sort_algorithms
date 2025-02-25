@@ -1,10 +1,11 @@
 """foo"""
+
+
 class Rectangle:
     """A rectangle class"""
     def __init__(self, width, height):
         self.width = width
         self.height = height
-
 
     def area(self):
         """compute and return area"""
@@ -13,6 +14,7 @@ class Rectangle:
     def perimeter(self):
         """return perimeter"""
         return (self.width + self.height) * 2
+
 
 class Square(Rectangle):
     """Square"""
