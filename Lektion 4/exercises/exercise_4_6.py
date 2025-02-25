@@ -42,7 +42,9 @@ def main() -> None:
     """Function docstring"""
     a_generic_animal = Animal()
     cheetah = Animal("flashy", "cheetah", "MEOW")
+    elephant = Animal("Dummbboo", "elephant", "tooooooooot")
     print(a_generic_animal)
+    print(elephant)
     print(cheetah)
 
 
