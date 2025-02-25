@@ -9,8 +9,7 @@ __ALL__ = [
     "update_user_name"
 ]
 
-from utils import debug_msg, err_msg, sys_msg
-
+import sys
 from sqlite3 import connect
 from sqlite3 import DataError
 from sqlite3 import DatabaseError
@@ -18,8 +17,7 @@ from sqlite3 import IntegrityError
 from sqlite3 import InterfaceError
 from sqlite3 import InternalError
 from sqlite3 import OperationalError
-
-import sys
+from utils import err_msg, sys_msg
 
 # Globals
 DATA_BASE = "highscores.db"
@@ -31,19 +29,20 @@ SQLITE3_ERRORS = (DataError,
                   OperationalError)
 
 
-class NO_SUCH_USER_ERROR(Exception):
-    pass
+class NoSuchUserError(Exception):
+    """No such user-error, used when a user
+    cannot be found in the database"""
 
 
-USERS = {'user1':[1, 'Kalle', 11],
-         'user2':[2, 'Svea', 5],
-         'user3':[3, 'Rune', 0]}
-USER_NAMES =  [USERS[user][1] for user in USERS]
+USERS = {'user1': [1, 'Kalle', 11],
+         'user2': [2, 'Svea', 5],
+         'user3': [3, 'Rune', 0]}
 USERS_TABLE = "users"
+# USER_NAMES = [USERS[user][1] for user in USERS]
 
 
 def initialise_users_table():
-    """Create the 'users' table from scratch, 
+    """Create the 'users' table from scratch,
     dropping the table if it already exists."""
     try:
         with connect(DATA_BASE) as db_connection:
@@ -52,14 +51,13 @@ def initialise_users_table():
             db_connection.execute("drop table if exists users;")
             # Create the table (again)
             create_code = f"""create table if not exists {USERS_TABLE}(
-                                id integer primary key,
-                                name text not null,
-                                highscore int check(highscore >= 0) ) strict;"""
-                                # highscore int );"""
+                              id integer primary key,
+                              name text not null,
+                              highscore int check(highscore >= 0) ) strict;"""
             db_connection.execute(create_code)
             sys_msg("done")
-    except SQLITE3_ERRORS as exception:
-        err_msg(f"sqlite3 error: {repr(sys.exception)}")
+    except SQLITE3_ERRORS:
+        err_msg(repr(sys.exception))
         raise
 
 
@@ -81,8 +79,8 @@ def insert_users():
             except (IndexError, ValueError) as exception:
                 err_msg(exception)
                 raise SystemExit(1) from exception
-    except SQLITE3_ERRORS as exception:
-        err_msg(f"sqlite3 error: {exception}")
+    except SQLITE3_ERRORS:
+        err_msg(repr(sys.exception))
         raise
 
 
@@ -91,21 +89,23 @@ def list_users():
     try:
         with connect(DATA_BASE) as db_connection:
             sys_msg("Retrieving user data...")
-            select_data = db_connection.execute(f"select * from {USERS_TABLE};")
+            select_data = db_connection.execute(
+                f"select * from {USERS_TABLE};"
+            )
             user_data = select_data.fetchall()
             try:
                 for user in user_data:
                     (user_id, user_name, high_score) = user
                     print(f"\tid: {user_id}, "
-                        f"username: {user_name}, "
-                        f"highscore: {high_score}")
+                          f"username: {user_name}, "
+                          f"highscore: {high_score}")
             except (IndexError, ValueError) as exception:
                 err_msg(exception)
                 raise SystemExit(1) from exception
             sys_msg("done")
-    except SQLITE3_ERRORS as exception:
-        err_msg(f"sqlite3 error: {exception}")
-        raise 
+    except SQLITE3_ERRORS:
+        err_msg(repr(sys.exception))
+        raise
 
 
 def update_user_score(name: str,
@@ -126,11 +126,11 @@ def update_user_score(name: str,
                 db_connection.execute(update_code)
                 sys_msg("done")
             else:
-                raise NO_SUCH_USER_ERROR(name)
+                raise NoSuchUserError(name)
 
-    except SQLITE3_ERRORS as exception:
+    except SQLITE3_ERRORS:
         err_msg(repr(sys.exception()))
-        raise 
+        raise
 
 
 def update_user_name(name: str, new_name: str) -> None:
@@ -149,10 +149,8 @@ def update_user_name(name: str, new_name: str) -> None:
                 db_connection.execute(update_code)
                 sys_msg("done")
             else:
-                raise NO_SUCH_USER_ERROR(user)
+                raise NoSuchUserError(name)
 
-    except SQLITE3_ERRORS as exception:
+    except SQLITE3_ERRORS:
         err_msg(repr(sys.exception()))
-        raise 
-
-
+        raise
