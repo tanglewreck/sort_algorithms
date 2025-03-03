@@ -1,6 +1,6 @@
 """tkinter exercises"""
 
-from exercise_5_1 import Widgets
+from widgets import Widgets
 
 
 def main():
