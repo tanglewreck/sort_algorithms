@@ -18,12 +18,52 @@ R_Y = 0
 ROOT_GEOMETRY = f"{R_WIDTH}x{R_HEIGHT}+{R_X}+{R_Y}"
 
 
+class Root(Tk):
+    """Root widget. Inherits Tk."""
+    def __init__(self, *args, widget_title = None):
+        super().__init__(*args)
+        self.widget_title = widget_title
+        # self.root_widget = Tk()
+
+    def configure(self, *args):
+        """configure the root widget"""
+        super().configure(*args)
+        self.title(self.widget_title)
+        self.geometry(ROOT_GEOMETRY)
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
+
+
+class Contents(ttk.Frame):
+    """Contents widget. Inherits ttk.Frame."""
+    def __init__(self, *args, padding = "100"):
+        super().__init__(*args)
+        self.padding = padding
+        # self.contents_config()
+
+    def configure(self, *args):
+        """configure the contents frame"""
+        super().configure(*args, padding=self.padding)
+        
+        # add padding around widgets contained in the contents frame
+        for child_widget in self.winfo_children():
+            child_widget.grid_configure(padx=10, pady=10)
+
+
+class Label(ttk.Label):
+    def __init__(self, *args, text = ""):
+        super().__init__(*args)
+
+    # def 
+
 class Widgets:
     """Widget tree"""
     def __init__(self):
         # create the widget tree
-        self.root_widget = Tk()
-        self.contents = ttk.Frame(self.root_widget)
+        self.root_widget = Root(widget_title="My Window")
+        # self.root_widget = Tk()
+        # self.contents = ttk.Frame(self.root_widget)
+        self.contents = Contents(self.root_widget, padding="250")
         self.label_one = ttk.Label(self.contents)
         self.label_two = ttk.Label(self.contents)
         self.label_three = ttk.Label(self.contents)
@@ -32,8 +72,10 @@ class Widgets:
         self.text_widget = Text(self.contents)
 
         # configure widgets
-        self.root_config()
-        self.contents_config()
+        # self.root_config()
+        self.root_widget.configure()
+        self.contents.configure()
+        # self.contents_config()
         self.labels_config()
         self.print_button_config()
         self.quit_button_config()
@@ -42,23 +84,6 @@ class Widgets:
         # place widgets
         self.do_grid()
 
-
-    def root_config(self):
-        """configure the root widget"""
-        self.root_widget.title("my window")
-        self.root_widget.geometry(ROOT_GEOMETRY)
-        self.root_widget.columnconfigure(0, weight=1)
-        self.root_widget.rowconfigure(0, weight=1)
-
-    def contents_config(self):
-        """configure the contents frame"""
-        # self.contents.config(padding="3 3 12 12")
-        self.contents.config(padding="100 100 100 100")
-
-        # walk through all widgets contained in the contents frame
-        # and add padding around them
-        for child_widget in self.contents.winfo_children():
-            child_widget.grid_configure(padx=10, pady=10)
 
     def labels_config(self):
         """configure buttons"""
