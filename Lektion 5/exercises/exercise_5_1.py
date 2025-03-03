@@ -73,7 +73,9 @@ class Widgets:
 
     def print_button_config(self):
         """configure the 'print' button"""
-        print_func = partial(print, "button pressed", file=sys.stderr)
+        def print_func():
+            self.label_three.config(text="button pressed")
+        # print_func = partial(print, "button pressed", file=sys.stderr)
         self.button_print.config(text="press me", command=print_func)
 
     def text_widget_config(self):
