@@ -1,12 +1,11 @@
 """tkinter exercises"""
 
-from widgets import Widgets
-
+from widgettree import WidgetTree
 
 def main():
     """main()"""
-    widgets = Widgets()
-    widgets.do_mainloop()
+    widget_tree = WidgetTree()
+    widget_tree.mainloop()
 
 
 if __name__ == "__main__":
