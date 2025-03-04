@@ -31,7 +31,6 @@ class WidgetTree:
         self.contents.configure()
         self.print_button_config()
         self.quit_button_config()
-        # self.text_widget_config()
 
         # place widgets
         self.do_grid()
