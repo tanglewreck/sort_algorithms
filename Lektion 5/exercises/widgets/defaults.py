@@ -4,8 +4,6 @@ import json
 
 __all__ = ["DEFAULTS"]
 
-# DEFAULTS = None
-
 def save_json():
     """Save defaults to file in json format"""
     # defaults_json = json.dumps(DEFAULTS)
@@ -27,8 +25,6 @@ def load_json():
 # Load defaults for widgets from file
 try:
     DEFAULTS = load_json()
-    # ROOT_GEOMETRY = DEFAULTS["Root"]["ROOT_GEOMETRY"]
-# except (OSError, json.JSONDecodeError) as exception:
 except json.JSONDecodeError as exception:
     print(f"Error decoding json data: {exception}")
     raise SystemExit(1) from exception
