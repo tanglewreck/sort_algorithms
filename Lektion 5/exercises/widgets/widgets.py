@@ -11,7 +11,8 @@ from defaults import DEFAULTS
 
 class Root(Tk):
     """Root widget. Inherits Tk."""
-    def __init__(self, *args, title = None, geometry = None, **kwargs):
+    def __init__(self, *args, title = DEFAULTS["Root"]["Title"],
+                 geometry = DEFAULTS["Root"]["Geometry"], **kwargs):
         super().__init__(*args, **kwargs)
         if title:
             self.title(title)
