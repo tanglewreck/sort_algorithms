@@ -1,0 +1,1 @@
+{"Button": {"padding": 10, "width": 20}, "Label": {"anchor": "center", "border": 5, "borderwidth": 2, "justify": "right", "padding": "10 10 10 10", "relief": "raised", "underline": 2, "width": 10}, "Contents": {"padding": 100}, "Text": {"background": "#aaaaaa", "foreground": "#002055", "height": 8, "width": 30},"Geometry": {"ROOT_GEOMETRY": "800x500+100+20"}}
