@@ -51,7 +51,7 @@ class Contents(ttk.Frame):
         """configure the contents frame"""
         # Update kwargs with keyword arguments (from the DEFAULTS dictionary)
         kwargs.update(DEFAULTS["Contents"])
-        super().configure(*args, **kwargs)  #, padding=self.padding)
+        super().configure(*args, **kwargs)
 
         # add padding around widgets contained in the contents frame
         for child_widget in self.winfo_children():
