@@ -1,11 +1,8 @@
 """tkinter widget tree"""
 
 from functools import partial
-from tkinter import Text
 from tkinter import N, E, W, S
-from tkinter.ttk import Style
 from widgets import Root, Contents, Label, Button, TextWidget
-from widgets import ROOT_GEOMETRY
 
 
 class WidgetTree:
@@ -14,12 +11,13 @@ class WidgetTree:
 
     def __init__(self):
         # the root widget (custom class)
-        self.root_widget = Root(title="My Window", geometry=ROOT_GEOMETRY)
+        # self.root_widget = Root(title="My Window", geometry=root_geometry)
+        self.root_widget = Root()
         # then the contents frame (custom class)
-        self.contents = Contents(self.root_widget, padding="200")
+        self.contents = Contents(self.root_widget)
         # then the labels
         self.label_one = Label(self.contents, text="label one")
-        self.label_two = Label(self.contents, text="label two") 
+        self.label_two = Label(self.contents, text="label two")
         self.label_three = Label(self.contents, text="label three")
         # then the buttons
         self.button_quit = Button(self.contents, text="Quit")
@@ -58,3 +56,8 @@ class WidgetTree:
     def mainloop(self):
         """execute the root widget mainloop"""
         self.root_widget.mainloop()
+
+
+# If run from the commandline
+if __name__ == "__main__":
+    pass

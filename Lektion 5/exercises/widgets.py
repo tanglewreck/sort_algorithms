@@ -7,17 +7,16 @@ from tkinter import Tk
 from tkinter import Text
 from tkinter.ttk import Style
 from defaults import DEFAULTS
-from defaults import ROOT_GEOMETRY
-
 
 
 class Root(Tk):
     """Root widget. Inherits Tk."""
-    def __init__(self, *args, title = None, geometry = ROOT_GEOMETRY, **kwargs):
+    def __init__(self, *args, title = None, geometry = None, **kwargs):
         super().__init__(*args, **kwargs)
-        self.widget_title = title
-        self.title(title)
-        self.geometry(geometry)
+        if title:
+            self.title(title)
+        if geometry:
+            self.geometry(geometry)
         self.configure()
 
     def configure(self, *args, **kwargs):
@@ -50,7 +49,7 @@ class Contents(ttk.Frame):
 
     def configure(self, *args, padx = 10, pady = 10, **kwargs):
         """configure the contents frame"""
-        # Update 
+        # Update kwargs with keyword arguments (from the DEFAULTS dictionary)
         kwargs.update(DEFAULTS["Contents"])
         super().configure(*args, **kwargs)  #, padding=self.padding)
 
@@ -65,7 +64,7 @@ class Label(ttk.Label):
     def __init__(self, *args,
                  text = None,
                  **kwargs):
-        # Update (add) keyword arguments dictionary with defaults
+        # Update kwargs with keyword arguments (from the DEFAULTS dictionary)
         kwargs.update(DEFAULTS["Label"])
         # Call parent-class initialiser
         super().__init__(*args, **kwargs)
@@ -90,7 +89,7 @@ class Button(ttk.Button):
     """Custom Button class; inherits ttk.Button"""
     # def __init__(self, *args, text = None, **kwargs):
     def __init__(self, *args, **kwargs):
-        # Update keyword arguments with our defaults
+        # Update kwargs with keyword arguments (from the DEFAULTS dictionary)
         # and call the superclass initialiser
         kwargs.update(DEFAULTS["Button"])
         super().__init__(*args, **kwargs)
@@ -104,5 +103,11 @@ class Button(ttk.Button):
 
 class TextWidget(Text):
     def __init__(self, *args, **kwargs):
+        # Update kwargs with keyword arguments (from the DEFAULTS dictionary)
         kwargs.update(DEFAULTS["Text"])
         super().__init__(*args, **kwargs)
+
+
+# If run from the commandline
+if __name__ == "__main__":
+    pass
