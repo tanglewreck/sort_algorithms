@@ -11,14 +11,16 @@ class WidgetTree:
 
     def __init__(self):
         # the root widget (custom class)
-        # self.root_widget = Root(title="My Window", geometry=root_geometry)
         self.root_widget = Root()
+
         # then the contents frame (custom class)
         self.contents = Contents(self.root_widget)
+
         # then the labels
         self.label_one = Label(self.contents, text="label one")
         self.label_two = Label(self.contents, text="label two")
         self.label_three = Label(self.contents, text="label three")
+
         # then the buttons
         self.button_quit = Button(self.contents, text="Quit")
         self.button_print = Button(self.contents, text="press ME")
