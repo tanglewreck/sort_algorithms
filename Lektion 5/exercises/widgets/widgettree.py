@@ -1,6 +1,7 @@
 """tkinter widget tree"""
 
 from functools import partial
+from tkinter import filedialog
 from tkinter import N, E, W, S
 from widgets import Root, Contents, Label, Button, TextWidget
 
@@ -35,15 +36,24 @@ class WidgetTree:
         # place widgets
         self.do_grid()
 
+        # self.opened_file = None
+
     def quit_button_config(self):
         """configure the quit button"""
         self.button_quit.config(command=partial(self.root_widget.destroy))
 
     def print_button_config(self):
         """configure the 'press  me' button"""
+        # self.button_print.config(
+        #        command=partial(self.label_three.config,
+        #                        text="'press me' button PRESSED"))
+        def openfiledialog():
+            import os
+            opened_file = os.path.basename(filedialog.askopenfilename(initialdir="."))
+            self.label_three.config(text=opened_file)
+
         self.button_print.config(
-                command=partial(self.label_three.config,
-                                text="'press me' button PRESSED"))
+                command=openfiledialog)
 
     def do_grid(self):
         """place widgets using grid()"""
