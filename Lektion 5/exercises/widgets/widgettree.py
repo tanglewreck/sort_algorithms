@@ -3,6 +3,7 @@
 from functools import partial
 from tkinter import filedialog
 from tkinter import N, E, W, S
+from tkinter import END
 from widgets import Root, Contents, Label, Button, TextWidget
 
 
@@ -50,7 +51,9 @@ class WidgetTree:
         def openfiledialog():
             import os
             opened_file = os.path.basename(filedialog.askopenfilename(initialdir="."))
-            self.label_three.config(text=opened_file)
+            with open(opened_file, 'r', encoding="utf8") as file:
+                file_contents = file.read()
+            self.text_widget.insert(END, file_contents)
 
         self.button_print.config(
                 command=openfiledialog)
