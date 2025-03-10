@@ -1,6 +1,6 @@
 """tkinter widget tree"""
 
-# import os
+import sys
 import time
 from datetime import datetime
 from functools import partial
@@ -28,13 +28,14 @@ class WidgetTree:
         now = datetime(*time.localtime()[0:5])
         (my_date, my_time) = (f"{now.year:04d}-{now.month:02d}-{now.day:02d}",
                               f"{now.hour:02d}:{now.minute:02d}")
-        self.label_one = Label(self.contents, text=my_date)
-        self.label_two = Label(self.contents, text=my_time)
-        self.label_three = Label(self.contents, text="")
+        # self.label_date_header = Label(self.contents, text="Date")
+        self.label_date = Label(self.contents, text=my_date)
+        self.label_time = Label(self.contents, text=my_time)
+        self.label_filename = Label(self.contents, text="")
 
         # then the buttons
         self.button_quit = Button(self.contents, text="Quit")
-        self.button_print = Button(self.contents, text="Open File")
+        self.button_open_file = Button(self.contents, text="Open File")
         # and finaly, the Text widget
         self.text_widget = TextWidget(self.contents)
         self.text_widget.insert("end",
@@ -43,7 +44,7 @@ class WidgetTree:
 
         # configure widgets
         self.contents.configure()
-        self.print_button_config()
+        self.open_file_button_config()
         self.quit_button_config()
 
         # place widgets
@@ -55,10 +56,10 @@ class WidgetTree:
         """configure the quit button"""
         self.button_quit.config(command=partial(self.root_widget.destroy))
 
-    def print_button_config(self):
+    def open_file_button_config(self):
         """configure the 'press  me' button"""
-        # self.button_print.config(
-        #        command=partial(self.label_three.config,
+        # self.button_open_file.config(
+        #        command=partial(self.label_filename.config,
         #                        text="'press me' button PRESSED"))
         def openfiledialog():
             # this is rather a mess; just trying stuff out
@@ -69,49 +70,73 @@ class WidgetTree:
                         file_contents = file.read()
                         self.text_widget.delete("1.0", END)
                         self.text_widget.insert(END, file_contents)
-                        self.label_three['text'] = f"{opened_file}"
+                        self.label_filename['text'] = f"{opened_file}"
+            except UnicodeDecodeError as exception:
+                # If user escapes out of the file dialog, ignore
+                # pass
+                if __debug__:
+                    print(f"Got a UnicodeDecodeError: {exception}",
+                          file=sys.stderr)
+                    print(f"opened_file: {opened_file}", file=sys.stderr)
+                self.text_widget.delete("1.0", END)
+                self.text_widget.insert(END, f"{exception}:\n{opened_file}")
             except TypeError as exception:
                 # If user escapes out of the file dialog, ignore
                 # pass
                 print(f"Got a TypeError: {repr(exception)}")
                 print(f"opened_file: {opened_file}")
+                self.text_widget.delete("1.0", END)
+                self.text_widget.insert(END, f"{exception}:\n{opened_file}")
             except PermissionError as exception:
                 # Also ignore File Not Found errors
                 # (e.g. when trying to open a binary file)
-                print(f"Got a PermissionError: {repr(exception)}")
-                print(f"opened_file: {opened_file}")
-                self.text_widget.insert(END, f"{exception}\n")
-                self.text_widget.insert(END, "Try again.")
+                if __debug__:
+                    print(f"Got a PermissionError: {exception}",
+                          file=sys.stderr)
+                    print(f"opened_file: {opened_file}",
+                          file=sys.stderr)
+                self.text_widget.delete("1.0", END)
+                self.text_widget.insert(END, f"{exception}:\n{opened_file}")
             except FileNotFoundError as exception:
                 # Also ignore File Not Found errors
                 # (e.g. when trying to open a binary file)
-                print(f"Got a FileNotFoundError: {repr(exception)}")
-                print(f"opened_file: {opened_file}")
-                self.text_widget.insert(END, f"{exception}\n")
-                self.text_widget.insert(END, "Try again.")
+                if __debug__:
+                    print(f"Got a FileNotFoundError: {exception}",
+                          file=sys.stderr)
+                    print(f"opened_file: {opened_file}",
+                          file=sys.stderr)
+                self.text_widget.delete("1.0", END)
+                self.text_widget.insert(END, f"{exception}:\n{opened_file}")
             except OSError as exception:
-                print(f"Got an OSError : {repr(exception)}")
-                print(f"opened_file: {opened_file}")
-                self.text_widget.insert(END, f"{exception}\n")
-                self.text_widget.insert(END, "Try again.")
+                if __debug__:
+                    print(f"Got an OSError : {exception}",
+                          file=sys.stderr)
+                    print(f"opened_file: {opened_file}",
+                          file=sys.stderr)
+                self.text_widget.delete("1.0", END)
+                self.text_widget.insert(END, f"{exception}:\n{opened_file}")
             except TclError as exception:
-                print(f"Got a TclError: {repr(exception)}")
-                print(f"opened_file: {opened_file}")
-                self.text_widget.insert(END, f"{exception}\n")
-                self.text_widget.insert(END, "Try again.")
+                if __debug__:
+                    print(f"Got a TclError: {exception}",
+                          file=sys.stderr)
+                    print(f"opened_file: {opened_file}",
+                          file=sys.stderr)
+                self.text_widget.delete("1.0", END)
+                self.text_widget.insert(END, f"{exception}:\n{opened_file}")
 
-        self.button_print.config(
+        self.button_open_file.config(
                 command=openfiledialog)
 
     def do_grid(self):
         """place widgets using grid()"""
         self.contents.grid(column=0, row=0, sticky=(N,E,S,W))
-        self.label_one.grid(column=0, row=0, sticky=W)
-        self.label_two.grid(column=2, row=0, sticky=E)
-        self.label_three.grid(column=1, row=1, sticky=(E, W))
-        self.button_print.grid(column=1, row=2, sticky=(E, W))
-        self.button_quit.grid(column=1, row=3, sticky=(E, W))
-        self.text_widget.grid(column=1, row=0, sticky=(E, W))
+        # self.label_date_header.grid(column=0, row=0, pady=0)
+        self.label_date.grid(column=0, row=1, sticky=W)
+        self.label_time.grid(column=2, row=1, sticky=E)
+        self.label_filename.grid(column=1, row=2, sticky=(E, W))
+        self.button_open_file.grid(column=1, row=3, sticky=(E, W))
+        self.button_quit.grid(column=1, row=4, sticky=(E, W))
+        self.text_widget.grid(column=1, row=1, sticky=(E, W))
 
     def mainloop(self):
         """execute the root widget mainloop"""
