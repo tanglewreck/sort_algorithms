@@ -8,6 +8,7 @@ from tkinter import Text
 from tkinter.ttk import Style
 from defaults import DEFAULTS
 
+# pylint: disable=too-many-ancestors
 
 class Root(Tk):
     """Root widget. Inherits Tk."""
@@ -103,6 +104,7 @@ class Button(ttk.Button):
 
 
 class TextWidget(Text):
+    """Custom TextWidget class; inherits tkinter.Text"""
     def __init__(self, *args, **kwargs):
         # Update kwargs with keyword arguments (from the DEFAULTS dictionary)
         kwargs.update(DEFAULTS["Text"])
