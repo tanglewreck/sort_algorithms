@@ -1,11 +1,17 @@
 """tkinter widget tree"""
 
+# import os
+import time
+from datetime import datetime
 from functools import partial
 from tkinter import filedialog
 from tkinter import N, E, W, S
 from tkinter import END
+from tkinter import TclError
 from widgets import Root, Contents, Label, Button, TextWidget
 
+# pylint: disable=too-many-ancestors
+# pylint: disable=too-many-instance-attributes
 
 class WidgetTree:
     """Widget tree class: creates some widgets using custom
@@ -18,16 +24,22 @@ class WidgetTree:
         # then the contents frame (custom class)
         self.contents = Contents(self.root_widget)
 
-        # then the labels
-        self.label_one = Label(self.contents, text="label one")
-        self.label_two = Label(self.contents, text="label two")
-        self.label_three = Label(self.contents, text="label three")
+        # then the labels.
+        now = datetime(*time.localtime()[0:5])
+        (my_date, my_time) = (f"{now.year:04d}-{now.month:02d}-{now.day:02d}",
+                              f"{now.hour:02d}:{now.minute:02d}")
+        self.label_one = Label(self.contents, text=my_date)
+        self.label_two = Label(self.contents, text=my_time)
+        self.label_three = Label(self.contents, text="")
 
         # then the buttons
         self.button_quit = Button(self.contents, text="Quit")
-        self.button_print = Button(self.contents, text="press ME")
+        self.button_print = Button(self.contents, text="Open File")
         # and finaly, the Text widget
         self.text_widget = TextWidget(self.contents)
+        self.text_widget.insert("end",
+                                "Press the 'Open File' button to "
+                                "open and display a file...\n")
 
         # configure widgets
         self.contents.configure()
@@ -49,11 +61,44 @@ class WidgetTree:
         #        command=partial(self.label_three.config,
         #                        text="'press me' button PRESSED"))
         def openfiledialog():
-            import os
-            opened_file = os.path.basename(filedialog.askopenfilename(initialdir="."))
-            with open(opened_file, 'r', encoding="utf8") as file:
-                file_contents = file.read()
-            self.text_widget.insert(END, file_contents)
+            # this is rather a mess; just trying stuff out
+            try:
+                opened_file = filedialog.askopenfilename(initialdir=".")
+                if opened_file:
+                    with open(opened_file, 'r', encoding="utf8") as file:
+                        file_contents = file.read()
+                        self.text_widget.delete("1.0", END)
+                        self.text_widget.insert(END, file_contents)
+                        self.label_three['text'] = f"{opened_file}"
+            except TypeError as exception:
+                # If user escapes out of the file dialog, ignore
+                # pass
+                print(f"Got a TypeError: {repr(exception)}")
+                print(f"opened_file: {opened_file}")
+            except PermissionError as exception:
+                # Also ignore File Not Found errors
+                # (e.g. when trying to open a binary file)
+                print(f"Got a PermissionError: {repr(exception)}")
+                print(f"opened_file: {opened_file}")
+                self.text_widget.insert(END, f"{exception}\n")
+                self.text_widget.insert(END, "Try again.")
+            except FileNotFoundError as exception:
+                # Also ignore File Not Found errors
+                # (e.g. when trying to open a binary file)
+                print(f"Got a FileNotFoundError: {repr(exception)}")
+                print(f"opened_file: {opened_file}")
+                self.text_widget.insert(END, f"{exception}\n")
+                self.text_widget.insert(END, "Try again.")
+            except OSError as exception:
+                print(f"Got an OSError : {repr(exception)}")
+                print(f"opened_file: {opened_file}")
+                self.text_widget.insert(END, f"{exception}\n")
+                self.text_widget.insert(END, "Try again.")
+            except TclError as exception:
+                print(f"Got a TclError: {repr(exception)}")
+                print(f"opened_file: {opened_file}")
+                self.text_widget.insert(END, f"{exception}\n")
+                self.text_widget.insert(END, "Try again.")
 
         self.button_print.config(
                 command=openfiledialog)
