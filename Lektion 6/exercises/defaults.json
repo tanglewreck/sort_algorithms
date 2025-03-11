@@ -1,5 +1,6 @@
 { "files": {
-        "fileName1": "exercise1.txt"
+        "fileName1": "textfile.txt",
+        "fileName2": "textfile-copy.txt"
     },
     "texts": {
         "text1": "This is text #1"

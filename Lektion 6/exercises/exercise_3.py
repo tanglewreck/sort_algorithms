@@ -1,4 +1,4 @@
-""" = = = = = =
+"""= = = = = =
 Exercise 3
 = = = = = = """
 
@@ -20,7 +20,7 @@ def main():
             pass
         with open(file_name, 'a', encoding="utf8") as file:
             file.write(f"{name}\n")
-            print("Successfully appended text to {file_name}")
+            print(f"Successfully appended text to {file_name}")
         utils.print_file_contents(file_name)
     except OSError as exception:
         print(f"OSError: {exception}")

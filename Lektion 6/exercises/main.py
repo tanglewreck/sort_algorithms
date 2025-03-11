@@ -10,12 +10,12 @@
 import functools
 import exercise_1
 import exercise_3
+import exercise_4
 
 def main():
     """main:"""
-    # print(f"{exercise_1.__doc__}")
     try:
-        functions = [exercise_1, exercise_3]
+        functions = [exercise_1, exercise_3, exercise_4]
         for func in functions:
             func.main()
     except NameError as exception:

@@ -1,8 +1,8 @@
-# Kopiera filen "test.txt" och kalla den nya filen "test2.txt"
-""" = = = = = =
-Exercise 3
+"""= = = = = =
+Exercise 4
 = = = = = = """
 
+# import subprocess
 import utils
 from defaults import DEFAULTS
 
@@ -12,19 +12,20 @@ def main():
     """main of exercise 3"""
     print(__doc__)
     file_name = DEFAULTS['files']['fileName1']
-    name = None
+    file_copy = DEFAULTS['files']['fileName2']
     try:
-        try:
-            while not name:
-                name = input("Name, please: ")
-        except EOFError:
-            pass
-        with open(file_name, 'a', encoding="utf8") as file:
-            file.write(f"{name}\n")
-            print("Successfully appended text to {file_name}")
-        utils.print_file_contents(file_name)
+        with open(file_name, 'r', encoding="utf8") as fd_one:
+            with open(file_copy, 'w', encoding="utf8") as fd_two:
+                file_data = fd_one.read()
+                fd_two.write(file_data)
+        print(f"Successfully copied {file_name} to {file_copy}")
+        #sha256_sum = "/usr/bin/sha256sum"
+        #subprocess
+        utils.print_file_contents(file_copy)
+    except FileNotFoundError as exception:
+        print(f"{exception}")
     except OSError as exception:
-        print(f"OSError: {exception}")
+        print(f"{exception}")
         raise
 
 if __name__ == "__main__":
