@@ -1,5 +1,5 @@
 """Load default values for widgets from json file"""
-
+# import os
 import json
 
 __all__ = ["DEFAULTS"]
@@ -11,14 +11,18 @@ def save_json():
         with open("defaults.json", "w", encoding="utf8") as file_descriptor:
             json.dump(DEFAULTS, file_descriptor)
     except OSError as exception:
-        print(f"Error: {exception}")
+        print(f"(defaults.py) Error: {exception}")
 
 
 def load_json():
     """Load defaults from json file"""
-    with open("defaults.json", "r", encoding="utf8") as file_descriptor:
-        data = file_descriptor.read()
-        return json.loads(data)
+    # print(f"cwd: {os.curdir}")
+    try:
+        with open("defaults.json", "r", encoding="utf8") as file_descriptor:
+            data = file_descriptor.read()
+            return json.loads(data)
+    except OSError as exception:
+        print(repr(exception))
     return None
 
 
