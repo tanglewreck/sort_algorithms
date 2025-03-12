@@ -3,6 +3,9 @@
         "fileNameCopyOne": "textfile-copy-1.txt",
         "fileNameCopyTwo": "textfile-copy-2.txt"
     },
+    "poem":{
+        "fileName": "poem.txt"
+    },
     "texts": {
         "text1": "This is text #1",
         "text2": ["Rad 1", "Rad 2", "Rad 3", "Rad 4", "Rad 5"]

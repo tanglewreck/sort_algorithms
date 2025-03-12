@@ -36,7 +36,7 @@ def main():
         print()
         copy_file_2(file_name, file_copy_2)
         print(f"Successfully copied {file_name} to {file_copy_2}")
-        utils.print_file_contents(file_copy_1)
+        utils.print_file_contents(file_copy_2)
 
     except subprocess.CalledProcessError as exception:
         print(f"{exception}")

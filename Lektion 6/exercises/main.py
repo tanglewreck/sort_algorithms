@@ -9,11 +9,22 @@ import exercise_3
 import exercise_4
 import exercise_5
 import exercise_6
+import exercise_7
+import exercise_8
+import exercise_9
 
 def main():
     """main:"""
     try:
-        functions = [exercise_1, exercise_3, exercise_4, exercise_5, exercise_6]
+        functions = [exercise_1,
+                     exercise_3,
+                     exercise_4,
+                     exercise_5,
+                     exercise_6,
+                     exercise_7,
+                     exercise_8,
+                     exercise_9
+                     ]
         for func in functions:
             func.main()
     # if function does not exist:
