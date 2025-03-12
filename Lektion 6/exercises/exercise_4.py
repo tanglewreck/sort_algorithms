@@ -10,28 +10,38 @@ __all__ = ['main']
 
 def main():
     """main of exercise 4"""
-    def copy_file_1(file: str = None) -> str:
-        file_copy = f"{file}.copy"
-        cp = ["cp", file, file_copy]
-        try:
-            res = subprocess.
-    print(__doc__)
-    file_name = DEFAULTS['files']['fileName1']
-    file_copy = DEFAULTS['files']['fileName2']
-    try:
-        with open(file_name, 'r', encoding="utf8") as fd_one:
-            with open(file_copy, 'w', encoding="utf8") as fd_two:
+    def copy_file_1(file: str = None, copy: str = None) -> str:
+        """Copy file using read() and write()"""
+        with open(file, 'r', encoding="utf8") as fd_one:
+            with open(copy, 'w', encoding="utf8") as fd_two:
                 file_data = fd_one.read()
                 fd_two.write(file_data)
-        print(f"Successfully copied {file_name} to {file_copy}")
-        #sha256_sum = "/usr/bin/sha256sum"
-        #subprocess
-        utils.print_file_contents(file_copy)
-    except FileNotFoundError as exception:
+
+    def copy_file_2(file: str = None, copy: str = None) -> str:
+        """Copy a file using subprocess.check_call"""
+        cp = ["cp", file, copy]
+        subprocess.check_call(cp)
+
+    print(__doc__)
+    file_name = DEFAULTS['files']['fileName']
+    file_copy_1 = DEFAULTS['files']['fileNameCopyOne']
+    file_copy_2 = DEFAULTS['files']['fileNameCopyTwo']
+    try:
+        # Copy 1
+        copy_file_1(file_name, file_copy_1)
+        print(f"Successfully copied {file_name} to {file_copy_1}")
+        utils.print_file_contents(file_copy_1)
+
+        # Copy 2
+        print()
+        copy_file_2(file_name, file_copy_2)
+        print(f"Successfully copied {file_name} to {file_copy_2}")
+        utils.print_file_contents(file_copy_1)
+
+    except subprocess.CalledProcessError as exception:
         print(f"{exception}")
     except OSError as exception:
         print(f"{exception}")
-        raise
 
 if __name__ == "__main__":
     print(__doc__)

@@ -18,8 +18,10 @@ def main():
         functions = [exercise_1, exercise_3, exercise_4]
         for func in functions:
             func.main()
+    # if function does not exist:
     except NameError as exception:
         print(repr(exception))
+    # handle permission error
     except OSError as exception:
         print(f"OSError {exception}")
 

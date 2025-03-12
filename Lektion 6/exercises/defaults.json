@@ -1,6 +1,7 @@
 { "files": {
-        "fileName1": "textfile.txt",
-        "fileName2": "textfile-copy.txt"
+        "fileName": "textfile.txt",
+        "fileNameCopyOne": "textfile-copy-1.txt",
+        "fileNameCopyTwo": "textfile-copy-2.txt"
     },
     "texts": {
         "text1": "This is text #1"

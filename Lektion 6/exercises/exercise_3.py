@@ -10,7 +10,7 @@ __all__ = ['main']
 def main():
     """main of exercise 3"""
     print(__doc__)
-    file_name = DEFAULTS['files']['fileName1']
+    file_name = DEFAULTS['files']['fileName']
     name = None
     try:
         try:

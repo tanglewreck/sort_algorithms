@@ -10,7 +10,7 @@ __all__ = ['main']
 def main():
     """main() of exercise 1"""
     print(__doc__)
-    file_name = DEFAULTS['files']['fileName1']
+    file_name = DEFAULTS['files']['fileName']
     text = DEFAULTS['texts']['text1']
     try:
         with open(file_name, 'w', encoding="utf8") as file:
