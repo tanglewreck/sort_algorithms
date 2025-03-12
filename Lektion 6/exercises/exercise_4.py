@@ -2,14 +2,19 @@
 Exercise 4
 = = = = = = """
 
-# import subprocess
+import subprocess
 import utils
 from defaults import DEFAULTS
 
 __all__ = ['main']
 
 def main():
-    """main of exercise 3"""
+    """main of exercise 4"""
+    def copy_file_1(file: str = None) -> str:
+        file_copy = f"{file}.copy"
+        cp = ["cp", file, file_copy]
+        try:
+            res = subprocess.
     print(__doc__)
     file_name = DEFAULTS['files']['fileName1']
     file_copy = DEFAULTS['files']['fileName2']
