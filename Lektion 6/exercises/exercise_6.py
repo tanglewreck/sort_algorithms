@@ -6,9 +6,9 @@ Exercise 6
 import re
 from defaults import DEFAULTS
 
-__all__ = ['main']
+__all__ = ['exercise_6_main']
 
-def main():
+def exercise_6_main():
     """main() of exercise 1"""
     print(__doc__)
     file_name = DEFAULTS['files']['fileName']
@@ -35,5 +35,4 @@ def main():
 
 
 if __name__ == "__main__":
-    print(__doc__)
-    main()
+    exercise_6_main()

@@ -6,9 +6,9 @@ Exercise 8
 import os
 from defaults import DEFAULTS
 
-__all__ = ['main']
+__all__ = ['exercise_8_main']
 
-def main():
+def exercise_8_main():
     """main of exercise 8"""
     print(__doc__)
     file_name = DEFAULTS['files']['fileName']
@@ -19,5 +19,4 @@ def main():
         print(f"{exception}")
 
 if __name__ == "__main__":
-    print(__doc__)
-    main()
+    exercise_8_main()

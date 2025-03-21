@@ -6,9 +6,9 @@ import subprocess
 import utils
 from defaults import DEFAULTS
 
-__all__ = ['main']
+__all__ = ['exercise_4_main']
 
-def main():
+def exercise_4_main():
     """main of exercise 4"""
     def copy_file_1(file: str = None, copy: str = None) -> str:
         """Copy file using read() and write()"""
@@ -44,5 +44,4 @@ def main():
         print(f"{exception}")
 
 if __name__ == "__main__":
-    print(__doc__)
-    main()
+    exercise_4_main()

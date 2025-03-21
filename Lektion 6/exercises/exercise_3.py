@@ -5,9 +5,9 @@ Exercise 3
 import utils
 from defaults import DEFAULTS
 
-__all__ = ['main']
+__all__ = ['exercise_3_main']
 
-def main():
+def exercise_3_main():
     """main of exercise 3"""
     print(__doc__)
     file_name = DEFAULTS['files']['fileName']
@@ -27,5 +27,4 @@ def main():
         raise
 
 if __name__ == "__main__":
-    print(__doc__)
-    main()
+    exercise_3_main()
