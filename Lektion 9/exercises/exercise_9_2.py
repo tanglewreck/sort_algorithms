@@ -4,5 +4,9 @@
 numerator = 10
 denominator = 0
 
-result = numerator / denominator
+try:
+    result = numerator / denominator
+except ZeroDivisionError as exception:
+    print(repr(exception))
+    result = None
 print("Result:", result)
