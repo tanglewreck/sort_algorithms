@@ -2,6 +2,7 @@
 Exercise 4
 = = = = = = """
 
+import os
 import subprocess
 import utils
 from defaults import DEFAULTS
@@ -19,8 +20,14 @@ def exercise_4_main():
 
     def copy_file_2(file: str = None, copy: str = None) -> str:
         """Copy a file using subprocess.check_call"""
-        cp = ["cp", file, copy]
-        subprocess.check_call(cp)
+        if os.path.exists("/bin/cp"):
+            cp = ["/bin/cp", file, copy]
+        elif os.path.exists("/usr/bin/cp"):
+            cp = ["/usr/bin/cp", file, copy]
+        else:
+            raise OSError("Unable to locate 'cp' command: copy_file_2() failed")
+        out = subprocess.check_call(cp)
+        return out
 
     print(__doc__)
     file_name = DEFAULTS['files']['fileName']
