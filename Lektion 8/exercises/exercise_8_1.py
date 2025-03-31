@@ -8,7 +8,7 @@ from tkinter import Tk
 # The size of the Canvas widget implicitly determines
 # the size of the root widget:
 CANVAS_WIDTH = 500
-CANVAS_HEIGHT = 1000
+CANVAS_HEIGHT = 500
 # Selection of ball colours
 COLOURS = ["red",
            "green",
@@ -48,11 +48,22 @@ class Ball:
     def change_colour(self, _ = None):
         """Change ball colour, randomly"""
         # If the ball is blue, reverse
-        print("colur = ", self.colour)
         if self.colour == "blue":
             self.reverse()
 
-        new_colour = random.choice(COLOURS)
+        # If the ball is yellow, make it green; if it's
+        # green, delete it; else randomly choose a colour
+        #
+        if self.colour == "yellow":
+            new_colour = "green"
+        elif self.colour == "green":
+            # Make pylint not complain about 'Possibly
+            # using varable "new_colour" before assignment' by assigning some
+            # arbitrary value... (not really necessary, code wise):
+            new_colour = None
+            self.canvas.delete(self.ball)
+        else:
+            new_colour = random.choice(COLOURS)
         self.canvas.itemconfig(self.ball, fill=new_colour)
         self.colour = new_colour
 
@@ -69,16 +80,21 @@ class Ball:
         # Move the ball
         self.canvas.move(self.ball, self.x_speed, self.y_speed)
         # Get new coordinates (after the ball has moved)
-        x1, y1, x2, y2 = self.canvas.coords(self.ball)
+        try:
+            x1, y1, x2, y2 = self.canvas.coords(self.ball)
+            # If outside the canvas, reverse direction
+            if x1 <= 0 or x2 >= CANVAS_WIDTH:
+                self.x_speed *= -1
+            if y1 <= 0 or y2 >= CANVAS_HEIGHT:
+                self.y_speed *= -1
+            # Set the ball moving again after a delay
+            self.canvas.after(DELAY, self.move)
+        except ValueError:
+            # If the ball/oval has been deleted, a ValueError
+            # is raised the next time self.move() is called, so
+            # we catch the error and ignore it:
+            pass
 
-        # If outside the canvas, reverse direction
-        if x1 <= 0 or x2 >= CANVAS_WIDTH:
-            self.x_speed *= -1
-        if y1 <= 0 or y2 >= CANVAS_HEIGHT:
-            self.y_speed *= -1
-
-        # Set the ball moving again after a delay
-        self.canvas.after(DELAY, self.move)
 
 
 
