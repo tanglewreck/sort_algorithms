@@ -7,6 +7,8 @@ from tkinter import Tk
 CANVAS_WIDTH = 500
 CANVAS_HEIGHT = 500
 COLOURS = ["red", "green", "blue", "yellow"]
+MAX_SPEED = 1
+MIN_SPEED = 1
 NUMBER_OF_BALLS = 10
 
 class Ball:
@@ -16,23 +18,42 @@ class Ball:
         self.canvas = canvas
         self.radius = radius
         self.colour = colour
-        self.x_speed = random.randint(1, 5)
-        self.y_speed = random.randint(1, 5)
+        # Choose speed randomly
+        self.x_speed = random.randint(MIN_SPEED, MAX_SPEED)
+        self.y_speed = random.randint(MIN_SPEED, MAX_SPEED)
+        # Randomly place the ball within the canvas
         x = random.randint(self.radius, CANVAS_WIDTH - self.radius)
         y = random.randint(self.radius, CANVAS_HEIGHT - self.radius)
-        self.ball = self.canvas.create_oval(x - self.radius, y - self.radius,
-                                            x + self.radius, y + self.radius, fill=self.colour)
+        # Create an oval
+        self.ball = self.canvas.create_oval(x - self.radius,
+                                            y - self.radius,
+                                            x + self.radius,
+                                            y + self.radius,
+                                            fill=self.colour)
         # Bind mousebutton 1 to the colour changing method
         self.canvas.tag_bind(self.ball, '<Button-1>', self.change_colour)
+        # Bind mousebutton 2 to the direction changing method
+        # self.canvas.tag_bind(self.ball, '<Button-1>', self.reverse)
 
     def change_colour(self, _ = None):
         """Change ball colour, randomly"""
+        # If the ball is blue, reverse
+        print("colur = ", self.colour)
+        if self.colour == "blue":
+            self.reverse()
+
         new_colour = random.choice(COLOURS)
         self.canvas.itemconfig(self.ball, fill=new_colour)
         self.colour = new_colour
 
+
         # Set a timer so the ball keeps changing colour
-        self.canvas.after(1000, self.change_colour, None)
+        # self.canvas.after(1000, self.change_colour, None)
+
+    def reverse(self, _ = None):
+        """Change/reverse direction"""
+        self.x_speed *= -1
+        self.y_speed *= -1
 
     def move(self):
         """Move the ball"""
@@ -67,8 +88,11 @@ def main():
 
     # Add balls to the list
     ball_radius = 20
-    ball_colour = "#1122FF"
+    # NB: This is a logical error in the
+    # original code
+    # ball_colour = "#1122FF"
     for _ in range(NUMBER_OF_BALLS):
+        ball_colour = random.choice(COLOURS)
         balls.append(Ball(canvas, ball_colour, ball_radius))
 
 
