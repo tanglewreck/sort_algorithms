@@ -4,12 +4,24 @@ import random
 from tkinter import Canvas
 from tkinter import Tk
 
+
+# The size of the Canvas widget implicitly determines
+# the size of the root widget:
 CANVAS_WIDTH = 500
-CANVAS_HEIGHT = 500
-COLOURS = ["red", "green", "blue", "yellow"]
+CANVAS_HEIGHT = 1000
+# Selection of ball colours
+COLOURS = ["red",
+           "green",
+           "blue",
+           "yellow"]
+# delay in ms until a ball is moved (again)
+DELAY = 50
+# Max and min speed in both x and y directions
 MAX_SPEED = 1
 MIN_SPEED = 1
+# Number of balls to create
 NUMBER_OF_BALLS = 10
+
 
 class Ball:
     """Ball class"""
@@ -32,8 +44,6 @@ class Ball:
                                             fill=self.colour)
         # Bind mousebutton 1 to the colour changing method
         self.canvas.tag_bind(self.ball, '<Button-1>', self.change_colour)
-        # Bind mousebutton 2 to the direction changing method
-        # self.canvas.tag_bind(self.ball, '<Button-1>', self.reverse)
 
     def change_colour(self, _ = None):
         """Change ball colour, randomly"""
@@ -46,7 +56,6 @@ class Ball:
         self.canvas.itemconfig(self.ball, fill=new_colour)
         self.colour = new_colour
 
-
         # Set a timer so the ball keeps changing colour
         # self.canvas.after(1000, self.change_colour, None)
 
@@ -57,8 +66,9 @@ class Ball:
 
     def move(self):
         """Move the ball"""
+        # Move the ball
         self.canvas.move(self.ball, self.x_speed, self.y_speed)
-        # Get new coordinates
+        # Get new coordinates (after the ball has moved)
         x1, y1, x2, y2 = self.canvas.coords(self.ball)
 
         # If outside the canvas, reverse direction
@@ -68,7 +78,7 @@ class Ball:
             self.y_speed *= -1
 
         # Set the ball moving again after a delay
-        self.canvas.after(50, self.move)
+        self.canvas.after(DELAY, self.move)
 
 
 
