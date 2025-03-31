@@ -56,9 +56,21 @@ class WidgetTree:
 
         # Configure the exercise-buttons
         def exercise_command(exercise = "exercise_1.py"):
-            out = subprocess.check_output(["python3", exercise], text=True)
+            try:
+                # run the script and collect output
+                # out = subprocess.check_output(["python", "exercise"], text=True)
+                out = subprocess.check_output(["python", exercise], text=True)
+                # alternatively:
+                # out = subprocess.check_output(["python", exercise]).decode()
+            except (OSError, FileNotFoundError) as exception:
+                out = repr(exception)
+            except UnicodeDecodeError as exception:
+                out = repr(exception)
+            except subprocess.CalledProcessError as exception:
+                out = repr(exception)
             self.text_widget.delete("1.0", END)
             self.text_widget.insert("end", out)
+
         self.button_exercise_1.config( command=partial(exercise_command,
                                                        "exercise_1.py"))
         self.button_exercise_4.config( command=partial(exercise_command,
