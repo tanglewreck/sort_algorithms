@@ -5,7 +5,10 @@ def calculate_average(numbers):
     total = 0
     for number in numbers:
         total += number
-    average = total / len(numbers)
+    try:
+        average = total / len(numbers)
+    except ZeroDivisionError:
+        return 0
     return average
 
 numbers = []
