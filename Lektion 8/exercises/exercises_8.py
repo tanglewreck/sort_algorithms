@@ -1,4 +1,4 @@
-"""exercise 8_1"""
+"""exercise lesson 8"""
 
 import random
 from tkinter import Canvas
