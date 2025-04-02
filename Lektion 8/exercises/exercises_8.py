@@ -4,16 +4,15 @@ import random
 from tkinter import Button
 from tkinter import Canvas
 from tkinter import Label
-from tkinter import StringVar
+from tkinter import IntVar
 from tkinter import Tk
+from tkinter import W, E
 
 
-# Initialise list (of balls)
-BALLS = []
-
+BALL_RADIUS = 20
 # The size of the Canvas widget implicitly determines
 # the size of the root widget:
-CANVAS_WIDTH = 500
+CANVAS_WIDTH = 1000
 CANVAS_HEIGHT = 500
 # Selection of ball colours
 COLOURS = ["red",
@@ -29,7 +28,6 @@ MIN_SPEED = 1
 NUMBER_OF_BALLS = 5
 
 
-
 class Ball:
     """Ball class"""
     # Class variable to keep count of
@@ -38,7 +36,7 @@ class Ball:
     # Number of clicks counter
     number_of_clicks = 0
 
-    def __init__(self, canvas, colour, radius):
+    def __init__(self, canvas, colour, radius, counter):
         """constructor"""
         # Increase ball count
         # Ball.number_of_balls += 1
@@ -46,6 +44,7 @@ class Ball:
         self.canvas = canvas
         self.radius = radius
         self.colour = colour
+        self.counter = counter
         # Choose speed randomly
         self.x_speed = random.randint(MIN_SPEED, MAX_SPEED)
         self.y_speed = random.randint(MIN_SPEED, MAX_SPEED)
@@ -59,17 +58,21 @@ class Ball:
                                             y + self.radius,
                                             fill=self.colour)
         # Bind mousebutton 1 to the colour changing method
-        self.canvas.tag_bind(self.ball, '<Button-1>', self.change_colour)
+        self.canvas.tag_bind(self.ball, '<Button-1>', self.do_button_1_click)
 
-    def change_colour(self, _ = None):
-        """Change ball colour, randomly"""
+    def do_button_1_click(self, _):
+        """Handle button-1 click"""
         # Update number of clicks counter
         self.__class__.number_of_clicks += 1
-        print(self.__class__.number_of_clicks)
+        self.counter.set(self.__class__.number_of_clicks)
         # If the ball is blue, reverse
         if self.colour == "blue":
             self.reverse()
+        # Change ball colour
+        self.change_colour()
 
+    def change_colour(self, _ = None):
+        """Change ball colour, randomly"""
         # If the ball is yellow, make it green; if it's
         # green, delete it; else randomly choose a colour
         #
@@ -77,19 +80,20 @@ class Ball:
             new_colour = "green"
         # If the ball is green and there's more than
         # one ball still left, delete the ball (i.e.
-        # delete the canvas oval that is the visual 
-        # representation of the ball; the ball object 
+        # delete the canvas oval that is the visual
+        # representation of the ball; the ball object
         # is not deleted).
         elif self.colour == "green" and \
-             self.__class__.number_of_balls > 1:
+        self.__class__.number_of_balls > 1:
+            # Decrease ball count
+            self.__class__.number_of_balls -= 1
             # Make pylint not complain about 'Possibly
             # using varable "new_colour" before assignment' by assigning some
             # arbitrary value... (not really necessary, code wise):
             new_colour = None
-            # Delete the ball/oval
+            # Delete the ball/oval.
+            # NB the Ball object is not deleted.
             self.canvas.delete(self.ball)
-            # Decrease ball count
-            self.__class__.number_of_balls -= 1
         else:
             new_colour = random.choice(COLOURS)
         self.canvas.itemconfig(self.ball, fill=new_colour)
@@ -124,47 +128,79 @@ class Ball:
             pass
 
 
+class Widgets:
+    """Widgets"""
+    def __init__(self):
+        # root widget
+        self.root = Tk()
+        self.root.title("balls")
+        # self.root.geometry(f"{CANVAS_WIDTH}x{CANVAS_HEIGHT + 50}+100+100")
+
+        # Add a counter label
+        self.counter_var = IntVar()
+        Label(self.root, text="Clicks").grid(row=1,
+                                             column=1,
+                                             sticky=E)
+        counter_label = Label(self.root)
+        counter_label.configure(text="Clicks:")
+        counter_label.configure(textvariable=self.counter_var)
+        counter_label.grid(row=1, column=2, sticky=W)
+
+        # Add a Quit-button
+        quit_button = Button(self.root,
+                             text="Quit",
+                             command=quit,
+                             width=50)
+        quit_button.grid(row=2, column=1,
+                         columnspan=2)#,
+                         #sticky=(W,E))
+
+        for child in self.root.winfo_children():
+            child.configure(padx=5, pady=5)
+
+        # Create a canvas where the balls can move around
+        self.canvas = Canvas(self.root,
+                             width=CANVAS_WIDTH,
+                             height=CANVAS_HEIGHT,
+                             bg="white")
+        self.canvas.grid(row=0, column=0,
+                         columnspan=4)
+
+
+    def balls(self):
+        """create balls"""
+    def __repr__(self):
+        """__repr__"""
+        return str(self.root)
+
+    def __str__(self):
+        """__str__"""
+        return str(self.root)
+
+
 def main():
     """main()"""
 
-    # root widget
-    root = Tk()
-    root.title("balls")
-
-    # Create a canvas where the balls can move around
-    canvas = Canvas(root, width=CANVAS_WIDTH, height=CANVAS_HEIGHT, bg="white")
-    canvas.pack()
-
-
+    widget_tree = Widgets()
     # Add balls to the list
-    ball_radius = 20
     # NB: This is a logical error in the
     # original code (the colour should be "blue")
     # ball_colour = "#1122FF"
+    balls = []
     for _ in range(NUMBER_OF_BALLS):
         ball_colour = random.choice(COLOURS)
-        BALLS.append(Ball(canvas, ball_colour, ball_radius))
+        balls.append(Ball(widget_tree.canvas,
+                          ball_colour,
+                          BALL_RADIUS,
+                          widget_tree.counter_var))
 
 
     # Set the balls in motion
-    for ball in BALLS:
+    for ball in balls:
         ball.move()
 
-    # Add a counter label
-    counter_var = StringVar()
-    counter_var.set(str(Ball.number_of_clicks))
-    counter_label = Label(root, textvariable=counter_var)
-    counter_label.after(1000, 
-                        )
-    counter_label.pack()
-
-    # Add a Quit-button
-    quit_button = Button(root,
-                         text="Quit",
-                         command=quit)
-    quit_button.pack()
     # Execute the mainloop
-    root.mainloop()
+    widget_tree.root.mainloop()
 
 if __name__ == "__main__":
     main()
