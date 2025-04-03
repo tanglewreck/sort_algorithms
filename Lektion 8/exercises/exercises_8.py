@@ -9,11 +9,12 @@ from tkinter import Tk
 from tkinter import W, E
 
 
+
 BALL_RADIUS = 20
 # The size of the Canvas widget implicitly determines
 # the size of the root widget:
 CANVAS_WIDTH = 1000
-CANVAS_HEIGHT = 500
+CANVAS_HEIGHT = 800
 # Selection of ball colours
 COLOURS = ["red",
            "green",
@@ -22,10 +23,10 @@ COLOURS = ["red",
 # delay in ms until a ball is moved (again)
 DELAY = 50
 # Max and min speed in both x and y directions
-MAX_SPEED = 3
+MAX_SPEED = 7
 MIN_SPEED = 1
 # Number of balls to create
-NUMBER_OF_BALLS = 5
+NUMBER_OF_BALLS = 15
 
 
 class Ball:
@@ -49,13 +50,13 @@ class Ball:
         self.x_speed = random.randint(MIN_SPEED, MAX_SPEED)
         self.y_speed = random.randint(MIN_SPEED, MAX_SPEED)
         # Randomly place the ball within the canvas
-        x = random.randint(self.radius, CANVAS_WIDTH - self.radius)
-        y = random.randint(self.radius, CANVAS_HEIGHT - self.radius)
+        self.x = random.randint(self.radius, CANVAS_WIDTH - self.radius)
+        self.y = random.randint(self.radius, CANVAS_HEIGHT - self.radius)
         # Create an oval
-        self.ball = self.canvas.create_oval(x - self.radius,
-                                            y - self.radius,
-                                            x + self.radius,
-                                            y + self.radius,
+        self.ball = self.canvas.create_oval(self.x - self.radius,
+                                            self.y - self.radius,
+                                            self.x + self.radius,
+                                            self.y + self.radius,
                                             fill=self.colour)
         # Bind mousebutton 1 to the colour changing method
         self.canvas.tag_bind(self.ball, '<Button-1>', self.do_button_1_click)
@@ -107,8 +108,14 @@ class Ball:
         self.x_speed *= -1
         self.y_speed *= -1
 
-    def move(self):
+    def move(self, balls):
         """Move the ball"""
+        def do_collisions(balls):
+            """Handle ball collisions"""
+            for ball in balls:
+                if ball.x + BALL_RADIUS > self.x - BALL_RADIUS:
+                    print("foo")
+
         # Move the ball
         self.canvas.move(self.ball, self.x_speed, self.y_speed)
         # Get new coordinates (after the ball has moved)
@@ -120,7 +127,8 @@ class Ball:
             if y1 <= 0 or y2 >= CANVAS_HEIGHT:
                 self.y_speed *= -1
             # Set the ball moving again after a delay
-            self.canvas.after(DELAY, self.move)
+            self.canvas.after(DELAY, self.move, balls)
+            do_collisions(balls)
         except ValueError:
             # If the ball/oval has been deleted, a ValueError
             # is raised the next time self.move() is called, so
@@ -136,35 +144,31 @@ class Widgets:
         self.root.title("balls")
         # self.root.geometry(f"{CANVAS_WIDTH}x{CANVAS_HEIGHT + 50}+100+100")
 
-        # Add a counter label
-        self.counter_var = IntVar()
-        Label(self.root, text="Clicks").grid(row=1,
-                                             column=1,
-                                             sticky=E)
-        counter_label = Label(self.root)
-        counter_label.configure(text="Clicks:")
-        counter_label.configure(textvariable=self.counter_var)
-        counter_label.grid(row=1, column=2, sticky=W)
-
-        # Add a Quit-button
-        quit_button = Button(self.root,
-                             text="Quit",
-                             command=quit,
-                             width=50)
-        quit_button.grid(row=2, column=1,
-                         columnspan=2)#,
-                         #sticky=(W,E))
-
-        for child in self.root.winfo_children():
-            child.configure(padx=5, pady=5)
-
         # Create a canvas where the balls can move around
         self.canvas = Canvas(self.root,
                              width=CANVAS_WIDTH,
                              height=CANVAS_HEIGHT,
                              bg="white")
         self.canvas.grid(row=0, column=0,
-                         columnspan=4)
+                         columnspan=3,
+                             sticky=(W,E))
+
+        # Add a counter label
+        self.counter_var = IntVar()
+        Label(self.root, text="Clicks").grid(row=1,
+                                             column=1,
+                                             sticky=(W,E))
+        counter_label = Label(self.root)
+        counter_label.configure(text="Clicks:")
+        counter_label.configure(textvariable=self.counter_var)
+        counter_label.grid(row=2, column=1, sticky=(W,E))
+
+        # Add a Quit-button
+        quit_button = Button(self.root,
+                             text="Quit",
+                             command=quit)
+                             # width=50)
+        quit_button.grid(row=3, column=1, sticky=(W, E))
 
 
     def balls(self):
@@ -197,7 +201,7 @@ def main():
 
     # Set the balls in motion
     for ball in balls:
-        ball.move()
+        ball.move(balls)
 
     # Execute the mainloop
     widget_tree.root.mainloop()
