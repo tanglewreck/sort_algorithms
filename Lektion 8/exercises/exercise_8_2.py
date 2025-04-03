@@ -2,6 +2,9 @@
 import tkinter as tk
 import random
 
+CANVAS_WIDTH = 500
+CANVAS_HEIGHT = 500
+
 class Ball:
     def __init__(self, canvas, color, radius):
         self.canvas = canvas
@@ -11,6 +14,8 @@ class Ball:
         self.y_speed = random.randint(1, 5)
         self.x = random.randint(self.radius, canvas_width - self.radius)
         self.y = random.randint(self.radius, canvas_height - self.radius)
+        x = random.randint(self.radius, CANVAS_WIDTH - self.radius)
+        y = random.randint(self.radius, CANVAS_HEIGHT - self.radius)
         self.ball = self.canvas.create_oval(x - self.radius, y - self.radius, x + self.radius, y + self.radius, fill=self.color)
         self.canvas.tag_bind(self.ball, '<Button-1>', self.change_color)
 
