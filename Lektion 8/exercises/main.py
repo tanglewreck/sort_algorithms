@@ -8,7 +8,7 @@ from tkinter import IntVar
 from tkinter import Tk
 from tkinter import W, E
 
-
+# pylint: disable=too-many-instance-attributes
 
 BALL_RADIUS = 20
 # The size of the Canvas widget implicitly determines
@@ -40,15 +40,14 @@ class Ball:
     def __init__(self, canvas, colour, radius, counter):
         """constructor"""
         # Increase ball count
-        # Ball.number_of_balls += 1
-        self.__class__.number_of_balls += 1
+        Ball.number_of_balls += 1
         self.canvas = canvas
         self.radius = radius
         self.colour = colour
         self.counter = counter
         # Choose speed randomly
-        self.x_speed = random.randint(MIN_SPEED, MAX_SPEED)
-        self.y_speed = random.randint(MIN_SPEED, MAX_SPEED)
+        self.x_speed = random.randint(-MAX_SPEED, MAX_SPEED)
+        self.y_speed = random.randint(-MAX_SPEED, MAX_SPEED)
         # Randomly place the ball within the canvas
         self.x = random.randint(self.radius, CANVAS_WIDTH - self.radius)
         self.y = random.randint(self.radius, CANVAS_HEIGHT - self.radius)
@@ -64,8 +63,8 @@ class Ball:
     def do_button_1_click(self, _):
         """Handle button-1 click"""
         # Update number of clicks counter
-        self.__class__.number_of_clicks += 1
-        self.counter.set(self.__class__.number_of_clicks)
+        #Ball.number_of_clicks += 1
+        self.counter.set(Ball.number_of_clicks + 1)
         # If the ball is blue, reverse
         if self.colour == "blue":
             self.reverse()
@@ -79,15 +78,16 @@ class Ball:
         #
         if self.colour == "yellow":
             new_colour = "green"
-        # If the ball is green and there's more than
-        # one ball still left, delete the ball (i.e.
-        # delete the canvas oval that is the visual
-        # representation of the ball; the ball object
-        # is not deleted).
         elif self.colour == "green" and \
-        self.__class__.number_of_balls > 1:
+             Ball.number_of_balls > 1:
+            # If the ball is green and there's more than
+            # one ball still left, delete the ball (i.e.
+            # delete the canvas oval that is the visual
+            # representation of the ball; the ball object
+            # is not deleted).
+
             # Decrease ball count
-            self.__class__.number_of_balls -= 1
+            Ball.number_of_balls -= 1
             # Make pylint not complain about 'Possibly
             # using varable "new_colour" before assignment' by assigning some
             # arbitrary value... (not really necessary, code wise):
@@ -110,6 +110,7 @@ class Ball:
 
     def move(self, balls):
         """Move the ball"""
+
         def do_collisions(balls):
             """Handle ball collisions"""
             for ball in balls:
@@ -122,10 +123,29 @@ class Ball:
         try:
             x1, y1, x2, y2 = self.canvas.coords(self.ball)
             # If outside the canvas, reverse direction
-            if x1 <= 0 or x2 >= CANVAS_WIDTH:
+            dr = 0.05 * BALL_RADIUS
+            if x1 <= 0:
                 self.x_speed *= -1
-            if y1 <= 0 or y2 >= CANVAS_HEIGHT:
+                while x1 <= 0:
+                    self.canvas.move(self.ball, dr, 0)
+                    (x1, y1, x2, y2) = self.canvas.coords(self.ball)
+            elif x2 >= CANVAS_WIDTH:
+                self.x_speed *= -1
+                while x2 >= CANVAS_WIDTH:
+                    self.canvas.move(self.ball, -dr, 0)
+                    (x1, y1, x2, y2) = self.canvas.coords(self.ball)
+            if y1 <= 0:
                 self.y_speed *= -1
+                while y1 <= 0:
+                    self.canvas.move(self.ball, 0, dr)
+                    (x1, y1, x2, y2) = self.canvas.coords(self.ball)
+                self.canvas.move(self.ball, 0, BALL_RADIUS)
+            elif y2 >= CANVAS_HEIGHT:
+                self.y_speed *= -1
+                while y1 >= CANVAS_HEIGHT:
+                    self.canvas.move(self.ball, 0, -dr)
+                    (x1, y1, x2, y2) = self.canvas.coords(self.ball)
+                self.canvas.move(self.ball, 0, -BALL_RADIUS)
             # Set the ball moving again after a delay
             self.canvas.after(DELAY, self.move, balls)
             do_collisions(balls)
@@ -138,10 +158,11 @@ class Ball:
 
 class Widgets:
     """Widgets"""
-    def __init__(self):
+    def __init__(self, timeout):
         # root widget
         self.root = Tk()
         self.root.title("balls")
+        self.root.after(timeout, self.root.destroy)
         # self.root.geometry(f"{CANVAS_WIDTH}x{CANVAS_HEIGHT + 50}+100+100")
 
         # Create a canvas where the balls can move around
@@ -185,7 +206,14 @@ class Widgets:
 def main():
     """main()"""
 
-    widget_tree = Widgets()
+    widgets = Widgets(timeout=10000)
+    r = 30
+    x, y = 0, 100
+    widgets.canvas.create_oval(x - r,
+                                            y - r,
+                                            x + r,
+                                            y + r,
+                                            fill="orange")
     # Add balls to the list
     # NB: This is a logical error in the
     # original code (the colour should be "blue")
@@ -193,10 +221,10 @@ def main():
     balls = []
     for _ in range(NUMBER_OF_BALLS):
         ball_colour = random.choice(COLOURS)
-        balls.append(Ball(widget_tree.canvas,
+        balls.append(Ball(widgets.canvas,
                           ball_colour,
                           BALL_RADIUS,
-                          widget_tree.counter_var))
+                          widgets.counter_var))
 
 
     # Set the balls in motion
@@ -204,7 +232,7 @@ def main():
         ball.move(balls)
 
     # Execute the mainloop
-    widget_tree.root.mainloop()
+    widgets.root.mainloop()
 
 if __name__ == "__main__":
     main()
