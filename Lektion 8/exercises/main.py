@@ -1,6 +1,7 @@
 """exercise lesson 8"""
 
 import random
+import sys
 from tkinter import Button
 from tkinter import Canvas
 from tkinter import Label
@@ -26,7 +27,13 @@ DELAY = 50
 MAX_SPEED = 7
 MIN_SPEED = 1
 # Number of balls to create
-NUMBER_OF_BALLS = 15
+try:
+    NUMBER_OF_BALLS = abs(int(sys.argv[1]))
+except IndexError:
+    NUMBER_OF_BALLS = 15
+except (ValueError, NameError) as exception:
+    print(repr(exception))
+    raise SystemExit(1) from exception
 
 
 class Ball:
