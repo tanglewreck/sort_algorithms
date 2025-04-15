@@ -10,6 +10,11 @@ of that algorithm to sort lists of numbers.
 NOTE: run with '-O' to get rid of (excessive) output
 
 """
+
+# pylint: disable=invalid-name
+# pylint: disable=too-many-locals
+### pylint: disable=too-many-statements
+#
 import numpy as np
 
 from algorithms.performance import timeIt
@@ -45,13 +50,14 @@ def main() -> None:
     swapsCollected_bubbleSortPlus = []
 
     # Loop and collect data
-    print("Measuring performance...")
-    print(f"List-length: {N}")
-    print(f"MIN: {MIN}")
-    print(f"MAX: {MAX}")
-    print(f"Number of iterations: {ITERATIONS}")
-    print(f"Number of iterations (timeit): {TIMEIT_ITERATIONS}")
-    print(f"Number of measurements: {MEASUREMENTS}")
+    print(f"""Measuring performance...
+List-length: {N}
+MIN: {MIN}
+MAX: {MAX}
+Number of iterations: {ITERATIONS}
+Number of iterations (timeit): {TIMEIT_ITERATIONS}
+Number of measurements: {MEASUREMENTS}""")
+
     for _ in range(MEASUREMENTS):
 
         # Initialise three lists used for collecting
@@ -66,16 +72,15 @@ def main() -> None:
         for sortAlgorithm in (bubbleSortPlus, bubbleSort):
 
             if __debug__:
-                print(f"Measuring performance of {sortAlgorithm.__name__}")
-                print(f"List-length: {N}")
-                print(f"Execution time (using the timeit module) "
-                      f"({TIMEIT_ITERATIONS} iterations):")
+                print(f"""Measuring performance of {sortAlgorithm.__name__}
+    List-length: {N}
+    Execution time (using the timeit module) {TIMEIT_ITERATIONS} iterations):""")
             # Measure execution time
             elapsed = timeIt(algorithm=sortAlgorithm)
             executionTimes.append(elapsed)
             if __debug__:
-                print(f"Elapsed = %6.4f seconds ({TIMEIT_ITERATIONS} iterations)" % elapsed)
-                print(f"Number of comparisons "
+                print(f"Elapsed = {elapsed:6.4f} seconds ({TIMEIT_ITERATIONS} iterations)\n"
+                      f"Number of comparisons "
                       f"and swaps ({ITERATIONS} iterations):")
             # Measure performance in terms of (mean) number of
             # swaps and (mean) number of comparisons
