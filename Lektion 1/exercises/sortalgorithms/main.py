@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 2025-02-19
 sortalgorithms.py
