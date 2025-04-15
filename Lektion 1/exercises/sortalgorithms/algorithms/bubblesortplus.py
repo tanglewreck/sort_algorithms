@@ -12,6 +12,7 @@
 
 __all__ = ["bubbleSortPlus", "bubbleSortPlusVerbose"]
 
+# pylint: disable=invalid-name
 
 #def switchPlace(theList: list, positionOne: int, positionTwo: int) -> None:
 #    """
@@ -29,7 +30,7 @@ __all__ = ["bubbleSortPlus", "bubbleSortPlusVerbose"]
 #        print(f"Got an IndexError: {e}")
 
 
-def bubbleSortPlus(theList: list) -> tuple:
+def bubbleSortPlus(theList: list, reverse = True) -> tuple:
     """
     This functions sorts a list of numbers using a modified version
     of bubblesort.
@@ -69,7 +70,9 @@ def bubbleSortPlus(theList: list) -> tuple:
     # to compare shorter for (almost) every run of the loop.
     firstIndex = 0
 
-    for indexOne in range(firstIndex, listLen):
+    # Forward sort
+    for indexOne in range(0, listLen):
+        # If no swaps are made, we're done
         done = True
         for indexTwo in range(indexOne + 1, listLen):  # loop from indexOne to listLen -1
             numberOfComparisons += 1
@@ -81,6 +84,10 @@ def bubbleSortPlus(theList: list) -> tuple:
         firstIndex += 1
         if done:
             break
+
+
+    if reverse:
+        return (listCopy[::-1], numberOfSwaps, numberOfComparisons)
     return (listCopy, numberOfSwaps, numberOfComparisons)
 
 
