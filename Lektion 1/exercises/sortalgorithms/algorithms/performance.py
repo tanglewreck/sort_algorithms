@@ -3,6 +3,8 @@ Defines functions used to measure performance
 of sort algorithms.
 """
 
+# pylint: disable=invalid-name
+
 __all__ = ["algorithmPerformance", "sortWrapper", "timeIt"]
 
 import functools
@@ -10,9 +12,10 @@ import timeit
 from . defaults import ITERATIONS, TIMEIT_ITERATIONS
 from . utils import generateRandomList
 from . bubblesortplus import bubbleSortPlus
-from . bubblesort import bubbleSort
+# from . bubblesort import bubbleSort
 
-def algorithmPerformance(iterations: int = ITERATIONS, func = bubbleSortPlus) -> tuple:
+def algorithmPerformance(iterations: int = ITERATIONS,
+                         algorithm = bubbleSortPlus) -> tuple:
     """Simple performance test of the sorting
     algorithm, using the average number of swaps
     and comparisons over a large number of runs as
@@ -26,7 +29,7 @@ def algorithmPerformance(iterations: int = ITERATIONS, func = bubbleSortPlus) ->
         # Sort the list
         (intList,
          numberOfSwaps,
-         numberOfComparisons) = func(intList)
+         numberOfComparisons) = algorithm(intList)
          # numberOfComparisons) = bubbleSortPlus(intList)
 
         # Update sums
