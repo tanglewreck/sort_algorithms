@@ -19,7 +19,7 @@ import numpy as np
 
 from algorithms.performance import timeIt
 from algorithms.performance import algorithmPerformance
-from algorithms.defaults import N, MIN, MAX
+from algorithms.defaults import LIST_LENGTH, MIN, MAX
 from algorithms.defaults import ITERATIONS, TIMEIT_ITERATIONS
 from algorithms.defaults import MEASUREMENTS
 from algorithms.bubblesortplus import bubbleSortPlus
@@ -37,144 +37,170 @@ def main() -> None:
           (according to pylint, at least)
     """
 
-    # Initialise three lists used for collecting
-    # performance data of each run. Later used
-    # (see below) for comparing the two algorithms.
-    executionTimeCollected_bubbleSortPlus = []
-    executionTimeCollected_bubbleSort = []
+    # Helper function
+    def measurements(NumberOfMeasurements = MEASUREMENTS,
+                     listLength = LIST_LENGTH):
 
-    comparisonsCollected_bubbleSort = []
-    comparisonsCollected_bubbleSortPlus = []
+        for k in range(NumberOfMeasurements):
 
-    swapsCollected_bubbleSort = []
-    swapsCollected_bubbleSortPlus = []
+            if __debug__:
+                print("\n", "= " * 40, sep="")
+                print(f"Measurement #{k + 1}")
 
-    # Loop and collect data
+            # Initialise three lists used for collecting
+            # performance data of the algorithms. Later used
+            # (see below) for comparing the two algorithms.
+            executionTimes = []
+            meanComparisons = []
+            meanSwaps = []
+
+            # Once for each algorithm,
+            # measure the performance
+            for sortAlgorithm in (bubbleSortPlus, bubbleSort):
+
+                if __debug__:
+                    print(
+    f"Measuring performance of {sortAlgorithm.__name__} "
+    f"({TIMEIT_ITERATIONS} iterations):")
+                # Measure execution time
+                elapsed = timeIt(algorithm=sortAlgorithm,
+                                 listLength=listLength)
+                executionTimes.append(elapsed)
+                if __debug__:
+                    print(f"Elapsed = {elapsed:6.4f} seconds ({TIMEIT_ITERATIONS} iterations)")
+                # Measure performance in terms of (mean) number of
+                # swaps and (mean) number of comparisons
+                (meanNumberOfSwaps,
+                 meanNumberOfComparisons) = algorithmPerformance(
+                                                    iterations=ITERATIONS,
+                                                    algorithm=sortAlgorithm,
+                                                    listLength=listLength)
+                if __debug__:
+                    print(f"Mean number of swaps: {meanNumberOfSwaps:6.4f}")
+                    print(f"Mean number of comparisons: {meanNumberOfComparisons}")
+                    print("Done.")
+                    print("")
+
+                meanComparisons.append(meanNumberOfComparisons)
+                meanSwaps.append(meanNumberOfSwaps)
+
+
+            # Add data to overall statistics
+            executionTimeCollected_bubbleSortPlus.append(
+                executionTimes[0])
+            executionTimeCollected_bubbleSort.append(
+                executionTimes[1])
+
+            comparisonsCollected_bubbleSortPlus.append(
+                meanComparisons[0])
+            comparisonsCollected_bubbleSort.append(
+                meanComparisons[1])
+
+            swapsCollected_bubbleSortPlus.append(
+                meanSwaps[0])
+            swapsCollected_bubbleSort.append(
+                meanSwaps[1])
+
+            # Ratios
+            if __debug__:
+                print("= " * 40)
+                print("Execution time ratio "
+                      f"(bubbleSort / bubbleSortPlus): {
+                            (executionTimes[1] / executionTimes[0]):2.2f}")
+                print(f"mean number of comparisons ratio "
+                      f"(bubbleSort / bubbleSortPlus): {
+                            (meanComparisons[1] / meanComparisons[0]):2.2f}")
+                print("mean number of swaps ratio "
+                      f"(bubbleSort / bubbleSortPlus): {
+                            (meanSwaps[1] / meanSwaps[0]):2.2f}")
+                print("= " * 40)
+
+
+
     print(f"""Measuring performance...
-List-length: {N}
+List-length: {LIST_LENGTH}
 MIN: {MIN}
 MAX: {MAX}
 Number of iterations: {ITERATIONS}
 Number of iterations (timeit): {TIMEIT_ITERATIONS}
 Number of measurements: {MEASUREMENTS}""")
-
-    for _ in range(MEASUREMENTS):
-
+    # Do measurements
+    for listLength in [10, 50, 100, 200]:
         # Initialise three lists used for collecting
-        # performance data of the algorithms. Later used
+        # performance data of each run. Later used
         # (see below) for comparing the two algorithms.
-        executionTimes = []
-        meanComparisons = []
-        meanSwaps = []
+        executionTimeCollected_bubbleSortPlus = []
+        executionTimeCollected_bubbleSort = []
 
-        # Once for each algorithm,
-        # measure the performance
-        for sortAlgorithm in (bubbleSortPlus, bubbleSort):
+        comparisonsCollected_bubbleSort = []
+        comparisonsCollected_bubbleSortPlus = []
 
-            if __debug__:
-                print(f"""Measuring performance of {sortAlgorithm.__name__}
-    List-length: {N}
-    Execution time (using the timeit module) {TIMEIT_ITERATIONS} iterations):""")
-            # Measure execution time
-            elapsed = timeIt(algorithm=sortAlgorithm)
-            executionTimes.append(elapsed)
-            if __debug__:
-                print(f"Elapsed = {elapsed:6.4f} seconds ({TIMEIT_ITERATIONS} iterations)\n"
-                      f"Number of comparisons "
-                      f"and swaps ({ITERATIONS} iterations):")
-            # Measure performance in terms of (mean) number of
-            # swaps and (mean) number of comparisons
-            (meanNumberOfSwaps,
-             meanNumberOfComparisons) = algorithmPerformance(
-                                                iterations=ITERATIONS,
-                                                func=sortAlgorithm
-            )
-            if __debug__:
-                print(f"mean number of swaps: {meanNumberOfSwaps:6.4f}")
-                print(f"mean number of comparisons: {meanNumberOfComparisons}")
-                print("Done.")
-                print("")
+        swapsCollected_bubbleSort = []
+        swapsCollected_bubbleSortPlus = []
 
-            meanComparisons.append(meanNumberOfComparisons)
-            meanSwaps.append(meanNumberOfSwaps)
+        # Collect data
+        print("\n", "-" * 40, sep="")
+        print("listLength =", listLength, "\n")
+        measurements(NumberOfMeasurements=MEASUREMENTS,
+                     listLength=listLength)
 
+        #
+        # Compute statistics (mean and standard deviation)
+        #
+        #   Execution time
+        meanExecutionTime_bubbleSort = np.mean(executionTimeCollected_bubbleSort)
+        meanExecutionTime_bubbleSortPlus = np.mean(executionTimeCollected_bubbleSortPlus)
+        stddevExecutionTime_bubbleSort = np.sqrt(
+                np.var(executionTimeCollected_bubbleSort))
+        stddevExecutionTime_bubbleSortPlus = np.sqrt(
+                np.var(executionTimeCollected_bubbleSortPlus))
 
-        # Add data to overall statistics
-        executionTimeCollected_bubbleSortPlus.append(
-            executionTimes[0])
-        executionTimeCollected_bubbleSort.append(
-            executionTimes[1])
+        #   Comparisons
+        meanComparisons_bubbleSort = np.mean(comparisonsCollected_bubbleSort)
+        meanComparisons_bubbleSortPlus = np.mean(comparisonsCollected_bubbleSortPlus)
+        stddevComparisons_bubbleSort = np.sqrt(
+                np.var(comparisonsCollected_bubbleSort))
+        stddevComparisons_bubbleSortPlus = np.sqrt(
+                np.var(comparisonsCollected_bubbleSortPlus))
 
-        comparisonsCollected_bubbleSortPlus.append(
-            meanComparisons[0])
-        comparisonsCollected_bubbleSort.append(
-            meanComparisons[1])
+        #   Swaps
+        meanSwaps_bubbleSort = np.mean(swapsCollected_bubbleSort)
+        meanSwaps_bubbleSortPlus = np.mean(swapsCollected_bubbleSortPlus)
+        stddevSwaps_bubbleSort = np.sqrt(
+                np.var(swapsCollected_bubbleSort))
+        stddevSwaps_bubbleSortPlus = np.sqrt(
+                np.var(swapsCollected_bubbleSortPlus))
 
-        swapsCollected_bubbleSortPlus.append(
-            meanSwaps[0])
-        swapsCollected_bubbleSort.append(
-            meanSwaps[1])
+        #print("-" * 40, "\n",
+        #      f"Performance ({MEASUREMENTS} measurements):\n",
+        #      "-" * 40, sep="")
 
-        if __debug__:
-            print("= " * 40)
-            print("Execution time ratio "
-                  f"(bubbleSort / bubbleSortPlus): {
-                        (executionTimes[1] / executionTimes[0]):2.2f}")
-            print(f"mean number of comparisons ratio "
-                  f"(bubbleSort / bubbleSortPlus): {
-                        (meanComparisons[1] / meanComparisons[0]):2.2f}")
-            print("mean number of swaps ratio "
-                  f"(bubbleSort / bubbleSortPlus): {
-                        (meanSwaps[1] / meanSwaps[0]):2.2f}")
-            print("= " * 40)
+        print(f"bubbleSort: {meanExecutionTime_bubbleSort:2.3f} ± "
+              f"{stddevExecutionTime_bubbleSort:-2.3f} seconds")
+        print(f"bubbleSortPlus: {meanExecutionTime_bubbleSortPlus:2.3f} ± "
+              f"{stddevExecutionTime_bubbleSortPlus:-2.3f} seconds")
+        print(f"ratio: {(meanExecutionTime_bubbleSort /
+                         meanExecutionTime_bubbleSortPlus):2.3f}")
 
+        print(f"\nbubbleSort: {meanComparisons_bubbleSort:2.3f} ± "
+              f"{stddevComparisons_bubbleSort:2.3f} comparisons")
+        # print(f"{comparisonsCollected_bubbleSort}")
 
-    #
-    # Compute statistics (mean and standard deviation)
-    #
-    #   Execution time
-    meanExecutionTime_bubbleSort = np.mean(executionTimeCollected_bubbleSort)
-    meanExecutionTime_bubbleSortPlus = np.mean(executionTimeCollected_bubbleSortPlus)
-    stddevExecutionTime_bubbleSort = np.sqrt(np.var(executionTimeCollected_bubbleSort))
-    stddevExecutionTime_bubbleSortPlus = np.sqrt(np.var(executionTimeCollected_bubbleSortPlus))
+        print(f"bubbleSortPlus: {meanComparisons_bubbleSortPlus:2.3f} ± "
+              f"{stddevComparisons_bubbleSortPlus:2.3f} comparisons")
+        # print(f"{comparisonsCollected_bubbleSortPlus}")
+        print(f"ratio: {(meanComparisons_bubbleSort /
+                         meanComparisons_bubbleSortPlus ):2.3f}")
 
-    #   Comparisons
-    meanComparisons_bubbleSort = np.mean(comparisonsCollected_bubbleSort)
-    meanComparisons_bubbleSortPlus = np.mean(comparisonsCollected_bubbleSortPlus)
-    stddevComparisons_bubbleSort = np.sqrt(np.var(comparisonsCollected_bubbleSort))
-    stddevComparisons_bubbleSortPlus = np.sqrt(np.var(comparisonsCollected_bubbleSortPlus))
-
-    #   Swaps
-    meanSwaps_bubbleSort = np.mean(swapsCollected_bubbleSort)
-    meanSwaps_bubbleSortPlus = np.mean(swapsCollected_bubbleSortPlus)
-    stddevSwaps_bubbleSort = np.sqrt(np.var(swapsCollected_bubbleSort))
-    stddevSwaps_bubbleSortPlus = np.sqrt(np.var(swapsCollected_bubbleSortPlus))
-
-    print("\n", "= " * 40, "\n",
-          f"Overall performance ({MEASUREMENTS} measurements):\n",
-          "= " * 40)
-
-    print(f"bubbleSort: {meanExecutionTime_bubbleSort:2.2f} ± "
-          f"{stddevExecutionTime_bubbleSort:-2.2f} seconds")
-    print(f"bubbleSortPlus: {meanExecutionTime_bubbleSortPlus:2.2f} ± "
-          f"{stddevExecutionTime_bubbleSortPlus:-2.2f} seconds")
-    print(f"ratio: {(meanExecutionTime_bubbleSort /
-                     meanExecutionTime_bubbleSortPlus):2.2f}")
-
-    print(f"\nbubbleSort: {meanComparisons_bubbleSort:2.2f} ± "
-          f"{stddevComparisons_bubbleSort:2.2f} comparisons")
-    print(f"bubbleSortPlus: {meanComparisons_bubbleSortPlus:2.2f} ± "
-          f"{stddevComparisons_bubbleSortPlus:2.2f} comparisons")
-    print(f"ratio: {(meanComparisons_bubbleSort /
-                     meanComparisons_bubbleSortPlus ):2.2f}")
-
-    print(f"\nbubbleSort: {meanSwaps_bubbleSort:2.2f} ± "
-          f"{stddevSwaps_bubbleSort:2.2f} swaps")
-    print(f"bubbleSortPlus: {meanSwaps_bubbleSortPlus:2.2f} ± "
-          f"{stddevSwaps_bubbleSortPlus:2.2f} swaps")
-    print(f"ratio: {(meanSwaps_bubbleSort /
-                    meanSwaps_bubbleSortPlus):2.2f}")
-    print("= " * 40)
+        print(f"\nbubbleSort: {meanSwaps_bubbleSort:2.3f} ± "
+              f"{stddevSwaps_bubbleSort:2.3f} swaps")
+        # print(f"{swapsCollected_bubbleSort}")
+        print(f"bubbleSortPlus: {meanSwaps_bubbleSortPlus:2.3f} ± "
+              f"{stddevSwaps_bubbleSortPlus:2.3f} swaps")
+        # print(f"{swapsCollected_bubbleSortPlus}")
+        print(f"ratio: {(meanSwaps_bubbleSort /
+                        meanSwaps_bubbleSortPlus):2.3f}")
+        print("-" * 40)
 
 
 #    # Sort and display once to make verify that the algorithm works
