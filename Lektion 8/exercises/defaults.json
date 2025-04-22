@@ -1,0 +1,11 @@
+{
+    "ball": {
+        "delay": 50,
+        "radius": 20,
+        "speed_max": 7,
+        "speed_min": 1
+    },
+    "simulation": {
+        "duration": 10
+    }
+}
