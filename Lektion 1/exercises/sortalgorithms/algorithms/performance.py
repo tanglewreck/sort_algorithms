@@ -18,7 +18,7 @@ from . bubblesortplus import bubbleSortPlus
 
 def algorithmPerformance(iterations: int = ITERATIONS,
                          algorithm = bubbleSortPlus,
-                         listLength = LIST_LENGTH) -> tuple:
+                         listLength: int = LIST_LENGTH) -> tuple:
     """Simple performance test of the sorting
     algorithm, using the average number of swaps
     and comparisons over a large number of runs as
@@ -28,12 +28,12 @@ def algorithmPerformance(iterations: int = ITERATIONS,
     sumOfComparisons = 0
     for _ in range(iterations):
         # Generate a random list
-        intList = generateRandomList(listLength=listLength)
+        randomList = generateRandomList(listLength=listLength)
         # Sort the list
-        (intList,
+        (randomList,
          numberOfSwaps,
-         numberOfComparisons) = algorithm(intList)
-         # numberOfComparisons) = bubbleSortPlus(intList)
+         numberOfComparisons) = algorithm(randomList)
+         # numberOfComparisons) = bubbleSortPlus(randomList)
 
         # Update sums
         sumOfSwaps += numberOfSwaps
@@ -46,7 +46,7 @@ def algorithmPerformance(iterations: int = ITERATIONS,
 
 
 def sortWrapper(algorithm = bubbleSortPlus,
-                listLength = LIST_LENGTH) -> None:
+                listLength: int = LIST_LENGTH) -> None:
     """Wrapper routine used by the timeIt function"""
     randomList = generateRandomList(listLength=listLength)
     algorithm(randomList)
@@ -54,7 +54,7 @@ def sortWrapper(algorithm = bubbleSortPlus,
 
 def timeIt(timeitIterations: int = TIMEIT_ITERATIONS,
            algorithm = bubbleSortPlus,
-           listLength = LIST_LENGTH) -> None:
+           listLength: int= LIST_LENGTH) -> None:
     """Time main()"""
     f = functools.partial(sortWrapper,
                           algorithm=algorithm,

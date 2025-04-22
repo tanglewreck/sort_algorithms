@@ -13,19 +13,28 @@ NOTE: run with '-O' to get rid of (excessive) output
 
 # pylint: disable=invalid-name
 # pylint: disable=too-many-locals
-### pylint: disable=too-many-statements
+# pylint: disable=too-many-statements
+# pylint: disable=unused-import
 #
 import numpy as np
 import matplotlib.pyplot as plt
 
 from algorithms.performance import timeIt
 from algorithms.performance import algorithmPerformance
-from algorithms.defaults import LIST_LENGTH, MIN, MAX
+from algorithms.defaults import FIG_DIM, FIG_DPI
+from algorithms.defaults import LIST_LENGTH, LIST_LENGTHS
+from algorithms.defaults import MIN, MAX
 from algorithms.defaults import ITERATIONS, TIMEIT_ITERATIONS
 from algorithms.defaults import MEASUREMENTS
 from algorithms.bubblesortplus import bubbleSortPlus
 from algorithms.bubblesort import bubbleSort
+from algorithms.bubblesort import bubbleSort2
+from algorithms.bubblesort import bubbleSort3
 # from algorithms.utils import generateRandomList
+
+# LIST_LENGTHS = np.array([2, 5])
+# LIST_LENGTHS = np.append(LIST_LENGTHS, np.arange(10, 100, 10))
+print(f"LIST_LENGTHS: {LIST_LENGTHS}")
 
 
 def main() -> None:
@@ -125,12 +134,15 @@ Max: {MAX}
 Number of iterations: {ITERATIONS}
 Number of iterations (timeit): {TIMEIT_ITERATIONS}
 Number of measurements: {MEASUREMENTS}""")
+    # 'plot' arrays
     exe_bubbleSort = []
     exe_bubbleSortPlus = []
-    listLengths = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-    listLengths = np.arange(10, 210, 50) # from, to (non-inclusive, step)
+    comp_bubbleSort = []
+    comp_bubbleSortPlus = []
+    swaps_bubbleSort = []
+    swaps_bubbleSortPlus = []
     # Do measurements
-    for listLength in listLengths:
+    for listLength in LIST_LENGTHS:
         # Initialise three lists used for collecting
         # performance data of each run. Later used
         # (see below) for comparing the two algorithms.
@@ -155,8 +167,6 @@ Number of measurements: {MEASUREMENTS}""")
         #   Execution time
         meanExecutionTime_bubbleSort = np.mean(executionTimeCollected_bubbleSort)
         meanExecutionTime_bubbleSortPlus = np.mean(executionTimeCollected_bubbleSortPlus)
-        exe_bubbleSort.append(meanExecutionTime_bubbleSort)
-        exe_bubbleSortPlus.append(meanExecutionTime_bubbleSortPlus)
         stddevExecutionTime_bubbleSort = np.sqrt(
                 np.var(executionTimeCollected_bubbleSort))
         stddevExecutionTime_bubbleSortPlus = np.sqrt(
@@ -178,6 +188,13 @@ Number of measurements: {MEASUREMENTS}""")
         stddevSwaps_bubbleSortPlus = np.sqrt(
                 np.var(swapsCollected_bubbleSortPlus))
 
+        # Save mean values to 'plot' arrays
+        exe_bubbleSort.append(meanExecutionTime_bubbleSort)
+        exe_bubbleSortPlus.append(meanExecutionTime_bubbleSortPlus)
+        comp_bubbleSort.append(meanComparisons_bubbleSort)
+        comp_bubbleSortPlus.append(meanComparisons_bubbleSortPlus)
+        swaps_bubbleSort.append(meanSwaps_bubbleSort)
+        swaps_bubbleSortPlus.append(meanSwaps_bubbleSortPlus)
         #print("-" * 40, "\n",
         #      f"Performance ({MEASUREMENTS} measurements):\n",
         #      "-" * 40, sep="")
@@ -216,14 +233,38 @@ Number of measurements: {MEASUREMENTS}""")
 #    (sortedRandomNumbers, _, _) = bubbleSortPlus(randomNumbers)
 #    print(f"in = {randomNumbers}")
 #    print(f"out = {sortedRandomNumbers}")
-    print(exe_bubbleSort)
-    print(exe_bubbleSortPlus)
-    plt.plot(listLengths, exe_bubbleSort)
-    plt.plot(listLengths, exe_bubbleSortPlus)
-    plt.xlabel('list length')
-    plt.ylabel('execution time (s)')
+
+    # Make plots
+    fig, (exe, comp, swap) = plt.subplots(nrows=1, ncols=3,
+                                        num='performance',
+                                        sharey=False
+                                        )
+    exe.plot(LIST_LENGTHS, exe_bubbleSort)
+    exe.plot(LIST_LENGTHS, exe_bubbleSortPlus)
+    exe.set_xlabel('list length')
+    exe.set_ylabel('execution time (s)')
+    # plt.legend(["bubblesort", "bubblesort+"])
+    # exe.set_xticklabels(LIST_LENGTHS)
+    # plt.show()
+
+
+    comp.plot(LIST_LENGTHS, comp_bubbleSort)
+    comp.plot(LIST_LENGTHS, comp_bubbleSortPlus)
+    comp.set_xlabel('list length')
+    comp.set_ylabel('comparisons')
+    # plt.legend(["bubblesort", "bubblesort+"])
+    # comp.set_xticklabels(LIST_LENGTHS)
+    # plt.show()
+
+    swap.plot(LIST_LENGTHS, swaps_bubbleSort)
+    swap.plot(LIST_LENGTHS, swaps_bubbleSortPlus)
+    swap.set_xlabel('list length')
+    swap.set_ylabel('swaps')
     plt.legend(["bubblesort", "bubblesort+"])
-    plt.xticks(listLengths)
+    # comp.set_xticklabels(LIST_LENGTHS)
+    fig.dpi = FIG_DPI
+    # fig.set(figwidth=3000 / fig.dpi, figheight=1600 / fig.dpi)
+    fig.set(figwidth=FIG_DIM[0], figheight=FIG_DIM[1])
     plt.show()
 
 
