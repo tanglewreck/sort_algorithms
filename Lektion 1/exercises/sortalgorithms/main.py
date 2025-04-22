@@ -16,6 +16,7 @@ NOTE: run with '-O' to get rid of (excessive) output
 ### pylint: disable=too-many-statements
 #
 import numpy as np
+import matplotlib.pyplot as plt
 
 from algorithms.performance import timeIt
 from algorithms.performance import algorithmPerformance
@@ -117,15 +118,19 @@ def main() -> None:
 
 
 
+    # main()
     print(f"""Measuring performance...
-List-length: {LIST_LENGTH}
-MIN: {MIN}
-MAX: {MAX}
+Min: {MIN}
+Max: {MAX}
 Number of iterations: {ITERATIONS}
 Number of iterations (timeit): {TIMEIT_ITERATIONS}
 Number of measurements: {MEASUREMENTS}""")
+    exe_bubbleSort = []
+    exe_bubbleSortPlus = []
+    listLengths = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+    listLengths = np.arange(10, 210, 50) # from, to (non-inclusive, step)
     # Do measurements
-    for listLength in [10, 50, 100, 200]:
+    for listLength in listLengths:
         # Initialise three lists used for collecting
         # performance data of each run. Later used
         # (see below) for comparing the two algorithms.
@@ -150,6 +155,8 @@ Number of measurements: {MEASUREMENTS}""")
         #   Execution time
         meanExecutionTime_bubbleSort = np.mean(executionTimeCollected_bubbleSort)
         meanExecutionTime_bubbleSortPlus = np.mean(executionTimeCollected_bubbleSortPlus)
+        exe_bubbleSort.append(meanExecutionTime_bubbleSort)
+        exe_bubbleSortPlus.append(meanExecutionTime_bubbleSortPlus)
         stddevExecutionTime_bubbleSort = np.sqrt(
                 np.var(executionTimeCollected_bubbleSort))
         stddevExecutionTime_bubbleSortPlus = np.sqrt(
@@ -209,6 +216,15 @@ Number of measurements: {MEASUREMENTS}""")
 #    (sortedRandomNumbers, _, _) = bubbleSortPlus(randomNumbers)
 #    print(f"in = {randomNumbers}")
 #    print(f"out = {sortedRandomNumbers}")
+    print(exe_bubbleSort)
+    print(exe_bubbleSortPlus)
+    plt.plot(listLengths, exe_bubbleSort)
+    plt.plot(listLengths, exe_bubbleSortPlus)
+    plt.xlabel('list length')
+    plt.ylabel('execution time (s)')
+    plt.legend(["bubblesort", "bubblesort+"])
+    plt.xticks(listLengths)
+    plt.show()
 
 
 if __name__ == "__main__":
