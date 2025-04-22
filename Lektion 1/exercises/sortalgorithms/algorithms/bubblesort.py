@@ -16,60 +16,34 @@ __all__ = ["bubbleSort",
            "bubbleSort3",
            "bubbleSortVerbose"]
 
-def bubbleSort(theList: list) -> tuple:
-    """
-    Sort a list of numbers in increasing order using bubblesort.
-
-    Returns a tuple consisting of
-        1. The sorted list
-        2. Number of swaps made during the sorting
-        3. Number of comparisons made
-    """
-    listCopy = theList.copy()
-    done = False
-    numberOfSwaps = 0
-    numberOfComparisons = 0
-    while not done:
-        done = True
-        for index in range(len(listCopy) - 1):
-            numberOfComparisons += 1
-            if listCopy[index] > listCopy[index + 1]:
-                done = False
-                numberOfSwaps += 1
-                (listCopy[index],
-                 listCopy[index + 1]) = (listCopy[index + 1],
-                                            listCopy[index])
-    return (listCopy, numberOfSwaps, numberOfComparisons)
-
-
-def bubbleSort2_2(theList: list) -> tuple:
-    """
-    Sort a list of numbers in increasing order using bubblesort.
-
-    Returns a tuple consisting of
-        1. The sorted list
-        2. Number of swaps made during the sorting
-        3. Number of comparisons made
-    """
-    listCopy = theList.copy()
-    done = False
-    numberOfSwaps = 0
-    numberOfComparisons = 0
-    while not done:
-        done = True
-        for index in range(len(listCopy) - 1):
-            numberOfComparisons += 1
-            if listCopy[index] > listCopy[index + 1]:
-                done = False
-                numberOfSwaps += 1
-                (listCopy[index],
-                 listCopy[index + 1]) = (listCopy[index + 1],
-                                            listCopy[index])
-    return (listCopy, numberOfSwaps, numberOfComparisons)
-
-
 def bubbleSort2(theList: list) -> tuple:
-    """Another bubblesort implementation"""
+    """
+    Sort a list of numbers in increasing order using bubblesort.
+
+    Returns a tuple consisting of
+        1. The sorted list
+        2. Number of swaps made during the sorting
+        3. Number of comparisons made
+    """
+    listCopy = theList.copy()
+    done = False
+    numberOfSwaps = 0
+    numberOfComparisons = 0
+    while not done:
+        done = True
+        for index in range(len(listCopy) - 1):
+            numberOfComparisons += 1
+            if listCopy[index] > listCopy[index + 1]:
+                done = False
+                numberOfSwaps += 1
+                (listCopy[index],
+                 listCopy[index + 1]) = (listCopy[index + 1],
+                                            listCopy[index])
+    return (listCopy, numberOfSwaps, numberOfComparisons)
+
+
+def bubbleSort3(theList: list) -> tuple:
+    """Another bubblesort implementation (slower)"""
     listCopy = theList.copy()
     numberOfSwaps = 0
     numberOfComparisons = 0
@@ -84,7 +58,7 @@ def bubbleSort2(theList: list) -> tuple:
     return (listCopy, numberOfSwaps, numberOfComparisons)
 
 
-def bubbleSort3(theList: list) -> tuple:
+def bubbleSort(theList: list) -> tuple:
     """Another bubblesort implementation"""
     listCopy = theList.copy()
     numberOfSwaps = 0
