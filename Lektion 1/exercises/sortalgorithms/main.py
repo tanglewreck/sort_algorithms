@@ -12,13 +12,9 @@ NOTE: run with '-O' to get rid of (excessive) output
 """
 
 # pylint: disable=invalid-name
-<<<<<<< HEAD
 # pylint: disable=too-many-locals
-### pylint: disable=too-many-statements
-#
-=======
+# pylint: disable=too-many-statements
 
->>>>>>> 55f092e (pylint stuff)
 import numpy as np
 
 from algorithms.performance import timeIt
