@@ -32,6 +32,32 @@ __all__ = ["bubbleSortPlus", "bubbleSortPlusVerbose"]
 
 def bubbleSortPlus(theList: list, reverse = True) -> tuple:
     """
+    foo
+    """
+    listLen: int = len(theList)
+
+    numberOfComparisons = numberOfSwaps = 0
+
+    listCopy = theList.copy()
+
+    for indexOne, _ in enumerate(listCopy):  # outer loop
+        done = True
+        for indexTwo in range(indexOne + 1, listLen):  # inner loop
+            numberOfComparisons += 1
+            if listCopy[indexOne] > listCopy[indexTwo]:
+                listCopy[indexOne], listCopy[indexTwo] = listCopy[indexTwo], listCopy[indexOne]
+                numberOfSwaps += 1
+                done = False
+        if done:
+            break
+
+    if reverse:
+        return (listCopy[::-1], numberOfSwaps, numberOfComparisons)
+    return (listCopy, numberOfSwaps, numberOfComparisons)
+
+
+def bubbleSortPlus2(theList: list, reverse = True) -> tuple:
+    """
     This functions sorts a list of numbers using a modified version
     of bubblesort.
 
@@ -50,7 +76,7 @@ def bubbleSortPlus(theList: list, reverse = True) -> tuple:
 
     # Make a copy of the list and sort this instead of the original
     # so we can compare input and output.
-    listCopy = theList + []
+    listCopy = theList.copy()
 
     # Repeatedly iterate through the list of numbers, compare the first element with
     # the rest of the elements in turn, switching places if the first is larger
@@ -59,29 +85,25 @@ def bubbleSortPlus(theList: list, reverse = True) -> tuple:
     #
     # Since, in each iteration, the smallest number is moved to the head of the
     # list in this way, we can optimise by ignoring those numbers we have
-    # already moved (the 'firstIndex' variable keeps track of this).
+    # already moved.
     #
     # Another way of putting this is that the list elements that are moved to
     # the beginning of the list are all in their correct position, so we can ignore
     # those elements as we progress further down the list.
 
-    # The variable 'firstIndex' is incremented by one with each
-    # iteration of the loop, making the list of numbers
-    # to compare shorter for (almost) every run of the loop.
-    firstIndex = 0
-
     # Forward sort
-    for indexOne in range(0, listLen):
+    # for indexOne in range(0, listLen):  # outer loop
+    # for indexOne in range(len(listCopy)):  # outer loop
+    for indexOne, _ in enumerate(listCopy):  # outer loop
         # If no swaps are made, we're done
         done = True
-        for indexTwo in range(indexOne + 1, listLen):  # loop from indexOne to listLen -1
+        for indexTwo in range(indexOne + 1, listLen):  # inner loop
             numberOfComparisons += 1
             if listCopy[indexOne] > listCopy[indexTwo]:
                 # Make the swap
                 listCopy[indexOne], listCopy[indexTwo] = listCopy[indexTwo], listCopy[indexOne]
                 numberOfSwaps += 1
                 done = False
-        firstIndex += 1
         if done:
             break
 
