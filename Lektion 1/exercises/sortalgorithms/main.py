@@ -58,7 +58,9 @@ Number of iterations: {ITERATIONS}
 Number of iterations (timeit): {TIMEIT_ITERATIONS}
 Number of measurements: {MEASUREMENTS}""")
 
-    for _ in range(MEASUREMENTS):
+    for measurement in range(MEASUREMENTS):
+        if __debug__:
+            print(f"measurement #{measurement}")
 
         # Initialise three lists used for collecting
         # performance data of the algorithms. Later used
