@@ -30,4 +30,4 @@ ITERATIONS = 10
 TIMEIT_ITERATIONS = 100
 # Number of measurements (the number of
 # times to run each test)
-MEASUREMENTS = 100
+MEASUREMENTS = 10
