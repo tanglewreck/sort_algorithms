@@ -16,7 +16,7 @@ MAX = 100
 # Number of iterations while measuring performance
 ITERATIONS = 10
 # Number of iterations using the timeite module
-TIMEIT_ITERATIONS = 1000
+TIMEIT_ITERATIONS = 100
 # Number of measurements (the number of
 # times to run each test)
-MEASUREMENTS = 100
+MEASUREMENTS = 10
