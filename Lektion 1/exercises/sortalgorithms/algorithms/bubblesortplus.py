@@ -32,32 +32,6 @@ __all__ = ["bubbleSortPlus", "bubbleSortPlusVerbose"]
 
 def bubbleSortPlus(theList: list, reverse = True) -> tuple:
     """
-    foo
-    """
-    listLen: int = len(theList)
-
-    numberOfComparisons = numberOfSwaps = 0
-
-    listCopy = theList.copy()
-
-    for indexOne, _ in enumerate(listCopy):  # outer loop
-        done = True
-        for indexTwo in range(indexOne + 1, listLen):  # inner loop
-            numberOfComparisons += 1
-            if listCopy[indexOne] > listCopy[indexTwo]:
-                listCopy[indexOne], listCopy[indexTwo] = listCopy[indexTwo], listCopy[indexOne]
-                numberOfSwaps += 1
-                done = False
-        if done:
-            break
-
-    if reverse:
-        return (listCopy[::-1], numberOfSwaps, numberOfComparisons)
-    return (listCopy, numberOfSwaps, numberOfComparisons)
-
-
-def bubbleSortPlus2(theList: list, reverse = True) -> tuple:
-    """
     This functions sorts a list of numbers using a modified version
     of bubblesort.
 
