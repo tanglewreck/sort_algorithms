@@ -87,7 +87,7 @@ Number of measurements: {MEASUREMENTS}""")
             (meanNumberOfSwaps,
              meanNumberOfComparisons) = algorithmPerformance(
                                                 iterations=ITERATIONS,
-                                                func=sortAlgorithm
+                                                algorithm=sortAlgorithm
             )
             if __debug__:
                 print(f"mean number of swaps: {meanNumberOfSwaps:6.4f}")
