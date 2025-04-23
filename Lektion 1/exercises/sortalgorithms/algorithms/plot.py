@@ -19,7 +19,7 @@ from algorithms.defaults import LIST_LENGTHS
 #from algorithms.performance import algorithm_performance
 #from algorithms.defaults import MIN, MAX
 #from algorithms.defaults import ITERATIONS, TIMEIT_ITERATIONS
-#from algorithms.defaults import MEASUREMENTS
+#from algorithms.defaults import NO_MEASUREMENTS
 #from algorithms.bubblesortplus import bubblesort_plus
 #from algorithms.bubblesort import bubblesort
 #from algorithms.bubblesort import bubblesort_2

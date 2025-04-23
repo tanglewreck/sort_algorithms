@@ -25,7 +25,7 @@ from algorithms.defaults import FIG_DIM, FIG_DPI
 from algorithms.defaults import LIST_LENGTH, LIST_LENGTHS
 from algorithms.defaults import MIN, MAX
 from algorithms.defaults import ITERATIONS, TIMEIT_ITERATIONS
-from algorithms.defaults import MEASUREMENTS
+from algorithms.defaults import NO_MEASUREMENTS
 from algorithms.bubblesortplus import bubblesort_plus
 from algorithms.bubblesort import bubblesort
 from algorithms.bubblesort import bubblesort_2
@@ -49,7 +49,7 @@ def main() -> None:
     """
 
     # Helper function
-    def measurements(no_measurements = MEASUREMENTS,
+    def measurements(no_measurements = NO_MEASUREMENTS,
                      list_length = LIST_LENGTH):
 
         for k in range(no_measurements):
@@ -133,8 +133,8 @@ Min: {MIN}
 Max: {MAX}
 Number of iterations: {ITERATIONS}
 Number of iterations (timeit): {TIMEIT_ITERATIONS}
-Number of measurements: {MEASUREMENTS}""")
-    # 'plot' arrays
+Number of measurements: {NO_MEASUREMENTS}""")
+    # plot-arrays
     exe_bs = []
     exe_bs_plus = []
     comp_bs = []
@@ -147,20 +147,20 @@ Number of measurements: {MEASUREMENTS}""")
         # performance data of each run. Later used
         # (see below) for comparing the two algorithms.
 
-        time_all_bs = np.zeros(MEASUREMENTS)
-        time_all_bs_plus = np.zeros(MEASUREMENTS)
+        time_all_bs = np.zeros(NO_MEASUREMENTS)
+        time_all_bs_plus = np.zeros(NO_MEASUREMENTS)
 
-        comp_all_bs = np.zeros(MEASUREMENTS)
-        comp_all_bs_plus = np.zeros(MEASUREMENTS)
+        comp_all_bs = np.zeros(NO_MEASUREMENTS)
+        comp_all_bs_plus = np.zeros(NO_MEASUREMENTS)
 
-        swaps_all_bs = np.zeros(MEASUREMENTS)
-        swaps_all_bs_plus = np.zeros(MEASUREMENTS)
+        swaps_all_bs = np.zeros(NO_MEASUREMENTS)
+        swaps_all_bs_plus = np.zeros(NO_MEASUREMENTS)
 
         # Collect data, filling the above numpy arrays with data
         print("\n", "-" * 40, sep="")
         print("list_length =", list_length, "\n")
 
-        measurements(no_measurements=MEASUREMENTS,
+        measurements(no_measurements=NO_MEASUREMENTS,
                      list_length=list_length)
 
         #
@@ -184,7 +184,7 @@ Number of measurements: {MEASUREMENTS}""")
         stddev_swaps_bs = np.sqrt(np.var(swaps_all_bs))
         stddev_swaps_bs_plus = np.sqrt(np.var(swaps_all_bs_plus))
 
-        # Save mean values to 'plot' arrays
+        # Save mean values to plot-arrays
         exe_bs.append(mean_time_bs)
         exe_bs_plus.append(mean_time_bs_plus)
         comp_bs.append(mean_comp_bs)
@@ -192,7 +192,7 @@ Number of measurements: {MEASUREMENTS}""")
         swaps_bs.append(mean_swaps_bs)
         swaps_bs_plus.append(mean_swaps_bs_plus)
         #print("-" * 40, "\n",
-        #      f"Performance ({MEASUREMENTS} measurements):\n",
+        #      f"Performance ({NO_MEASUREMENTS} measurements):\n",
         #      "-" * 40, sep="")
 
         print(f"bubbleSort: {mean_time_bs:2.3f} ± "

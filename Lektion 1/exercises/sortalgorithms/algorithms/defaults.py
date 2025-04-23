@@ -6,6 +6,7 @@ performance measurements.
 __all__ = ["ITERATIONS", "TIMEIT_ITERATIONS"]
 __all__ += ["LIST_LENGTH","LIST_LENGTHS", "MIN", "MAX"]
 __all__ += ["FIG_DIM", "FIG_DPI"]
+__all__ += ["NO_MEASUREMENTS"]
 
 import numpy as np
 
@@ -33,4 +34,4 @@ ITERATIONS = 10
 TIMEIT_ITERATIONS = 100
 # Number of measurements (the number of
 # times to run each test)
-MEASUREMENTS = 10
+NO_MEASUREMENTS = 10
