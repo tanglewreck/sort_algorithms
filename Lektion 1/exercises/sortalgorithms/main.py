@@ -61,9 +61,10 @@ def main() -> None:
             # Initialise three lists used for collecting
             # performance data of the algorithms. Later used
             # (see below) for comparing the two algorithms.
-            executionTimes = []
+            exe_time = []
             mean_comp = []
             mean_swaps = []
+            PERF_DATA['exe_time'] = []
 
             # Once for each algorithm,
             # measure the performance
@@ -76,7 +77,7 @@ def main() -> None:
                 # Measure execution time
                 elapsed = time_it(algorithm=sort_algorithm,
                                  list_length=list_length)
-                executionTimes.append(elapsed)
+                exe_time.append(elapsed)
                 if __debug__:
                     print(f"Elapsed = {elapsed:6.4f} seconds ({TIMEIT_ITERATIONS} iterations)")
                 # Measure performance in terms of (mean) number of
@@ -98,11 +99,11 @@ def main() -> None:
 
             # Add data to overall statistics
             #time_all_bs_plus.append(
-            #    executionTimes[0])
+            #    exe_time[0])
             #time_all_bs.append(
-            #    executionTimes[1])
-            time_all_bs_plus[k] = executionTimes[0]
-            time_all_bs[k] = executionTimes[1]
+            #    exe_time[1])
+            time_all_bs_plus[k] = exe_time[0]
+            time_all_bs[k] = exe_time[1]
 
             comp_all_bs_plus[k] = mean_comp[0]
             comp_all_bs[k] = mean_comp[1]
@@ -115,14 +116,14 @@ def main() -> None:
                 print("= " * 40)
                 print("Execution time ratio "
                       f"(bubbleSort / bubblesort_plus): {
-                            (time_all_bs_plus[k] / executionTimes[0]):2.2f}")
-                # (executionTimes[1] / executionTimes[0]):2.2f}")
+                            (time_all_bs_plus[k] / exe_time[0]):2.2f}")
+                # (exe_time[1] / exe_time[0]):2.2f}")
                 print(f"mean number of comparisons ratio "
                       f"(bubbleSort / bubblesort_plus): {
-                            (mean_comp[1] / mean_comp[0]):2.2f}")
+                            (comp_all_bs[k] / comp_all_bs_plus[k]):2.2f}")
                 print("mean number of swaps ratio "
                       f"(bubbleSort / bubblesort_plus): {
-                            (mean_swaps[1] / mean_swaps[0]):2.2f}")
+                            (swaps_all_bs[k] / swaps_all_bs_plus[k]):2.2f}")
                 print("= " * 40)
 
 
