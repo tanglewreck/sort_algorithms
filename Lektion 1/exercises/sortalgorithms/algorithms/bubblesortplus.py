@@ -1,6 +1,8 @@
 # coding: utf-8
 
 """
+    bubblesortplus.py:
+
     Sort a list of numbers in increasing order using
     a modified version of bubblesort.
 
@@ -10,11 +12,11 @@
         3. Number of comparisons made
 """
 
-__all__ = ["bubbleSortPlus", "bubbleSortPlusVerbose"]
+__all__ = ["bubblesort_plus", "bubblesort_plus_verbose"]
 
 # pylint: disable=invalid-name
 
-#def switchPlace(theList: list, positionOne: int, positionTwo: int) -> None:
+#def switchPlace(the_list: list, positionOne: int, positionTwo: int) -> None:
 #    """
 #    Utility function that swaps places of two elements.
 #    The position of the elements are given by the (integer)
@@ -25,12 +27,12 @@ __all__ = ["bubbleSortPlus", "bubbleSortPlusVerbose"]
 #    preserved as a reminder of this.
 #    """
 #    try:
-#        theList[positionOne], theList[positionTwo] = theList[positionTwo], theList[positionOne]
+#        the_list[positionOne], the_list[positionTwo] = the_list[positionTwo], the_list[positionOne]
 #    except IndexError as e:
 #        print(f"Got an IndexError: {e}")
 
 
-def bubbleSortPlus(theList: list, reverse = True) -> tuple:
+def bubblesort_plus(the_list: list, reverse = True) -> tuple:
     """
     This functions sorts a list of numbers using a modified version
     of bubblesort.
@@ -42,15 +44,15 @@ def bubbleSortPlus(theList: list, reverse = True) -> tuple:
 
     """
     # Store the length of the list in a variable, for easy access
-    listLen: int = len(theList)
+    list_len: int = len(the_list)
 
     # We count the number of comparisons and swaps made
-    numberOfComparisons = 0
-    numberOfSwaps = 0
+    no_comp = 0
+    no_swaps = 0
 
     # Make a copy of the list and sort this instead of the original
     # so we can compare input and output.
-    listCopy = theList.copy()
+    list_copy = the_list.copy()
 
     # Repeatedly iterate through the list of numbers, compare the first element with
     # the rest of the elements in turn, switching places if the first is larger
@@ -65,42 +67,44 @@ def bubbleSortPlus(theList: list, reverse = True) -> tuple:
     # the beginning of the list are all in their correct position, so we can ignore
     # those elements as we progress further down the list.
 
+    list_len = len(list_copy)
     # Forward sort
-    # for indexOne in range(0, listLen):  # outer loop
-    # for indexOne in range(len(listCopy)):  # outer loop
-    for indexOne, _ in enumerate(listCopy):  # outer loop
+    # for index_one in range(0, list_len):  # outer loop
+    # for index_one, _ in enumerate(list_copy):  # outer loop
+    for index_one in range(list_len):  # outer loop
         # If no swaps are made, we're done
         done = True
-        for indexTwo in range(indexOne + 1, listLen):  # inner loop
-            numberOfComparisons += 1
-            if listCopy[indexOne] > listCopy[indexTwo]:
+        for index_two in range(index_one + 1, list_len):  # inner loop
+            no_comp += 1
+            if list_copy[index_one] > list_copy[index_two]:
                 # Make the swap
-                listCopy[indexOne], listCopy[indexTwo] = listCopy[indexTwo], listCopy[indexOne]
-                numberOfSwaps += 1
+                (list_copy[index_one],
+                 list_copy[index_two]) = (list_copy[index_two],
+                                          list_copy[index_one])
+                no_swaps += 1
                 done = False
         if done:
             break
 
-
     if reverse:
-        return (listCopy[::-1], numberOfSwaps, numberOfComparisons)
-    return (listCopy, numberOfSwaps, numberOfComparisons)
+        return (list_copy[::-1], no_swaps, no_comp)
+    return (list_copy, no_swaps, no_comp)
 
 
-def bubbleSortPlusVerbose(theList: list) -> tuple:
+def bubblesort_plus_verbose(the_list: list) -> tuple:
     """
     Verbose, otherwise same as above
     """
     # Store the length of the list in a variable, for easy access
-    listLen: int = len(theList)
+    list_len: int = len(the_list)
 
     # We count the number of comparisons and swaps made
-    numberOfComparisons = 0
-    numberOfSwaps = 0
+    no_comp = 0
+    no_swaps = 0
 
     # Make a copy of the list and sort this instead of the original
     # so we can compare input and output.
-    listCopy = theList + []
+    list_copy = the_list + []
 
     # Repeatedly iterate through the list of numbers, compare the first element with
     # the rest of the elements in turn, switching places if the first is larger
@@ -120,24 +124,28 @@ def bubbleSortPlusVerbose(theList: list) -> tuple:
     # to compare shorter for (almost) every run of the loop.
     firstIndex = 0
 
-    for indexOne in range(firstIndex, listLen):
-        print(f"interation: {indexOne} (firstIndex = {firstIndex})")
-        for indexTwo in range(indexOne + 1, listLen):  # loop from indexOne to listLen -1
-            print(f"{listCopy}\t", end="")
+    for index_one in range(firstIndex, list_len):
+        print(f"interation: {index_one} (firstIndex = {firstIndex})")
+        for index_two in range(index_one + 1, list_len):  # loop from index_one to list_len -1
+            print(f"{list_copy}\t", end="")
 
-            numberOfComparisons += 1
-            if listCopy[indexOne] > listCopy[indexTwo]:
-                print(f"---> ({listCopy[indexOne]} > {listCopy[indexTwo]}) swapped  <--- ", end="")
+            no_comp += 1
+            if list_copy[index_one] > list_copy[index_two]:
+                print(f"---> ({list_copy[index_one]} > {list_copy[index_two]}) swapped  <--- ",
+                      end="")
                 # Make the swap
-                listCopy[indexOne], listCopy[indexTwo] = listCopy[indexTwo], listCopy[indexOne]
-                numberOfSwaps += 1
+                (list_copy[index_one],
+                 list_copy[index_two]) = (list_copy[index_two],
+                                          list_copy[index_one])
+                no_swaps += 1
             else:
-                print(f"---> ({listCopy[indexOne]} <= {listCopy[indexTwo]}) no swap  <--- ", end="")
-            print(listCopy)
+                print(f"---> ({list_copy[index_one]} <= {list_copy[index_two]}) "
+                       "no swap  <--- ", end="")
+            print(list_copy)
         print()
         firstIndex += 1
 
-    print(f"Number of comparisons: {numberOfComparisons}")
-    print(f"Number of swaps: {numberOfSwaps}")
+    print(f"Number of comparisons: {no_comp}")
+    print(f"Number of swaps: {no_swaps}")
 
-    return (listCopy, numberOfSwaps, numberOfComparisons)
+    return (list_copy, no_swaps, no_comp)

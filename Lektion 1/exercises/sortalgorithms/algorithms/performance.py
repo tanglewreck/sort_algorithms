@@ -3,62 +3,61 @@ Defines functions used to measure performance
 of sort algorithms.
 """
 
-# pylint: disable=invalid-name
-
-__all__ = ["algorithmPerformance", "sortWrapper", "timeIt"]
+__all__ = ["algorithm_performance", "sort_wrapper", "time_it"]
 
 import functools
 import timeit
 from . defaults import ITERATIONS
 from . defaults import TIMEIT_ITERATIONS
 from . defaults import LIST_LENGTH
-from . utils import generateRandomList
-from . bubblesortplus import bubbleSortPlus
+from . utils import generate_random_list
+from . bubblesortplus import bubblesort_plus
 # from . bubblesort import bubbleSort
 
-def algorithmPerformance(iterations: int = ITERATIONS,
-                         algorithm = bubbleSortPlus,
-                         listLength: int = LIST_LENGTH) -> tuple:
+def algorithm_performance(iterations: int = ITERATIONS,
+                         algorithm = bubblesort_plus,
+                         list_length: int = LIST_LENGTH) -> tuple:
     """Simple performance test of the sorting
     algorithm, using the average number of swaps
     and comparisons over a large number of runs as
     indicators of efficiency."""
 
-    sumOfSwaps = 0
-    sumOfComparisons = 0
+    sum_swaps = 0
+    sum_comparisons = 0
     for _ in range(iterations):
-        # Generate a random list
-        randomList = generateRandomList(listLength=listLength)
+        # Generate a random list (using np.random.randint())
+        random_list = generate_random_list(list_length=list_length)
         # Sort the list
-        (randomList,
-         numberOfSwaps,
-         numberOfComparisons) = algorithm(randomList)
-         # numberOfComparisons) = bubbleSortPlus(randomList)
+        (random_list,
+         no_swaps,
+         no_comparisons) = algorithm(random_list)
+         # no_comparisons) = bubblesort_plus(random_list)
 
         # Update sums
-        sumOfSwaps += numberOfSwaps
-        sumOfComparisons += numberOfComparisons
+        sum_swaps += no_swaps
+        sum_comparisons += no_comparisons
 
-    meanNumberOfSwaps = sumOfSwaps / iterations
-    meanNumberOfComparisons = sumOfComparisons / iterations
+    mean_swaps = sum_swaps / iterations
+    mean_comparisons = sum_comparisons / iterations
 
-    return (meanNumberOfSwaps, meanNumberOfComparisons)
-
-
-def sortWrapper(algorithm = bubbleSortPlus,
-                listLength: int = LIST_LENGTH) -> None:
-    """Wrapper routine used by the timeIt function"""
-    randomList = generateRandomList(listLength=listLength)
-    algorithm(randomList)
+    return (mean_swaps, mean_comparisons)
 
 
-def timeIt(timeitIterations: int = TIMEIT_ITERATIONS,
-           algorithm = bubbleSortPlus,
-           listLength: int= LIST_LENGTH) -> None:
-    """Time main()"""
-    f = functools.partial(sortWrapper,
+def sort_wrapper(algorithm = bubblesort_plus,
+                list_length: int = LIST_LENGTH) -> None:
+    """Wrapper routine used by the time_it function"""
+    random_list = generate_random_list(list_length=list_length)
+    algorithm(random_list)
+
+
+def time_it(timeit_iterations: int = TIMEIT_ITERATIONS,
+           algorithm = bubblesort_plus,
+           list_length: int= LIST_LENGTH) -> None:
+    """measure execution time (elapsed) using the
+    timeit module"""
+    f = functools.partial(sort_wrapper,
                           algorithm=algorithm,
-                          listLength=listLength)
+                          list_length=list_length)
     t = timeit.Timer(f)
-    elapsed = t.timeit(timeitIterations)
+    elapsed = t.timeit(timeit_iterations)
     return elapsed

@@ -5,7 +5,7 @@ Utilities
 
 # pylint: disable=invalid-name
 
-__all__ = ["generateRandomList",
+__all__ = ["generate_random_list",
            "debug_msg",
            "err_msg",
            "sys_msg"]
@@ -18,14 +18,14 @@ import numpy as np
 from . defaults import LIST_LENGTH, MIN, MAX
 
 
-def generateRandomList(minimum:int = MIN,
+def generate_random_list(minimum:int = MIN,
                        maximum:int = MAX,
-                       listLength:int = LIST_LENGTH) -> list:
+                       list_length:int = LIST_LENGTH) -> list:
     """
     Generate a list of random integers btw min and max, inclusive.
     """
     try:
-        return [int(n) for n in np.random.randint(minimum, maximum, listLength)]
+        return [int(n) for n in np.random.randint(minimum, maximum, list_length)]
     except ValueError as e:
         print(e)
         raise SystemExit(1) from e
@@ -33,7 +33,7 @@ def generateRandomList(minimum:int = MIN,
 
 def getCommandLineArguments(minimum: int = MIN,
                             maximum: int = MAX,
-                            listLength: int = LIST_LENGTH) -> tuple:
+                            list_length: int = LIST_LENGTH) -> tuple:
     """
     Get commandline arguments using sys.argv (instead of using the
     argparse module).
@@ -49,7 +49,7 @@ def getCommandLineArguments(minimum: int = MIN,
             # No commandline arguments
             (minimum,
              maximum,
-             listLength) = (MIN, MAX, LIST_LENGTH)
+             list_length) = (MIN, MAX, LIST_LENGTH)
         elif len(sys.argv) == 2:
             # One commandline argument
             minimum = int(sys.argv[1])
@@ -61,7 +61,7 @@ def getCommandLineArguments(minimum: int = MIN,
             # Three commandline arguments
             (minimum,
              maximum,
-             listLength)  = [int(arg) for arg in sys.argv[1:]]
+             list_length)  = [int(arg) for arg in sys.argv[1:]]
     except ValueError as e:
         print(f"Got a ValueError: {e}", file=sys.stderr)
         raise SystemExit(1) from e
@@ -74,16 +74,16 @@ def getCommandLineArguments(minimum: int = MIN,
               Usage: {sys.argv[0]}<min> <max> <N>
         """))
         (minimum, maximum) = (maximum, minimum)
-    if (maximum - minimum ) < (listLength - 1):
+    if (maximum - minimum ) < (list_length - 1):
         print(f"Distance between minimum ({minimum}) and maximum ({maximum}) "
                "is less than the numbers of numbers to "
-               f"generate (default: {N}).")
+               f"generate (default: {list_length}).")
         raise SystemExit(1)
 
     if __debug__:
-        print(f"min, max, listLength = {minimum}, {maximum}, {listLength}")
+        print(f"min, max, list_length = {minimum}, {maximum}, {list_length}")
 
-    return (minimum, maximum, listLength)
+    return (minimum, maximum, list_length)
 
 
 def debug_msg(*args, end="\n"):
@@ -114,5 +114,3 @@ def sys_msg(*args, end="\n"):
     if caller == "<module>":
         caller = "main"
     sys.stdout.write(f"({caller}) {msg}{end}")
-
-
