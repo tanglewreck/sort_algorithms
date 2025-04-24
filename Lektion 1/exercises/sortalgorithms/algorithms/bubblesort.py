@@ -15,7 +15,7 @@ __all__ = ["bubblesort",
            "bubblesort_3",
            "bubblesort_verbose"]
 
-def bubblesort(the_list: list) -> tuple:
+def bubblesort_2(the_list: list, reverse = False) -> tuple:
     """
     Sort a list of numbers in increasing order using bubblesort.
 
@@ -38,10 +38,13 @@ def bubblesort(the_list: list) -> tuple:
                 (list_copy[index],
                  list_copy[index + 1]) = (list_copy[index + 1],
                                             list_copy[index])
-    return (list_copy, no_swaps, no_comp)
+    if reverse:
+        return (list_copy[::-1], no_comp, no_swaps)
+    return (list_copy, no_comp, no_swaps)
 
 
-def bubblesort_3(the_list: list) -> tuple:
+
+def bubblesort(the_list: list, reverse = False) -> tuple:
     """Another bubblesort implementation (slower)"""
     list_copy = the_list.copy()
     no_swaps = 0
@@ -54,10 +57,12 @@ def bubblesort_3(the_list: list) -> tuple:
                 (list_copy[index],
                  list_copy[index + 1]) = (list_copy[index + 1],
                                       list_copy[index])
-    return (list_copy, no_swaps, no_comp)
+    if reverse:
+        return (list_copy[::-1], no_comp, no_swaps)
+    return (list_copy, no_comp, no_swaps)
 
 
-def bubblesort_2(the_list: list) -> tuple:
+def bubblesort_3(the_list: list, reverse = False) -> tuple:
     """Another bubblesort implementation"""
     list_copy = the_list.copy()
     no_swaps = 0
@@ -70,7 +75,9 @@ def bubblesort_2(the_list: list) -> tuple:
                 (list_copy[index_one],
                  list_copy[index_two]) = (list_copy[index_two],
                                       list_copy[index_one])
-    return (list_copy, no_swaps, no_comp)
+    if reverse:
+        return (list_copy[::-1], no_comp, no_swaps)
+    return (list_copy, no_comp, no_swaps)
 
 
 def bubblesort_verbose(the_list: list) -> tuple:
@@ -102,4 +109,4 @@ def bubblesort_verbose(the_list: list) -> tuple:
     print(f"Number of comparisons: {no_comp}")
     print(f"Number of swaps: {no_swaps}")
 
-    return (list_copy, no_swaps, no_comp)
+    return (list_copy, no_comp, no_swaps)
