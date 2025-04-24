@@ -8,8 +8,8 @@
 
     Returns a tuple consisting of
         1. The sorted list
-        2. Number of swaps made during the sorting
-        3. Number of comparisons made
+        2. Number of comparisons made
+        3. Number of swaps made during the sorting
 """
 
 __all__ = ["bubblesort_plus", "bubblesort_plus_verbose"]
@@ -32,7 +32,7 @@ __all__ = ["bubblesort_plus", "bubblesort_plus_verbose"]
 #        print(f"Got an IndexError: {e}")
 
 
-def bubblesort_plus(the_list: list, reverse = True) -> tuple:
+def bubblesort_plus(the_list: list, reverse = False) -> tuple:
     """
     This functions sorts a list of numbers using a modified version
     of bubblesort.
@@ -87,8 +87,8 @@ def bubblesort_plus(the_list: list, reverse = True) -> tuple:
             break
 
     if reverse:
-        return (list_copy[::-1], no_swaps, no_comp)
-    return (list_copy, no_swaps, no_comp)
+        return (list_copy[::-1], no_comp, no_swaps)
+    return (list_copy, no_comp, no_swaps)
 
 
 def bubblesort_plus_verbose(the_list: list) -> tuple:
@@ -148,4 +148,4 @@ def bubblesort_plus_verbose(the_list: list) -> tuple:
     print(f"Number of comparisons: {no_comp}")
     print(f"Number of swaps: {no_swaps}")
 
-    return (list_copy, no_swaps, no_comp)
+    return (list_copy, no_comp, no_swaps)
