@@ -6,16 +6,14 @@
     python -O bubblesort.py
 
 """
-# pylint: disable=too-many-locals
 # pylint: disable=consider-using-enumerate
-### pylint: disable=too-many-statements
 
 __all__ = ["bubblesort",
            "bubblesort_2",
-           "bubblesort_3",
-           "bubblesort_verbose"]
+           "bubblesort_3"]
 
-def bubblesort_2(the_list: list, reverse = False) -> tuple:
+
+def bubblesort_2(the_list: list, reverse: bool = False) -> tuple:
     """
     Sort a list of numbers in increasing order using bubblesort.
 
@@ -37,14 +35,13 @@ def bubblesort_2(the_list: list, reverse = False) -> tuple:
                 no_swaps += 1
                 (list_copy[index],
                  list_copy[index + 1]) = (list_copy[index + 1],
-                                            list_copy[index])
+                                          list_copy[index])
     if reverse:
         return (list_copy[::-1], no_comp, no_swaps)
     return (list_copy, no_comp, no_swaps)
 
 
-
-def bubblesort(the_list: list, reverse = False) -> tuple:
+def bubblesort(the_list: list, reverse: bool = False) -> tuple:
     """Another bubblesort implementation (slower)"""
     list_copy = the_list.copy()
     no_swaps = 0
@@ -56,13 +53,13 @@ def bubblesort(the_list: list, reverse = False) -> tuple:
                 no_swaps += 1
                 (list_copy[index],
                  list_copy[index + 1]) = (list_copy[index + 1],
-                                      list_copy[index])
+                                          list_copy[index])
     if reverse:
         return (list_copy[::-1], no_comp, no_swaps)
     return (list_copy, no_comp, no_swaps)
 
 
-def bubblesort_3(the_list: list, reverse = False) -> tuple:
+def bubblesort_3(the_list: list, reverse: bool = False) -> tuple:
     """Another bubblesort implementation"""
     list_copy = the_list.copy()
     no_swaps = 0
@@ -74,39 +71,7 @@ def bubblesort_3(the_list: list, reverse = False) -> tuple:
                 no_swaps += 1
                 (list_copy[index_one],
                  list_copy[index_two]) = (list_copy[index_two],
-                                      list_copy[index_one])
+                                          list_copy[index_one])
     if reverse:
         return (list_copy[::-1], no_comp, no_swaps)
-    return (list_copy, no_comp, no_swaps)
-
-
-def bubblesort_verbose(the_list: list) -> tuple:
-    """Bubblesort"""
-    list_copy = the_list + []
-    done = False
-    no_swaps = 0
-    no_comp = 0
-    iteration = 1
-    while not done:
-        done = True
-        print(f"iteration: {iteration}")
-        for index in range(len(list_copy) - 1):
-            no_comp += 1
-            print(f"index: {index}:")
-            print(f"{list_copy} ", end="")
-            if list_copy[index] > list_copy[index + 1]:
-                done = False
-                no_swaps += 1
-                print(f"---> ({index} > {index + 1}) swapped  <--- {list_copy}")
-                (list_copy[index],
-                 list_copy[index + 1]) = (list_copy[index + 1],
-                                            list_copy[index])
-            else:
-                print(f"---> ({index} <= {index + 1}) no swap <--- {list_copy}")
-        print()
-        iteration += 1
-
-    print(f"Number of comparisons: {no_comp}")
-    print(f"Number of swaps: {no_swaps}")
-
     return (list_copy, no_comp, no_swaps)

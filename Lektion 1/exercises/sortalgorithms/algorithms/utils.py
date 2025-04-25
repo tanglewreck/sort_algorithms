@@ -1,6 +1,6 @@
 """
 2025-02-19
-Utilities 
+Utilities
 """
 
 # pylint: disable=invalid-name
@@ -18,14 +18,17 @@ import numpy as np
 from . defaults import LIST_LENGTH, MIN, MAX
 
 
-def generate_random_list(minimum:int = MIN,
-                       maximum:int = MAX,
-                       list_length:int = LIST_LENGTH) -> list:
+def generate_random_list(minimum: int = MIN,
+                         maximum: int = MAX,
+                         list_length: int = LIST_LENGTH) -> list:
     """
     Generate a list of random integers btw min and max, inclusive.
     """
     try:
-        return [int(n) for n in np.random.randint(minimum, maximum, list_length)]
+        return [int(n)
+                for n in np.random.randint(minimum,
+                                           maximum,
+                                           list_length)]
     except ValueError as e:
         print(e)
         raise SystemExit(1) from e
@@ -56,12 +59,12 @@ def getCommandLineArguments(minimum: int = MIN,
         elif len(sys.argv) == 3:
             # Two commandline arguments
             (minimum,
-             maximum)  = [int(arg) for arg in sys.argv[1:]]
+             maximum) = [int(arg) for arg in sys.argv[1:]]
         elif len(sys.argv) == 4:
             # Three commandline arguments
             (minimum,
              maximum,
-             list_length)  = [int(arg) for arg in sys.argv[1:]]
+             list_length) = [int(arg) for arg in sys.argv[1:]]
     except ValueError as e:
         print(f"Got a ValueError: {e}", file=sys.stderr)
         raise SystemExit(1) from e
@@ -74,10 +77,10 @@ def getCommandLineArguments(minimum: int = MIN,
               Usage: {sys.argv[0]}<min> <max> <N>
         """))
         (minimum, maximum) = (maximum, minimum)
-    if (maximum - minimum ) < (list_length - 1):
+    if (maximum - minimum) < (list_length - 1):
         print(f"Distance between minimum ({minimum}) and maximum ({maximum}) "
-               "is less than the numbers of numbers to "
-               f"generate (default: {list_length}).")
+              f"is less than the numbers of numbers to "
+              f"generate (default: {list_length}).")
         raise SystemExit(1)
 
     if __debug__:

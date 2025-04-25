@@ -5,17 +5,17 @@
     of sort algorithms.
 """
 
-__all__ = ["algorithm_performance",
-           "do_measurements",
-           "time_it"]
-
 import functools
 import timeit
 import numpy as np
 from . utils import generate_random_list
 from . defaults import ITERATIONS
 from . defaults import TIMEIT_ITERATIONS
-# from . defaults import TIMEIT_REPEAT
+
+__all__ = ["algorithm_performance",
+           "do_measurements",
+           "time_it"]
+
 
 def algorithm_performance(algorithm,
                           iterations: int,
@@ -27,7 +27,7 @@ def algorithm_performance(algorithm,
       generated lists of interger (of length list_length)
     - algorithm: a function that takes a list to be sorted as argument
     - list_length: number of integers to generate for each run
-    - returns mean and stddev of number of comparisons and swaps 
+    - returns mean and stddev of number of comparisons and swaps
     """
 
     # Initialise data-structures
@@ -67,21 +67,24 @@ def sort_wrapper(algorithm, list_length: int) -> None:
 def time_it(algorithm,
             timeit_repeat: int,
             timeit_iterations: int,
-            list_length: int) -> None:
+            list_length: int) -> tuple:
     """measure execution time (elapsed) using timeit.repeat()"""
     f = functools.partial(sort_wrapper,
                           algorithm=algorithm,
                           list_length=list_length)
     t = timeit.Timer(f)
     times = t.repeat(repeat=timeit_repeat, number=timeit_iterations)
-    return np.mean(times), np.sqrt(np.var(times))
+    return (np.mean(times), np.sqrt(np.var(times)))
 
 
-def do_measurements(algorithm, list_length, iterations,
-                    timeit_repeat, timeit_iterations):
+def do_measurements(algorithm,
+                    list_length: int,
+                    iterations: int,
+                    timeit_repeat: int,
+                    timeit_iterations: int) -> tuple:
     """do_measurements():
 
-        returns three dictionaries, elapsed, comp, swaps, 
+        returns three dictionaries, elapsed, comp, swaps,
         each with the keys 'mean' and 'stddev'.
     """
     if __debug__:
@@ -103,13 +106,16 @@ def do_measurements(algorithm, list_length, iterations,
                                   list_length=list_length)
     # Measure performance in terms of (mean) number of
     # swaps and (mean) number of comparisons
-    (comp['mean'], swaps['mean'],
-     comp['stddev'], swaps['stddev']) = algorithm_performance(algorithm=algorithm,
-                                                             iterations=iterations,
-                                                             list_length=list_length)
+    (comp['mean'],
+     swaps['mean'],
+     comp['stddev'],
+     swaps['stddev']) = algorithm_performance(algorithm=algorithm,
+                                              iterations=iterations,
+                                              list_length=list_length)
     if __debug__:
         print(f"Elapsed = {elapsed['mean']:6.4f} "
-              f"± {elapsed['stddev']:6.4f} seconds ({TIMEIT_ITERATIONS} iterations)")
+              f"± {elapsed['stddev']:6.4f} seconds"
+              f"({TIMEIT_ITERATIONS} iterations)")
         print(f"Comparisons: {comp['mean']:6.4f} "
               f"± {comp['stddev']:6.4f} ({ITERATIONS} iterations)")
         print(f"Swaps: {swaps['mean']:6.4f} "
