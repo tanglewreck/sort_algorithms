@@ -1,20 +1,22 @@
 #!/usr/bin/env python
 
 """
+SYNOPSIS
+python [-O] sortperf.py
+
+DESCRIPTION
+Measure performance of sorting algorithms.
+
+DATE
 2025-02-19
-sortalgorithms.py
 
-Uses bubblesort and a modified version
-of that algorithm to sort lists of numbers.
-
-NOTE: run with '-O' to get rid of (excessive) output
+NOTE: run with '-O' to get rid of excessive output
 
 """
 
 
 import matplotlib.pyplot as plt
 
-from algorithms.performance import do_measurements
 from algorithms.defaults import ALGORITHMS
 from algorithms.defaults import CATEGORIES
 from algorithms.defaults import FIG_DIM, FIG_DPI
@@ -22,6 +24,7 @@ from algorithms.defaults import LIST_LENGTHS
 from algorithms.defaults import ITERATIONS
 from algorithms.defaults import TIMEIT_ITERATIONS
 from algorithms.defaults import TIMEIT_REPEAT
+from algorithms.performance import do_measurements
 from algorithms.bubblesort import bubblesort
 from algorithms.bubblesortplus import bubblesort_plus
 # from algorithms.bubblesort import bubblesort_2
