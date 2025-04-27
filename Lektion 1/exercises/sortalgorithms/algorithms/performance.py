@@ -45,10 +45,14 @@ def algorithm_performance(algorithm,
         comparisons[k] = no_comparisons
 
     # Compute and return means and standard deviations
-    mean_comparisons = np.mean(comparisons)
-    mean_swaps = np.mean(swaps)
-    stddev_comparisons = np.sqrt(np.var(comparisons))
-    stddev_swaps = np.sqrt(np.var(swaps))
+    # mean_comparisons = np.mean(comparisons)
+    # mean_swaps = np.mean(swaps)
+    # stddev_comparisons = np.sqrt(np.var(comparisons))
+    # stddev_swaps = np.sqrt(np.var(swaps))
+    mean_comparisons = comparisons.mean()
+    mean_swaps = swaps.mean()
+    stddev_comparisons = comparisons.std()
+    stddev_swaps = swaps.std()
 
     if __debug__:
         print(f"list_length: {list_length}")

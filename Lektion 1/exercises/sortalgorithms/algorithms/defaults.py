@@ -43,6 +43,7 @@ LIST_LENGTHS = np.array(list(range(10, 100, 10)) +
                         list(range(600, 1200, 200)) +
                         [1500, 2000]
                         )
+LIST_LENGTHS = np.array(list(range(10, 100, 10)))
 # Min size of a number
 MIN = 1
 # Max size of a number

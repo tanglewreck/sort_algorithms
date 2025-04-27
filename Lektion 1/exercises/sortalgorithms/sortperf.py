@@ -15,6 +15,7 @@ NOTE: run with '-O' to get rid of excessive output
 """
 
 # pylint: disable=unused-import
+# pylint: disable=consider-using-dict-items
 
 import time
 import matplotlib.pyplot as plt
@@ -77,7 +78,8 @@ def main() -> None:
     time.sleep(1)
 
     # Print results
-    for algo in ALGORITHMS:
+    # for algo in ALGORITHMS:
+    for algo in data:
         print("=" * 40, sep="")
         print(f"algorithm: {data[algo]['algorithm']}")
         print("=" * 40, sep="")
@@ -93,6 +95,8 @@ def main() -> None:
     # Plot results
     do_plots(data, categories)
 
+    return data
+
 
 if __name__ == "__main__":
-    main()
+    perfdata = main()
