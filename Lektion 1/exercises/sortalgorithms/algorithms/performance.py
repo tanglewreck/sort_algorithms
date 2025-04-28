@@ -11,10 +11,32 @@ import numpy as np
 from . utils import generate_random_list
 from . defaults import ITERATIONS
 from . defaults import TIMEIT_ITERATIONS
+from . defaults import TIMEIT_REPEAT
 
-__all__ = ["algorithm_performance",
+__all__ = ["algorithm_perf",
+           "algorithm_performance",
            "do_measurements",
            "time_it"]
+
+
+def algorithm_perf(algorithm, list_length):
+    """sort list using an algorithm, 
+    return (# comparisons, # swaps)"""
+    elapsed = []
+    comps = []
+    swaps = []
+    for _ in range(ITERATIONS):
+        random_list = generate_random_list(list_length=list_length)
+        (_, no_comps, no_swaps) = algorithm(random_list)
+        comps.append(no_comps)
+        swaps.append(no_swaps)
+
+        (elapsed_mean, _) = time_it(algorithm=algorithm,
+                                    timeit_repeat=TIMEIT_REPEAT,
+                                    timeit_iterations=TIMEIT_ITERATIONS,
+                                    list_length=list_length)
+        elapsed.append(elapsed_mean)
+    return (np.mean(elapsed), np.mean(comps), np.mean(swaps))
 
 
 def algorithm_performance(algorithm,

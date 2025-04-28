@@ -50,9 +50,9 @@ MIN = 1
 MAX = 100
 # Number of iterations while measuring performance (comparisons, swaps)
 # ITERATIONS = 200
-ITERATIONS = 5
+ITERATIONS = 2
 # Number of iterations using the timeite module
 # TIMEIT_ITERATIONS = 20
 # TIMEIT_REPEAT = 20
-TIMEIT_ITERATIONS = 2
-TIMEIT_REPEAT = 20
+TIMEIT_ITERATIONS = 10
+TIMEIT_REPEAT = 5

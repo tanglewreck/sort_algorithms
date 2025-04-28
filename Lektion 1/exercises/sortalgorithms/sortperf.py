@@ -19,6 +19,9 @@ NOTE: run with '-O' to get rid of excessive output
 
 import time
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from pandas import DataFrame, Series
 
 from algorithms.defaults import ALGORITHMS
 from algorithms.defaults import FIG_DIM, FIG_DPI
@@ -28,6 +31,7 @@ from algorithms.defaults import TIMEIT_ITERATIONS
 from algorithms.defaults import TIMEIT_REPEAT
 
 from algorithms.performance import do_measurements
+from algorithms.performance import algorithm_perf
 from algorithms.plot import do_plots
 
 
@@ -76,6 +80,46 @@ def main() -> None:
         print("done")
     print()
     time.sleep(1)
+
+    # Collect data into a dictionary consisting of equal length
+    # lists for algorithm, list-length, elapsed, comps, and swaps
+    perf_data = {}
+    for algo in ALGORITHMS:
+        for list_length in LIST_LENGTHS:
+            (elapsed, comps, swaps) = algorithm_perf(algo, list_length)
+
+            # Append
+            perf_data.setdefault('algorithm', []).append(algo.__name__)
+            perf_data.setdefault('list_length', []).append(list_length)
+            perf_data.setdefault('elapsed', []).append(elapsed)
+            perf_data.setdefault('comps', []).append(comps)
+            perf_data.setdefault('swaps', []).append(swaps)
+    np.set_printoptions(precision=4, suppress=True)
+    
+    # Create a dataframe from the performance data
+    df = DataFrame(perf_data,
+                           columns=["algorithm",
+                                    "list_length",
+                                   "elapsed",
+                                   "comps",
+                                   "swaps"])
+    print("df:")
+    print(df)
+    # print()
+    # print(df["algorithm"])
+    # print("bubblesort elapsed")
+    # print(df.loc[df.algorithm == "bubblesort", "elapsed"])
+    # print()
+    for algo in ALGORITHMS:
+        print(f"algorithm: {algo.__name__}")
+        for list_length in LIST_LENGTHS:
+            d = df.loc[df.algorithm == algo.__name__].loc[
+                       df.list_length == list_length,
+                       "comps"]
+            print(f"comps mean ({list_length}): "
+                  f"{d.mean()} ± {d.std()}")
+        print()
+    quit()
 
     # Print results
     # for algo in ALGORITHMS:
