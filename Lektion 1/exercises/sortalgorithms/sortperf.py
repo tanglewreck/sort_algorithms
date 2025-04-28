@@ -119,7 +119,6 @@ def main() -> None:
             print(f"comps mean ({list_length}): "
                   f"{d.mean()} ± {d.std()}")
         print()
-    quit()
 
     # Print results
     # for algo in ALGORITHMS:
