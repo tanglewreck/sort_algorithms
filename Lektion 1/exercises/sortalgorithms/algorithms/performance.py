@@ -145,7 +145,7 @@ def do_measurements(algorithm,
         print(f"Comparisons: {comp['mean']:6.4f} "
               f"± {comp['stddev']:6.4f} ({ITERATIONS} iterations)")
         print(f"Swaps: {swaps['mean']:6.4f} "
-              "± {swaps['stddev']:6.4f} ({ITERATIONS} iterations")
+              f"± {swaps['stddev']:6.4f} ({ITERATIONS} iterations)")
         print("Done.")
         print("")
 
