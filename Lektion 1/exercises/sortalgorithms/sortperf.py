@@ -128,7 +128,7 @@ def main() -> None:
     plt.plot(LIST_LENGTHS, [df_means.loc[df_means.length==L].means for L in LIST_LENGTHS])
     plt.legend([algo.__name__ for algo in ALGORITHMS])
     plt.ylabel("elapsed (ms)")
-    plt.xlabel("list lengths")
+    plt.xlabel("list length")
     plt.show()
     # print(df_means)
     # elapsed_data
