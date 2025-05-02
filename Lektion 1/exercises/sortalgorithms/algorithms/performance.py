@@ -13,10 +13,32 @@ from . defaults import ITERATIONS
 from . defaults import TIMEIT_ITERATIONS
 from . defaults import TIMEIT_REPEAT
 
-__all__ = ["algorithm_perf",
+__all__ = ["algo_perf",
+           "algorithm_perf",
            "algorithm_performance",
            "do_measurements",
-           "time_it"]
+           "time_it",
+           "time_it_full"]
+
+
+def algo_perf(algorithm, list_length):
+    """sort list using an algorithm, 
+    return (# comparisons, # swaps)"""
+    elapsed = []
+    comps = []
+    swaps = []
+    for _ in range(ITERATIONS):
+        random_list = generate_random_list(list_length=list_length)
+
+        (_, no_comps, no_swaps) = algorithm(random_list)
+        comps.append(no_comps)
+        swaps.append(no_swaps)
+
+        elapsed = time_it_full(algorithm=algorithm,
+                                    timeit_repeat=TIMEIT_REPEAT,
+                                    timeit_iterations=TIMEIT_ITERATIONS,
+                                    list_length=list_length)
+    return (elapsed, comps, swaps)
 
 
 def algorithm_perf(algorithm, list_length):
@@ -42,7 +64,7 @@ def algorithm_perf(algorithm, list_length):
 def algorithm_performance(algorithm,
                           iterations: int,
                           list_length: int) -> tuple:
-    """Performance test of a sorting algorithm in terms of
+    """Performance test of a sorting algorithm in terms 
     number of comparisons and swaps.
 
     - iterations: number of times to execute the algorithm on randomly
@@ -101,6 +123,19 @@ def time_it(algorithm,
     t = timeit.Timer(f)
     times = t.repeat(repeat=timeit_repeat, number=timeit_iterations)
     return (np.mean(times), np.sqrt(np.var(times)))
+
+
+def time_it_full(algorithm,
+                 timeit_repeat: int,
+                 timeit_iterations: int,
+                 list_length: int) -> tuple:
+    """measure execution time (elapsed) using timeit.repeat()"""
+    f = functools.partial(sort_wrapper,
+                          algorithm=algorithm,
+                          list_length=list_length)
+    t = timeit.Timer(f)
+    times = t.repeat(repeat=timeit_repeat, number=timeit_iterations)
+    return times
 
 
 def do_measurements(algorithm,
