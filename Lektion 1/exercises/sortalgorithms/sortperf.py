@@ -17,7 +17,11 @@ NOTE: run with '-O' to get rid of excessive output
 # pylint: disable=unused-import
 # pylint: disable=consider-using-dict-items
 
+__all__ = ["sortperf"]
+
 import time
+
+import ipdb
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -39,72 +43,86 @@ from algorithms.plot import do_plots
 from algorithms.bubblesort import bubblesort
 from algorithms.bubblesortplus import bubblesort_plus
 
-def main() -> None:
+def sortperf() -> None:
     """
     Measure execution time, mean number of comparisons
     and mean number of swaps of sort algorithms.
     """
+    def collect_elapsed():
+        # Create a list used to contain pd.DataFrame's
+        dfs = []
+        for algo in ALGORITHMS:
+            for length in LIST_LENGTHS:
+                # Initialise data dict
+                elapsed_data = {'algorithm': np.repeat(algo.__name__,
+                                                       TIMEIT_REPEAT),
+                                'length': np.repeat(length,
+                                                    TIMEIT_REPEAT)}
+                # Measure execution time, using time_it_full() which
+                # returns a list of floats of length TIMEIT_REPEAT.
+                # Add the returned list to the data dict (column-name:
+                # "elapsed").
+                elapsed = np.array(time_it_full(algorithm=algo,
+                                       timeit_repeat=TIMEIT_REPEAT,
+                                       timeit_iterations=TIMEIT_ITERATIONS,
+                                       list_length=length))
+                elapsed_data['elapsed'] = elapsed
+                # Convert the data-dict to a DataFrame and append
+                # to the list of dataframes.
+                df = DataFrame(elapsed_data,
+                               columns=["algorithm",
+                                        "length",
+                                        "elapsed"])
+                dfs.append(df)
 
+        # Concatenate the list of dataframes into one
+        df = pd.concat(dfs, ignore_index=True)
+        return df
+
+
+
+    # Print some info about this run.
     print(f"Number of iterations: {ITERATIONS} \n"
           f"Number of iterations (timeit): {TIMEIT_ITERATIONS}\n"
           f"Number of repeats (timeit): {TIMEIT_REPEAT}\n"
           f"List lengths: {[int(k) for k in list(LIST_LENGTHS)]}\n")
     print("Algorithms:")
     for algo in ALGORITHMS:
-        print(algo.__name__)
+        print(f"\t{algo.__name__}")
     print()
 
-#    def measure_elpased(algo, L = LIST_LENGTHS, iterations = 1, n = 5):
-#    """Create and return 'time measurement' data"""
-#    dfs = []
-#    for length in L:
-#        for _ in range(iterations):
-#            d = {"algo": np.repeat(algo, n),
-#                  "L": np.repeat(length, n),
-#                  "t": np.random.random(n) * 10 + 1}
-#            dfs.append(DataFrame(d, columns=["algo", "L", "t"]))
-#    return pd.concat(dfs, ignore_index=True)
-
-    dfs = []  # list of DataFrame's
+    # Collect execution time data
+    # Create a list used to contain pd.DataFrame's
+    dfs = []
     for algo in ALGORITHMS:
-
         for length in LIST_LENGTHS:
             # Initialise data dict
             elapsed_data = {'algorithm': np.repeat(algo.__name__,
                                                    TIMEIT_REPEAT),
                             'length': np.repeat(length,
                                                 TIMEIT_REPEAT)}
-
-            # Measure execution time (time_it_full() returns
-            # a list of TIMEIT_REPEAT floats (execution times ))
-
+            # Measure execution time, using time_it_full() which
+            # returns a list of floats of length TIMEIT_REPEAT.
+            # Add the returned list to the data dict (column-name:
+            # "elapsed").
             elapsed = np.array(time_it_full(algorithm=algo,
                                    timeit_repeat=TIMEIT_REPEAT,
                                    timeit_iterations=TIMEIT_ITERATIONS,
                                    list_length=length))
-            # Update data dict
             elapsed_data['elapsed'] = elapsed
-            # Make a DataFrame from the data dict
+            # Convert the data-dict to a DataFrame and append
+            # to the list of dataframes.
             df = DataFrame(elapsed_data,
-                           columns=["algorithm", "length", "elapsed"])
-
-            # index=np.repeat(algo.__name__, TIMEIT_REPEAT),
-            # Append the dataframe to the list of dataframes
+                           columns=["algorithm",
+                                    "length",
+                                    "elapsed"])
             dfs.append(df)
 
     # Concatenate the list of dataframes into one
     df = pd.concat(dfs, ignore_index=True)
-    #print("df:")
-    #print(df)
 
-    # Collect averages
-    # algo = "bubblesort"
-    # elapsed_means = [df.loc[(df.algorithm==algo) &
-    #                          (df.length==L)].elapsed.mean()
-    #                  for L in df.loc[(df.algorithm==algo)].length]
-    # print([df.loc[(df.algorithm==algo) &
-    #               (df.length==L)].elapsed.mean()
-    #               for L in LIST_LENGTHS])
+    # Save the dataframe to a csv file (overwriting existing file).
+    df.to_csv("sortperf.csv", mode="w", index=False)
 
     # Create a dataframe for averages
     dfs = []
@@ -124,19 +142,20 @@ def main() -> None:
         dfs.append(elapsed_data_2)
     df_means = pd.concat(dfs, ignore_index=True)
 
+    # Save the dataframe to a csv file (overwriting existing file).
+    df_means.to_csv("sortperf_elapsed.csv", mode="w", index=False)
+
+    ipdb.set_trace()
+    # breakpoint()
+
+
     # Plot means
     plt.plot(LIST_LENGTHS, [df_means.loc[df_means.length==L].means for L in LIST_LENGTHS])
     plt.legend([algo.__name__ for algo in ALGORITHMS])
     plt.ylabel("elapsed (ms)")
     plt.xlabel("list length")
     plt.show()
-    # print(df_means)
-    # elapsed_data
-    # print(elapsed_means)
-    # breakpoint()
-    # print(df[df["length"] == 10]])
-    # print(df.loc[(df.algorithm == "bubblesort_plus") & (df.length == 10)].elapsed)
-#     quit()
+
 #
 #     # Initialise data-structure:
 #     #     data -> {function}
@@ -245,4 +264,4 @@ def main() -> None:
 #
 #
 if __name__ == "__main__":
-    main()
+    sortperf()
