@@ -37,13 +37,14 @@ LIST_LENGTH = 10
 # LIST_LENGTHS = np.arange(100, 201, 25)
 # LIST_LENGTHS = range(10, 110, 10)
 # LIST_LENGTHS = np.array(list(range(2,10)) + list(range(10, 100, 10)))
-LIST_LENGTHS = np.array(list(range(10, 100, 10)) +
-                        list(range(100, 200, 50)) +
-                        list(range(200, 600, 100)) +
-                        list(range(600, 1200, 200)) +
-                        [1500, 2000]
-                        )
-LIST_LENGTHS = np.array(list(range(10, 100, 10)))
+# LIST_LENGTHS = np.array(list(range(10, 100, 10)) +
+#                        list(range(100, 200, 50)) +
+#                        list(range(200, 600, 100)) +
+#                        list(range(600, 1200, 200)) +
+#                        [1500, 2000]
+#                        )
+# LIST_LENGTHS = np.array(list(range(10, 100, 10)))
+LIST_LENGTHS = np.array([100, 150, 200, 250, 300])
 # Min size of a number
 MIN = 1
 # Max size of a number
@@ -54,5 +55,5 @@ ITERATIONS = 2
 # Number of iterations using the timeite module
 # TIMEIT_ITERATIONS = 20
 # TIMEIT_REPEAT = 20
-TIMEIT_ITERATIONS = 1000
+TIMEIT_ITERATIONS = 10
 TIMEIT_REPEAT = 10
