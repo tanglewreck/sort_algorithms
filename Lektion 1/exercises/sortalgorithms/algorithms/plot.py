@@ -10,15 +10,32 @@
 #
 # import numpy as np
 import matplotlib.pyplot as plt
+from pandas import DataFrame
 
 from algorithms.defaults import ALGORITHMS
 from algorithms.defaults import FIG_DIM, FIG_DPI
 from algorithms.defaults import LIST_LENGTHS
 
-__all__ = ["do_plots"]
+__all__ = ["plot_elapsed"]
 
 
-def do_plots(data: dict, categories: list) -> None:
+def plot_elapsed(data: DataFrame) -> None:
+    """
+        NAME
+            plot_elapsed
+        DESCRIPTION
+            Plot performance data.
+    """
+    plt.plot(LIST_LENGTHS,
+             [data.loc[data.length==L].means
+              for L in LIST_LENGTHS])
+    plt.legend([algo.__name__ for algo in ALGORITHMS])
+    plt.ylabel("elapsed (ms)")
+    plt.xlabel("list length")
+    plt.show()
+
+
+def do_plots_old(data: dict, categories: list) -> None:
     """
     Plot performance data:
         - execution time (elapsed)
