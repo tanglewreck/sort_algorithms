@@ -24,21 +24,14 @@ __all__ = ["algo_perf",
 def algo_perf(algorithm, list_length):
     """sort list using an algorithm, 
     return (# comparisons, # swaps)"""
-    elapsed = []
     comps = []
     swaps = []
     for _ in range(ITERATIONS):
         random_list = generate_random_list(list_length=list_length)
-
         (_, no_comps, no_swaps) = algorithm(random_list)
         comps.append(no_comps)
         swaps.append(no_swaps)
-
-        elapsed = time_it_full(algorithm=algorithm,
-                                    timeit_repeat=TIMEIT_REPEAT,
-                                    timeit_iterations=TIMEIT_ITERATIONS,
-                                    list_length=list_length)
-    return (elapsed, comps, swaps)
+    return np.array(comps), np.array(swaps)
 
 
 def algorithm_perf(algorithm, list_length):
