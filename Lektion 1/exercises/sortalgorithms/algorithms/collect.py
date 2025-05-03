@@ -88,8 +88,7 @@ def collect_elapsed():
                  )
         dfs.append(elapsed_data)
     df_means = pd.concat(dfs, ignore_index=True)
-
-    return (df, df_means)
+    return df, df_means
 
 
 def collect_comps_swaps():
@@ -106,25 +105,25 @@ def collect_comps_swaps():
     for algo in ALGORITHMS:
         for length in LIST_LENGTHS:
             # Initialise data dict
-            elapsed_data = {'algorithm': np.repeat(algo.__name__,
-                                                   TIMEIT_REPEAT),
+            data = {'algorithm': np.repeat(algo.__name__,
+                                           ITERATIONS),
                             'length': np.repeat(length,
-                                                TIMEIT_REPEAT)}
+                                                ITERATIONS)}
             # Measure execution time, using time_it_full() which
             # returns a list of floats of length TIMEIT_REPEAT.
             # Add the returned list to the data dict (column-name:
             # "elapsed").
-            elapsed = np.array(time_it_full(algorithm=algo,
-                                   timeit_repeat=TIMEIT_REPEAT,
-                                   timeit_iterations=TIMEIT_ITERATIONS,
-                                   list_length=length))
-            elapsed_data['elapsed'] = elapsed
+            comparisons, swaps = algo_perf(algorithm=algo,
+                                           list_length=length)
+            data['comps'] = comparisons
+            data['swaps'] = swaps
             # Convert the data-dict to a DataFrame and append
             # to the list of dataframes.
-            df = DataFrame(elapsed_data,
+            df = DataFrame(data,
                            columns=["algorithm",
                                     "length",
-                                    "elapsed"])
+                                    "comps",
+                                    "swaps"])
             dfs.append(df)
 
     # Concatenate the list of dataframes into one
@@ -133,20 +132,27 @@ def collect_comps_swaps():
     # Create a dataframe of averages
     dfs = []
     for algo in ALGORITHMS:
-        elapsed_means = np.zeros(len(LIST_LENGTHS))
+        comps_means = np.zeros(len(LIST_LENGTHS))
+        swaps_means = np.zeros(len(LIST_LENGTHS))
         for k, length in enumerate(LIST_LENGTHS):
-            elapsed_means[k] = df.loc[(df.algorithm==algo.__name__) &
-                                    (df.length==length)].elapsed.mean()
-        elapsed_data = DataFrame(
+            comps_means[k] = df.loc[(df.algorithm==algo.__name__) &
+                                    (df.length==length)].comps.mean()
+            swaps_means[k] = df.loc[(df.algorithm==algo.__name__) &
+                                    (df.length==length)].swaps.mean()
+        data = DataFrame(
                 {'algorithm': algo.__name__,
                  'length': LIST_LENGTHS,
-                 'means': [
+                 'comparisons': [
                      df.loc[
                          (df.algorithm==algo.__name__) &
-                         (df.length==length)].elapsed.mean()
+                         (df.length==length)].comps.mean()
+                     for length in LIST_LENGTHS],
+                 'swaps': [
+                     df.loc[
+                         (df.algorithm==algo.__name__) &
+                         (df.length==length)].swaps.mean()
                      for length in LIST_LENGTHS]}
                  )
-        dfs.append(elapsed_data)
+        dfs.append(data)
     df_means = pd.concat(dfs, ignore_index=True)
-
-    return (df, df_means)
+    return df, df_means

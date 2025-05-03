@@ -102,19 +102,26 @@ def sortperf_comps_swaps() -> None:
         print(f"\t{algo.__name__}")
     print()
 
-    # Collect execution time data
-    # (df_elapsed, df_elapsed_means) = collect_elapsed()
+    # Collect comparisons and swaps
+    # pylint: disable=unused-variable
+    df_comps_swaps, df_comps_swaps_means = collect_comps_swaps()
+    # pylint: enable=unused-variable
+     
     # Save the dataframes
-    # df_elapsed.to_csv("sortperf_elapsed.csv", mode="w", index=False)
-    # df_elapsed_means.to_csv("sortperf_elapsed_means.csv", mode="w", index=False)
+    df_comps_swaps.to_csv(
+            "sortperf_comps_swaps.csv",
+            mode="w", index=False)
+    df_comps_swaps_means.to_csv(
+            "sortperf_comps_swaps_means.csv",
+            mode="w", index=False)
 
-    # ipdb.set_trace()
+    ipdb.set_trace()
     # breakpoint()
 
-    # Plot elapsed
-    # plot_elapsed(df_elapsed_means)
+    # Plot comparisons and swaps
+    # plot_comps_swaps(df_comps_swaps_means)
 
 
 if __name__ == "__main__":
-    sortperf_elapsed()
+    # sortperf_elapsed()
     sortperf_comps_swaps()
