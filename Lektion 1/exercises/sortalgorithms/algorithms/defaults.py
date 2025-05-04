@@ -11,7 +11,7 @@ Defaults for sort algorithms and performance measurements.
 
 import numpy as np
 from . bubblesort import bubblesort, bubblesort_2, bubblesort_3
-from . bubblesortplus import bubblesort_plus
+from . insertionsort import insertionsort
 
 __all__ = ["ALGORITHMS"]
 __all__ += ["CATEGORIES"]
@@ -22,13 +22,13 @@ __all__ += ["LIST_LENGTH", "LIST_LENGTHS", "MIN", "MAX"]
 
 # pylint: disable=wildcard-import, unused-wildcard-import, unused-import
 
-ALGORITHMS = [bubblesort, bubblesort_2, bubblesort_plus]
+ALGORITHMS = [bubblesort, bubblesort_2, insertionsort]
 CATEGORIES = ['elapsed', 'comp', 'swaps']
 
 FIG_DIM = (21, 8)
 FIG_DPI = 150
 # Default number of numbers in a list
-LIST_LENGTH = 10
+# LIST_LENGTH = 10
 
 # LIST_LENGTHS = np.array(list(range(2,100)))
 # LIST_LENGTHS = np.array(list(range(10, 100, 10)))
@@ -44,14 +44,13 @@ LIST_LENGTH = 10
 #                        [1500, 2000]
 #                        )
 # LIST_LENGTHS = np.array(list(range(10, 100, 10)))
-LIST_LENGTHS = np.array([100, 150, 200, 250, 300])
-# Min size of a number
-MIN = 1
-# Max size of a number
-MAX = 100
+LIST_LENGTHS = np.array([10, 25, 50, 100, 150, 200])
+# Min/max sizes of a random number
+MIN, MAX = 1, 100
+#
 # Number of iterations while measuring performance (comparisons, swaps)
 # ITERATIONS = 200
-ITERATIONS = 2
+ITERATIONS = 100
 # Number of iterations using the timeite module
 # TIMEIT_ITERATIONS = 20
 # TIMEIT_REPEAT = 20
