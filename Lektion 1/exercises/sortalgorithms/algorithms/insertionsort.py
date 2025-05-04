@@ -10,8 +10,15 @@
         2025-05-04
 
 """
-__all__ = ["insertionsort"]
+__all__ = ["insertionsort",
+           "insertionsort2"]
 
+# xpylint: disable=import-error
+# xpylint: disable=unused-import
+# import ipdb
+# xpylint: enable=import-error
+# xpylint: enable=unused-import
+import numpy as np
 
 def insertionsort(the_list: list, reverse: bool = False) -> tuple:
     """
@@ -53,23 +60,16 @@ def insertionsort(the_list: list, reverse: bool = False) -> tuple:
         # If no swaps are made, we're done
         done = True
         for index_two in range(index_one + 1, list_len):  # inner loop
-            # Find the position of the smalles element of
-            # list_copy[index_one:], then move that element to
-            # the front of the list
-            # At first, assume that the first element is the largest
-            index_min = index_one
             ncomps += 1
             if list_copy[index_one] > list_copy[index_two]:
-                index_min = index_two
-                # Move the smaller element towards the front of
-                # the list
+                # Move the smaller element (list_copy[index_two])
+                # towards the current front of the list
+                # (list_copy[index_one]).
                 (list_copy[index_one],
                  list_copy[index_two]) = (list_copy[index_two],
                                           list_copy[index_one])
                 nswaps += 1
                 done = False
-            if __debug__:
-                print(f"Smallest at position {index_min} ({the_list[index_min]})")
         if done:
             break
     # Reverse sort
@@ -77,3 +77,55 @@ def insertionsort(the_list: list, reverse: bool = False) -> tuple:
         return (list_copy[::-1], ncomps, nswaps)
     # Forward sort
     return (list_copy, ncomps, nswaps)
+
+
+def insertionsort2(the_list: np.array,
+                      reverse: bool = False) -> tuple:
+    """
+        NAME
+            insertionsort2
+        DESCRIPTION
+            Sorts a list of numbers using insertion sort
+        RETURNS
+            1. The sorted list (l_c)
+            2. Number of comparisons (ncomps)
+            3. Number of swaps (nswaps)
+    """
+    def indmin(l: np.array) -> np.int64:
+        """Return index of smallest element"""
+        ind = 0
+        nc = 0
+        for k, _ in enumerate(l):
+            nc += 1
+            if l[k] < l[ind]:
+                ind = k
+        return ind
+
+    # Make a copy of the list and sort this instead of the original
+    # so we can compare input and output.
+    l_c = the_list.copy()
+    # Save length of list for future reference
+    list_len = len(l_c)
+    # We count the number of comparisons and swaps made
+    # ncomps = np.sum(np.arange(1, list_len + 1))
+    ncomps = sum(range(1, list_len + 1))
+    nswaps = 0
+    # Repeatedly move the smallest element to the top of the array.
+    # The number of swaps
+    for k in range(list_len):
+        # Get index of the smallest element in 'the rest' of
+        # the list (i.e. in the list-slice l_c[k:]).
+        ind = indmin(l_c[k:]) + k
+        # Increase the number of comparisons
+        if l_c[k] > l_c[ind]:
+            nswaps += 1
+            # print(f"Swapping index {k} <--> {ind}")
+            l_c[k], l_c[ind] = l_c[ind], l_c[k]
+        # print("post: ", l_c)
+        # print()
+    # ipdb.sset_trace()
+    # Reverse sort
+    if reverse:
+        return l_c[::-1], ncomps, nswaps
+    # Forward sort
+    return l_c, ncomps, nswaps
