@@ -45,7 +45,10 @@ def plot_data(data: DataFrame,
                      data.loc[(data.algorithm == algo.__name__)][column],
                      label=algo.__name__)
         axs.set_xlabel('length')
-        axs.set_ylabel(column)
+        if column == "t":
+            axs.set_ylabel("t (ms)")
+        else:
+            axs.set_ylabel(column)
         axs.legend()
     # For more than one column:
     else:
@@ -56,7 +59,10 @@ def plot_data(data: DataFrame,
                         data.loc[(data.algorithm == algo.__name__)][column],
                         label=algo.__name__)
             ax.set_xlabel('length')
-            ax.set_ylabel(column)
+            if column == "t":
+                ax.set_ylabel("t (ms)")
+            else:
+                ax.set_ylabel(column)
             ax.legend()
     fig.dpi = FIG_DPI
     fig.set(figwidth=FIG_DIM[0], figheight=FIG_DIM[1])
