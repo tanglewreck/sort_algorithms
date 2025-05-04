@@ -1,10 +1,13 @@
 """
-defaults.py
-
-DESCRIPTION
-Defaults for sort algorithms and performance measurements.
-
-2025-02-19
+    NAME
+        defaults.py
+    DESCRIPTION
+        Defaults for sort algorithms and performance measurements.
+    AUTHOR
+        mier
+    DATE
+        2025-02-19
+    
 """
 
 
@@ -57,5 +60,5 @@ ITERATIONS = 10
 # Number of iterations using the timeite module
 # TIMEIT_ITERATIONS = 20
 # TIMEIT_REPEAT = 20
-TIMEIT_ITERATIONS = 10
-TIMEIT_REPEAT = 20
+TIMEIT_ITERATIONS = 100
+TIMEIT_REPEAT = 10
