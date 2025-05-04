@@ -25,10 +25,10 @@ from algorithms.defaults import ITERATIONS
 from algorithms.defaults import TIMEIT_ITERATIONS
 from algorithms.defaults import TIMEIT_REPEAT
 
-from algorithms.performance import do_measurements
-from algorithms.performance import algorithm_perf
+# from algorithms.performance import do_measurements
+# from algorithms.performance import algorithm_perf
 from algorithms.performance import algo_perf
-from algorithms.performance import time_it_full
+from algorithms.performance import time_it_repeat
 
 
 def collect_data() -> tuple:
@@ -56,21 +56,22 @@ def collect_data() -> tuple:
                                               ITERATIONS),
                             'length': np.repeat(length,
                                                 ITERATIONS)}
-            # Measure execution time, using time_it_full() which
+            # Measure execution time, using time_it_repeat() which
             # returns a list of floats of length TIMEIT_REPEAT.
             # Add the returned list to the data dict.
-            t = np.array(time_it_full(algorithm=algo,
+            t = np.array(time_it_repeat(algorithm=algo,
                                       timeit_repeat=TIMEIT_REPEAT,
                                       timeit_iterations=TIMEIT_ITERATIONS,
                                       list_length=length))
             data_t['t'] = t
-            # Measure execution time, using time_it_full() which
+            # Measure execution time, using time_it_repeat() which
             # returns a list of floats of length TIMEIT_REPEAT.
             # Add the returned list to the data dict (column-name:
             # "elapsed").
             comparisons, swaps = algo_perf(algorithm=algo,
-                                           list_length=length)
-            # Measure execution time, using time_it_full() which
+                                           list_length=length,
+                                           iterations=ITERATIONS)
+            # Measure execution time, using time_it_repeat() which
             # returns a list of floats of length TIMEIT_REPEAT.
             # Add the returned list to the data dict (column-name:
             # "elapsed").
