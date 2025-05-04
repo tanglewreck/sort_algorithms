@@ -7,11 +7,13 @@ Defaults for sort algorithms and performance measurements.
 2025-02-19
 """
 
-# pylint: disable=unused-import
 
 import numpy as np
+# pylint: disable=unused-import
 from . bubblesort import bubblesort, bubblesort_2, bubblesort_3
 from . insertionsort import insertionsort
+from . insertionsort import insertionsort2
+# pylint: enable=unused-import
 
 __all__ = ["ALGORITHMS"]
 __all__ += ["CATEGORIES"]
@@ -22,7 +24,8 @@ __all__ += ["LIST_LENGTH", "LIST_LENGTHS", "MIN", "MAX"]
 
 # pylint: disable=wildcard-import, unused-wildcard-import, unused-import
 
-ALGORITHMS = [bubblesort, bubblesort_2, insertionsort]
+ALGORITHMS = [bubblesort, bubblesort_2, insertionsort, insertionsort2]
+ALGORITHMS = [bubblesort, insertionsort, insertionsort2]
 CATEGORIES = ['elapsed', 'comp', 'swaps']
 
 FIG_DIM = (21, 8)
@@ -44,15 +47,15 @@ FIG_DPI = 150
 #                        [1500, 2000]
 #                        )
 # LIST_LENGTHS = np.array(list(range(10, 100, 10)))
-LIST_LENGTHS = np.array([10, 25, 50, 100, 150, 200])
+LIST_LENGTHS = np.array([10, 25, 50, 100, 150, 200, 250, 300])
 # Min/max sizes of a random number
 MIN, MAX = 1, 100
 #
 # Number of iterations while measuring performance (comparisons, swaps)
 # ITERATIONS = 200
-ITERATIONS = 100
+ITERATIONS = 10
 # Number of iterations using the timeite module
 # TIMEIT_ITERATIONS = 20
 # TIMEIT_REPEAT = 20
 TIMEIT_ITERATIONS = 10
-TIMEIT_REPEAT = 10
+TIMEIT_REPEAT = 20
