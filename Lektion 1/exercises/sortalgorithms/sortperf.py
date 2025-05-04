@@ -14,34 +14,21 @@
         2025-05-03
 """
 
-# pylint: disable=consider-using-dict-items
-# pylint: disable=unused-import
+# xxxpylint: disable=consider-using-dict-items
+# xxxpylint: disable=unused-import
 
 __all__ = ["sortperf"]
 
-import time
 # pylint: disable=import-error
-import ipdb
+# import ipdb
 # pylint: enable=import-error
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-from pandas import DataFrame, Series
 
+from algorithms.collect import collect_data
 from algorithms.defaults import ALGORITHMS
-from algorithms.defaults import FIG_DIM, FIG_DPI
 from algorithms.defaults import LIST_LENGTHS
 from algorithms.defaults import ITERATIONS
 from algorithms.defaults import TIMEIT_ITERATIONS
 from algorithms.defaults import TIMEIT_REPEAT
-
-from algorithms.collect import collect_data
-
-from algorithms.performance import do_measurements
-from algorithms.performance import algorithm_perf
-from algorithms.performance import algo_perf
-from algorithms.performance import time_it_full
-
 from algorithms.plot import plot_data
 
 
@@ -58,8 +45,9 @@ def sortperf() -> None:
     """
 
     # Print some info about this run.
-    print("Measuring execution time")
-    print(f"Number of iterations (timeit): {TIMEIT_ITERATIONS}\n"
+    print("Measuring performance...")
+    print(f"Number of iterations: {ITERATIONS}\n"
+          f"Number of iterations (timeit): {TIMEIT_ITERATIONS}\n"
           f"Number of repeats (timeit): {TIMEIT_REPEAT}\n"
           f"List lengths: {[int(k) for k in list(LIST_LENGTHS)]}")
     print("Algorithms:")
@@ -92,5 +80,4 @@ def sortperf() -> None:
 
 
 if __name__ == "__main__":
-    # sortperf_elapsed()
     sortperf()
