@@ -15,12 +15,13 @@ import sys
 import textwrap
 
 import numpy as np
-from . defaults import LIST_LENGTH, MIN, MAX
+from . defaults import MIN, MAX
 
 
-def generate_random_list(minimum: int = MIN,
-                         maximum: int = MAX,
-                         list_length: int = LIST_LENGTH) -> list:
+def generate_random_list(list_length: int,
+                         minimum: int = MIN,
+                         maximum: int = MAX
+                         ) -> list:
     """
     Generate a list of random integers btw min and max, inclusive.
     """
@@ -34,9 +35,10 @@ def generate_random_list(minimum: int = MIN,
         raise SystemExit(1) from e
 
 
-def getCommandLineArguments(minimum: int = MIN,
-                            maximum: int = MAX,
-                            list_length: int = LIST_LENGTH) -> tuple:
+def getCommandLineArguments(list_length: int,
+                            minimum: int = MIN,
+                            maximum: int = MAX
+                            ) -> tuple:
     """
     Get commandline arguments using sys.argv (instead of using the
     argparse module).
@@ -46,13 +48,13 @@ def getCommandLineArguments(minimum: int = MIN,
     Third argument: number of integers to generate (=list-length)
 
     """
-
+    default_length = 10
     try:
         if len(sys.argv) == 1:
             # No commandline arguments
             (minimum,
              maximum,
-             list_length) = (MIN, MAX, LIST_LENGTH)
+             list_length) = (MIN, MAX, default_length)
         elif len(sys.argv) == 2:
             # One commandline argument
             minimum = int(sys.argv[1])
