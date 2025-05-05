@@ -3,3 +3,4 @@
 *.md
 *.numbers
 python-snippets
+*ipynb
