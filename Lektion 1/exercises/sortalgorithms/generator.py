@@ -20,6 +20,7 @@ __all__ = ["pregen", "pregenint"]
 
 
 from random import randint
+import sys
 # pylint: disable=import-error
 # pylint: disable=unused-import
 import ipdb  # iPython interface to pdb
@@ -27,10 +28,8 @@ import ipdb  # iPython interface to pdb
 # pylint: enable=unused-import
 import numpy as np
 from pandas import DataFrame
-# from .utils import timestamp
 from algorithms import timestamp
-
-
+from algorithms import SAVEPATH
 
 def read_csv():
     """
@@ -82,15 +81,16 @@ def pregenint(low = 0, high = 100, lsize = 10,
 
     # Save to disk if asked to
     if save:
-        outfile = "../lists/" + timestamp() + f"_{low}-{high}-{lsize}-{nlists}.csv"
+        outfile = SAVEPATH + timestamp() + f"_{low}-{high}-{lsize}-{nlists}.csv"
         # ipdb.sset_trace()
         try:
-            df.to_csv(outfile)
+            df.to_csv(outfile, header=True, index=False)
+            print(f"Saved dataframe to {outfile}")
         except OSError as exception:
             print(repr(exception))
             raise SystemExit(1) from exception
-
-    print(df)
+    if __debug__:
+        print(df)
     return df
 
 
@@ -106,4 +106,11 @@ def pregen(*args):
 
 
 if __name__ == "__main__":
-    pregenint(save=False)
+    SAVE = False
+    try:
+        save_arg = sys.argv[1]
+        if save_arg in ("1", "true", "True"):
+            SAVE = True
+    except IndexError:
+        print("Save not specified. Setting 'save' to False")
+    pregenint(save=SAVE)
