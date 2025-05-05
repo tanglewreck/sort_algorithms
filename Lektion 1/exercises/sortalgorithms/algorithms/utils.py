@@ -8,7 +8,8 @@ Utilities
 __all__ = ["generate_random_list",
            "debug_msg",
            "err_msg",
-           "sys_msg"]
+           "sys_msg",
+           "timestamp"]
 
 import inspect
 import sys
@@ -19,12 +20,10 @@ import numpy as np
 from . defaults import MIN, MAX
 
 
-def time_stamp() -> str:
+def timestamp() -> str:
     """Return a timestamp as a string"""
-    today = "-".join([f"{x:2d}"  for x in time.localtime()][0:3])
-    now = ":".join([f"{x:2d}" for x in time.localtime()][3:6])
-    timestamp = f"{today}T{now}"
-    return timestamp
+    time_format = "%Y-%m-%dT%H:%M"
+    return time.strftime(time_format, time.localtime())
 
 
 def generate_random_list(list_length: int,
