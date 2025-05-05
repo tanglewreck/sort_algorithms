@@ -5,26 +5,82 @@ Utilities
 
 # pylint: disable=invalid-name
 
-__all__ = ["generate_random_list",
-           "get_command_line_arguments",
-           "debug_msg",
+__all__ = ["debug_msg",
            "err_msg",
            "sys_msg",
+           "genlist",
+           "generate_random_list",
+           "get_command_line_arguments",
+           "read_csv",
            "timestamp"]
 
 import inspect
+import os
 import sys
 import textwrap
 import time
 
 import numpy as np
-from . defaults import MIN, MAX
+import pandas as pd
+# from pandas import DataFrame
+from .defaults import MIN, MAX
+from .defaults import SAVEPATH
+
+
+def read_csv(path: str = None):
+    """
+        NAME
+            read_csv
+        DESCRIPTION
+            Read data from a csv-file into a pandasd.DataFrame.
+        RETURNS
+            df : pandas.DataFrame
+    """
+    if path is None:
+        # A crude way to find a file to read...
+        try:
+            print("No path given. Trying to find one...")
+            path = SAVEPATH + sorted(os.listdir(SAVEPATH))[-1]
+            print(f"Using path: {path}")
+        except OSError as exception:
+            print(repr(exception))
+            raise SystemExit(1) from exception
+    try:
+        # pylint: disable=unspecified-encoding
+        df = pd.read_csv(path)
+        return df
+    except OSError as exception:
+        print(repr(exception))
+        raise SystemExit(1) from exception
+    return None
 
 
 def timestamp() -> str:
     """Return a timestamp as a string"""
     time_format = "%Y-%m-%dT%H.%M.%S"
     return time.strftime(time_format, time.localtime())
+
+
+def genlist():
+    """
+        NAME
+            genlist
+        DESCRIPTION
+            Generate a list of random numbers
+        DATE
+            2025-05-05
+        VERSION
+            2025-05-05
+    """
+    print("Reading data into dataframe")
+    df: pd.DataFrame = read_csv()
+    try:
+        # return np.random.randint(lower, upper, length)
+        for row in range(len(df)):
+            yield df.iloc[:, row]
+    except ValueError as e:
+        print(e)
+        raise SystemExit(1) from e
 
 
 def generate_random_list(list_length: int,
