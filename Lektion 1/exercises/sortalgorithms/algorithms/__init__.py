@@ -26,6 +26,7 @@ __all__ =[
           "CATEGORIES",
           "ITERATIONS",
           "LIST_LENGTHS",
+          "SAVEPATH",
           "TIMEIT_ITERATIONS",
           "TIMEIT_REPEAT"]
 
@@ -35,6 +36,7 @@ from .defaults import ALGORITHMS
 from .defaults import CATEGORIES
 from .defaults import ITERATIONS
 from .defaults import LIST_LENGTHS
+from .defaults import SAVEPATH
 from .defaults import TIMEIT_ITERATIONS
 from .defaults import TIMEIT_REPEAT
 from .plot import plot_data
