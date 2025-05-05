@@ -22,7 +22,7 @@ from . defaults import MIN, MAX
 
 def timestamp() -> str:
     """Return a timestamp as a string"""
-    time_format = "%Y-%m-%dT%H:%M"
+    time_format = "%Y-%m-%dT%H.%M.%S"
     return time.strftime(time_format, time.localtime())
 
 
