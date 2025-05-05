@@ -7,15 +7,18 @@
         mier
     DATE
         2025-02-19
+    VERSION
+        2025-05-05
     
 """
-
-
 import numpy as np
 # pylint: disable=unused-import
-from . bubblesort import bubblesort, bubblesort_2, bubblesort_3
+from . bubblesort import bubblesort
+from . bubblesort import bubblesort_2
+from . bubblesort import bubblesort_3
 from . insertionsort import insertionsort
 from . insertionsort import insertionsort2
+from . insertionsort import insertionsort3
 # pylint: enable=unused-import
 
 __all__ = ["ALGORITHMS"]
@@ -27,8 +30,8 @@ __all__ += ["LIST_LENGTH", "LIST_LENGTHS", "MIN", "MAX"]
 
 # pylint: disable=wildcard-import, unused-wildcard-import, unused-import
 
-ALGORITHMS = [bubblesort, bubblesort_2, insertionsort, insertionsort2]
-ALGORITHMS = [bubblesort, insertionsort, insertionsort2]
+# ALGORITHMS = [bubblesort, bubblesort_2, insertionsort, insertionsort2 ]
+ALGORITHMS = [bubblesort, insertionsort, insertionsort2, insertionsort3]
 CATEGORIES = ['elapsed', 'comp', 'swaps']
 
 FIG_DIM = (21, 8)
@@ -56,9 +59,9 @@ MIN, MAX = 1, 100
 #
 # Number of iterations while measuring performance (comparisons, swaps)
 # ITERATIONS = 200
-ITERATIONS = 10
+ITERATIONS = 2
 # Number of iterations using the timeite module
 # TIMEIT_ITERATIONS = 20
 # TIMEIT_REPEAT = 20
-TIMEIT_ITERATIONS = 100
+TIMEIT_ITERATIONS = 10
 TIMEIT_REPEAT = 10
