@@ -13,9 +13,18 @@ __all__ = ["generate_random_list",
 import inspect
 import sys
 import textwrap
+import time
 
 import numpy as np
 from . defaults import MIN, MAX
+
+
+def time_stamp() -> str:
+    """Return a timestamp as a string"""
+    today = "-".join([f"{x:2d}"  for x in time.localtime()][0:3])
+    now = ":".join([f"{x:2d}" for x in time.localtime()][3:6])
+    timestamp = f"{today}T{now}"
+    return timestamp
 
 
 def generate_random_list(list_length: int,
@@ -26,10 +35,9 @@ def generate_random_list(list_length: int,
     Generate a list of random integers btw min and max, inclusive.
     """
     try:
-        return [int(n)
-                for n in np.random.randint(minimum,
-                                           maximum,
-                                           list_length)]
+        return np.random.randint(minimum,
+                                 maximum,
+                                 list_length)
     except ValueError as e:
         print(e)
         raise SystemExit(1) from e
