@@ -15,7 +15,7 @@
 """
 
 # xxxpylint: disable=consider-using-dict-items
-# xxxpylint: disable=unused-import
+# pylint: disable=unused-import
 
 __all__ = ["sortperf"]
 
@@ -23,13 +23,13 @@ __all__ = ["sortperf"]
 # import ipdb
 # pylint: enable=import-error
 
-from algorithms.collect import collect_data
-from algorithms.defaults import ALGORITHMS
-from algorithms.defaults import LIST_LENGTHS
-from algorithms.defaults import ITERATIONS
-from algorithms.defaults import TIMEIT_ITERATIONS
-from algorithms.defaults import TIMEIT_REPEAT
-from algorithms.plot import plot_data
+from algorithms import collect_data
+from algorithms import ALGORITHMS
+from algorithms import ITERATIONS
+from algorithms import LIST_LENGTHS
+from algorithms import TIMEIT_ITERATIONS
+from algorithms import TIMEIT_REPEAT
+from algorithms import plot_data
 
 
 def sortperf() -> None:
