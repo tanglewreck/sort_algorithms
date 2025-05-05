@@ -27,18 +27,16 @@ __all__ += ["FIG_DIM", "FIG_DPI"]
 __all__ += ["ITERATIONS"]
 __all__ += ["TIMEIT_ITERATIONS", "TIMEIT_REPEAT"]
 __all__ += ["LIST_LENGTH", "LIST_LENGTHS", "MIN", "MAX"]
+__all__ += ["SAVEPATH"]
 
 # pylint: disable=wildcard-import, unused-wildcard-import, unused-import
 
 # ALGORITHMS = [bubblesort, bubblesort_2, insertionsort, insertionsort2 ]
 ALGORITHMS = [bubblesort, insertionsort, insertionsort2, insertionsort3]
 CATEGORIES = ['elapsed', 'comp', 'swaps']
-
 FIG_DIM = (21, 8)
 FIG_DPI = 150
-# Default number of numbers in a list
-# LIST_LENGTH = 10
-
+# List-lengths to test:
 # LIST_LENGTHS = np.array(list(range(2,100)))
 # LIST_LENGTHS = np.array(list(range(10, 100, 10)))
 # LIST_LENGTHS = np.array(list(range(2, 101, 4)))
@@ -56,7 +54,6 @@ FIG_DPI = 150
 LIST_LENGTHS = np.array([10, 25, 50, 100, 150, 200, 250, 300])
 # Min/max sizes of a random number
 MIN, MAX = 1, 100
-#
 # Number of iterations while measuring performance (comparisons, swaps)
 # ITERATIONS = 200
 ITERATIONS = 2
@@ -65,3 +62,5 @@ ITERATIONS = 2
 # TIMEIT_REPEAT = 20
 TIMEIT_ITERATIONS = 10
 TIMEIT_REPEAT = 10
+# Directory where generated lists are saved:
+SAVEPATH = "lists/"
