@@ -30,6 +30,14 @@ from pandas import DataFrame
 from . utils import timestamp
 
 
+def read_csv():
+    """
+        DESCRIPTION
+            Read a csv ifile of numbers into a dataframe.
+    """
+    return None
+
+
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-positional-arguments
 def pregenint(low = 0, high = 100, lsize = 10,
@@ -72,8 +80,8 @@ def pregenint(low = 0, high = 100, lsize = 10,
 
     # Save to disk if asked to
     if save:
-        outfile = "../" + timestamp() + f"-{low}-{high}-{lsize}-{nlists}.csv"
-        ipdb.sset_trace()
+        outfile = "../lists/" + timestamp() + f"_{low}-{high}-{lsize}-{nlists}.csv"
+        # ipdb.sset_trace()
         try:
             df.to_csv(outfile)
         except OSError as exception:
