@@ -11,7 +11,8 @@
 
 """
 __all__ = ["insertionsort",
-           "insertionsort2"]
+           "insertionsort2",
+           "insertionsort3"]
 
 # xpylint: disable=import-error
 # xpylint: disable=unused-import
@@ -108,9 +109,9 @@ def insertionsort2(the_list: np.array,
 
     # Make a copy of the list and sort this instead of the original
     # so we can compare input and output.
-    l_c = the_list.copy()
+    lc = the_list.copy()
     # Save length of list for future reference
-    list_len = len(l_c)
+    list_len = len(lc)
     # We count the number of comparisons and swaps made
     # ncomps = np.sum(np.arange(1, list_len + 1))
     ncomps = sum(range(1, list_len + 1))
@@ -119,18 +120,84 @@ def insertionsort2(the_list: np.array,
     # The number of swaps
     for k in range(list_len):
         # Get index of the smallest element in 'the rest' of
-        # the list (i.e. in the list-slice l_c[k:]).
-        ind = indmin(l_c[k:]) + k
+        # the list (i.e. in the list-slice lc[k:]).
+        lc_k = lc[k:]  # make a copy of the slice
+        ind = indmin(lc_k) + k
         # Increase the number of comparisons
-        if l_c[k] > l_c[ind]:
+        if lc[k] > lc[ind]:
             nswaps += 1
             # print(f"Swapping index {k} <--> {ind}")
-            l_c[k], l_c[ind] = l_c[ind], l_c[k]
-        # print("post: ", l_c)
+            lc[k], lc[ind] = lc[ind], lc[k]
+        # print("post: ", lc)
         # print()
     # ipdb.sset_trace()
     # Reverse sort
     if reverse:
-        return l_c[::-1], ncomps, nswaps
+        return lc[::-1], ncomps, nswaps
     # Forward sort
-    return l_c, ncomps, nswaps
+    return lc, ncomps, nswaps
+
+
+def insertionsort3(the_list: list,
+                      reverse: bool = False) -> tuple:
+    """
+        NAME
+            insertionsort2
+        DESCRIPTION
+            Insertion sort Improved: Optimised version of
+            insertion sort w/ significantly fewer swaps
+            (not that that seems to make any difference
+            on Windows).
+            
+            Sorts a list of numbers using insertion sort
+        RETURNS
+            1. The sorted list (l_c)
+            2. Number of comparisons (ncomps)
+            3. Number of swaps (nswaps)
+    """
+#     def indmin(l: np.array) -> np.int64:
+#         """Return index of smallest element"""
+#         ind = 0
+#         nc = 0
+#         for k, _ in enumerate(l):
+#             nc += 1
+#             if l[k] < l[ind]:
+#                 ind = k
+#         return ind
+#
+    # Make a copy of the list and sort this instead of the original
+    # so we can compare input and output.
+    lc = the_list.copy()
+    # Save length of list for future reference
+    list_len = len(lc)
+    # We count the number of comparisons and swaps made
+    # ncomps = np.sum(np.arange(1, list_len + 1))
+    ncomps = sum(range(1, list_len + 1))
+    nswaps = 0
+    # Repeatedly move the smallest element to the top of the array.
+    # The number of swaps
+    for k in range(list_len):
+        # Get index of the smallest element in 'the rest' of
+        # the list (i.e. in the list-slice lc[k:]).
+        # ind = indmin(lc[k:]) + k
+        ind = 0
+        # for i, _ in enumerate(lc[k:]):
+        lc_k_len = len(lc[k:])
+        lc_k = lc[k:]  # make a copy of lc
+        for i in range(lc_k_len):
+            if lc_k[i] < lc_k[ind]:
+                ind = i
+        ind += k
+        # Increase the number of comparisons
+        if lc[k] > lc[ind]:
+            nswaps += 1
+            # print(f"Swapping index {k} <--> {ind}")
+            lc[k], lc[ind] = lc[ind], lc[k]
+        # print("post: ", lc)
+        # print()
+    # ipdb.sset_trace()
+    # Reverse sort
+    if reverse:
+        return lc[::-1], ncomps, nswaps
+    # Forward sort
+    return lc, ncomps, nswaps
