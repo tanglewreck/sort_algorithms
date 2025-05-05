@@ -85,6 +85,11 @@ def insertionsort2(the_list: np.array,
         NAME
             insertionsort2
         DESCRIPTION
+            Insertion sort Improved: Optimised version of
+            insertion sort w/ significantly fewer swaps
+            (not that that seems to make any difference
+            on Windows).
+            
             Sorts a list of numbers using insertion sort
         RETURNS
             1. The sorted list (l_c)
