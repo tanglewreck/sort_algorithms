@@ -6,6 +6,7 @@ Utilities
 # pylint: disable=invalid-name
 
 __all__ = ["generate_random_list",
+           "get_command_line_arguments",
            "debug_msg",
            "err_msg",
            "sys_msg",
@@ -42,7 +43,7 @@ def generate_random_list(list_length: int,
         raise SystemExit(1) from e
 
 
-def getCommandLineArguments(list_length: int,
+def get_command_line_arguments(list_length: int,
                             minimum: int = MIN,
                             maximum: int = MAX
                             ) -> tuple:
