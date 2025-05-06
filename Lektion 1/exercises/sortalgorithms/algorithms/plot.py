@@ -15,12 +15,12 @@ import matplotlib.pyplot as plt
 from pandas import DataFrame
 
 from algorithms.defaults import ALGORITHMS
+from algorithms.defaults import COLUMNS
 from algorithms.defaults import FIG_DIM, FIG_DPI
 from algorithms.defaults import LIST_LENGTHS
 
 __all__ = ["plot_data"]
 
-COLUMNS = ("t", "comps", "swaps")
 
 def plot_data(data: DataFrame,
               columns: tuple = COLUMNS) -> None:
@@ -52,12 +52,20 @@ def plot_data(data: DataFrame,
         axs.legend()
     # For more than one column:
     else:
+        # colours = ("gray", "green", "black",
+        colours = ("#101005", "gray", "#300505", "#101050",
+                   "#202080", "darkblue", "black", "lightgray",
+                   "blue", "red", "lightgreen") * 2
+        markers = ("o", "^", "*", "x", "D", "v", ",") * 2
+        styles = ("-", "--", "-.", ":") * 2
         for k, ax in enumerate(axs):
             column = columns[k]
-            for algo in ALGORITHMS:
+            for l, algo in enumerate(ALGORITHMS):
+                fmt = f"{markers[l]}{styles[l]}"
                 ax.plot(LIST_LENGTHS,
                         data.loc[(data.algorithm == algo.__name__)][column],
-                        label=algo.__name__)
+                        fmt, label=algo.__name__, color=colours[l])
+            ax.set_title(column)
             ax.set_xlabel('length')
             if column == "t":
                 ax.set_ylabel("t (ms)")
