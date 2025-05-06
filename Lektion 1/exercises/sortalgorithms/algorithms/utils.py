@@ -23,7 +23,7 @@ import time
 import numpy as np
 import pandas as pd
 # from pandas import DataFrame
-from .defaults import MIN, MAX
+from .defaults import LOWER, UPPER
 from .defaults import SAVEPATH
 
 
@@ -84,15 +84,15 @@ def genlist():
 
 
 def generate_random_list(list_length: int,
-                         minimum: int = MIN,
-                         maximum: int = MAX
+                         lower: int = LOWER,
+                         upper: int = UPPER
                          ) -> list:
     """
     Generate a list of random integers btw min and max, inclusive.
     """
     try:
-        return np.random.randint(minimum,
-                                 maximum,
+        return np.random.randint(lower,
+                                 upper,
                                  list_length)
     except ValueError as e:
         print(e)
@@ -100,15 +100,15 @@ def generate_random_list(list_length: int,
 
 
 def get_command_line_arguments(list_length: int,
-                            minimum: int = MIN,
-                            maximum: int = MAX
+                            lower: int = LOWER,
+                            upper: int = UPPER
                             ) -> tuple:
     """
     Get commandline arguments using sys.argv (instead of using the
     argparse module).
 
-    First argument: minimum (smallest integer to generate)
-    Second argument: maximum (largest integer to generate)
+    First argument: lower (smallest integer to generate)
+    Second argument: upper (largest integer to generate)
     Third argument: number of integers to generate (=list-length)
 
     """
@@ -116,43 +116,42 @@ def get_command_line_arguments(list_length: int,
     try:
         if len(sys.argv) == 1:
             # No commandline arguments
-            (minimum,
-             maximum,
-             list_length) = (MIN, MAX, default_length)
+            (lower, upper,
+             list_length) = (LOWER, UPPER, default_length)
         elif len(sys.argv) == 2:
             # One commandline argument
-            minimum = int(sys.argv[1])
+            lower = int(sys.argv[1])
         elif len(sys.argv) == 3:
             # Two commandline arguments
-            (minimum,
-             maximum) = [int(arg) for arg in sys.argv[1:]]
+            (lower,
+             upper) = [int(arg) for arg in sys.argv[1:]]
         elif len(sys.argv) == 4:
             # Three commandline arguments
-            (minimum,
-             maximum,
+            (lower,
+             upper,
              list_length) = [int(arg) for arg in sys.argv[1:]]
     except ValueError as e:
         print(f"Got a ValueError: {e}", file=sys.stderr)
         raise SystemExit(1) from e
 
     # Sanity checks
-    if maximum < minimum:
+    if upper < lower:
         print(textwrap.dedent(f"""
-              WARNING: Maximum must be larger than minimum.
+              WARNING: Maximum must be larger than lower.
               Switching order.
               Usage: {sys.argv[0]}<min> <max> <N>
         """))
-        (minimum, maximum) = (maximum, minimum)
-    if (maximum - minimum) < (list_length - 1):
-        print(f"Distance between minimum ({minimum}) and maximum ({maximum}) "
+        (lower, upper) = (upper, lower)
+    if (upper - lower) < (list_length - 1):
+        print(f"Distance between lower ({lower}) and upper ({upper}) "
               f"is less than the numbers of numbers to "
               f"generate (default: {list_length}).")
         raise SystemExit(1)
 
     if __debug__:
-        print(f"min, max, list_length = {minimum}, {maximum}, {list_length}")
+        print(f"min, max, list_length = {lower}, {upper}, {list_length}")
 
-    return (minimum, maximum, list_length)
+    return (lower, upper, list_length)
 
 
 def debug_msg(*args, end="\n"):
