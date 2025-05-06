@@ -23,7 +23,8 @@ __all__ =[
           "get_command_line_arguments",
           # defaults.py
           "ALGORITHMS",
-          "CATEGORIES",
+          "COLUMNS",
+          "LENGTH_DEFAULT",
           "ITERATIONS",
           "LIST_LENGTHS",
           "SAVEPATH",
@@ -33,7 +34,8 @@ __all__ =[
 # These are used in ../sortperf.py
 from .collect import collect_data
 from .defaults import ALGORITHMS
-from .defaults import CATEGORIES
+from .defaults import COLUMNS
+from .defaults import LENGTH_DEFAULT
 from .defaults import ITERATIONS
 from .defaults import LIST_LENGTHS
 from .defaults import SAVEPATH
@@ -61,7 +63,7 @@ from .utils import get_command_line_arguments
 #
 # from .defaults import FIG_DIM
 # from .defaults import FIG_DPI
-# from .defaults import MAX, MIN
+# from .defaults import UPPER, LOWER
 
 # from .bubblesort import bubblesort
 # from .bubblesort import bubblesort_2
