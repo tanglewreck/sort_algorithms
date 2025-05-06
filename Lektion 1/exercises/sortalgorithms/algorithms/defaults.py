@@ -15,6 +15,7 @@ import numpy as np
 # pylint: disable=unused-import
 from . bubblesort import bubblesort
 from . bubblesort import bubblesort_2
+from . bubblesort import bubblesort_2_2
 from . bubblesort import bubblesort_3
 from . insertionsort import insertionsort
 from . insertionsort import insertionsort2
@@ -33,7 +34,12 @@ __all__ += ["TIMEIT_ITERATIONS", "TIMEIT_REPEAT"]
 
 # pylint: disable=wildcard-import, unused-wildcard-import, unused-import
 
-ALGORITHMS = (bubblesort, insertionsort, insertionsort2, insertionsort3)
+# ALGORITHMS = (bubblesort, bubblesort_2, bubblesort_2_2, bubblesort_3,
+#               insertionsort, insertionsort2, insertionsort3)
+ALGORITHMS = (bubblesort, bubblesort_2, bubblesort_2_2,
+              insertionsort, insertionsort2, insertionsort3)
+ALGORITHMS = (insertionsort, insertionsort2, insertionsort3)
+ALGORITHMS = (bubblesort, bubblesort_2, bubblesort_2_2, bubblesort_3)
 COLUMNS = ('t', 'comps', 'swaps')
 LENGTH_DEFAULT = 10
 FIG_DIM = (21, 8)
@@ -58,7 +64,7 @@ LIST_LENGTHS_2 = np.append(np.arange(10, 100, 10),
 #            1500, 2000])
 #
 # LIST_LENGTHS = np.array([10, 25, 50, 100, 150, 200, 250, 300])
-LIST_LENGTHS = np.arange(10, 100, 10)
+LIST_LENGTHS = np.append(np.arange(10, 100, 10), [250, 500])
 # Min/max sizes of a random number
 LOWER, UPPER = 1, 100
 # Number of iterations while measuring performance (comparisons, swaps)
