@@ -112,9 +112,10 @@ def insertionsort2(the_list: np.array,
     lc = the_list.copy()
     # Save length of list for future reference
     list_len = len(lc)
-    # We count the number of comparisons and swaps made
-    # ncomps = np.sum(np.arange(1, list_len + 1))
-    ncomps = sum(range(1, list_len + 1))
+    # Count the number of comparisons and swaps made
+    # Number of comps is the sum of the arithmetic
+    # series 1 + 2 + ... + n = n * (n + 1) /2
+    ncomps = list_len * (list_len +1) /2
     nswaps = 0
     # Repeatedly move the smallest element to the top of the array.
     # The number of swaps
@@ -170,9 +171,10 @@ def insertionsort3(the_list: list,
     lc = the_list.copy()
     # Save length of list for future reference
     list_len = len(lc)
-    # We count the number of comparisons and swaps made
-    # ncomps = np.sum(np.arange(1, list_len + 1))
-    ncomps = sum(range(1, list_len + 1))
+    # Count the number of comparisons and swaps made
+    # Number of comps is the sum of the arithmetic
+    # series 1 + 2 + ... + n = n * (n + 1) /2
+    ncomps = list_len * (list_len +1) /2
     nswaps = 0
     # Repeatedly move the smallest element to the top of the array.
     # The number of swaps
