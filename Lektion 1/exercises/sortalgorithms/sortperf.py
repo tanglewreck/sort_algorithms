@@ -49,8 +49,6 @@ def sortperf() -> None:
     # Print some info about this run.
     print("Measuring performance...")
     print(f"Number of iterations: {ITERATIONS}\n"
-          f"Number of iterations (timeit): {TIMEIT_ITERATIONS}\n"
-          f"Number of repeats (timeit): {TIMEIT_REPEAT}\n"
           f"List lengths: {[int(k) for k in list(LIST_LENGTHS)]}")
     print("Algorithms:")
     for algo in ALGORITHMS:
