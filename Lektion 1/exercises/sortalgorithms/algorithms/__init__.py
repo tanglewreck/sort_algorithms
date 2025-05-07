@@ -18,22 +18,25 @@ __all__ =[
           "debug_msg",
           "err_msg",
           "sys_msg",
+          "read_csv",
           "timestamp",
           "generate_random_list",
           "get_command_line_arguments",
           # defaults.py
-          "ALGORITHMS",
+          "ALGORITHMS", "ALGOSALL",
+          "BS", "BSALL", "IS",
           "COLUMNS",
-          "LENGTH_DEFAULT",
           "ITERATIONS",
+          "LENGTH_DEFAULT",
           "LIST_LENGTHS",
           "SAVEPATH",
           "TIMEIT_ITERATIONS",
-          "TIMEIT_REPEAT"]
+          "TIMEIT_REPEAT",
+          "LOWER", "UPPER"]
 
 # These are used in ../sortperf.py
 from .collect import collect_data
-from .defaults import ALGORITHMS
+from .defaults import ALGORITHMS, ALGOSALL, BS, BSALL, IS
 from .defaults import COLUMNS
 from .defaults import LENGTH_DEFAULT
 from .defaults import ITERATIONS
@@ -41,6 +44,7 @@ from .defaults import LIST_LENGTHS
 from .defaults import SAVEPATH
 from .defaults import TIMEIT_ITERATIONS
 from .defaults import TIMEIT_REPEAT
+from .defaults import LOWER, UPPER
 from .plot import plot_data
 
 # These are not necessarily used by
@@ -51,6 +55,7 @@ from .utils import debug_msg
 from .utils import err_msg
 from .utils import sys_msg
 from .utils import timestamp
+from .utils import read_csv
 from .utils import generate_random_list
 # This one might be used in sortperf.py
 # at a later point:
