@@ -97,7 +97,7 @@ def insertionsort2(the_list: np.array,
             2. Number of comparisons (ncomps)
             3. Number of swaps (nswaps)
     """
-    def indmin(l: np.array) -> np.int64:
+    def indmin(l: np.array) -> tuple:
         """Return index of smallest element"""
         ind = 0
         nc = 0
@@ -105,7 +105,7 @@ def insertionsort2(the_list: np.array,
             nc += 1
             if l[k] < l[ind]:
                 ind = k
-        return ind
+        return ind, nc
 
     # Make a copy of the list and sort this instead of the original
     # so we can compare input and output.
@@ -115,7 +115,8 @@ def insertionsort2(the_list: np.array,
     # Count the number of comparisons and swaps made
     # Number of comps is the sum of the arithmetic
     # series 1 + 2 + ... + n = n * (n + 1) /2
-    ncomps = list_len * (list_len +1) /2
+    ncomps = int(list_len * (list_len +1) / 2)
+    ncomps = 0
     nswaps = 0
     # Repeatedly move the smallest element to the top of the array.
     # The number of swaps
@@ -123,8 +124,10 @@ def insertionsort2(the_list: np.array,
         # Get index of the smallest element in 'the rest' of
         # the list (i.e. in the list-slice lc[k:]).
         lc_k = lc[k:]  # make a copy of the slice
-        ind = indmin(lc_k) + k
+        ind, nc = indmin(lc_k) 
+        ind += k
         # Increase the number of comparisons
+        ncomps += (nc + 1)
         if lc[k] > lc[ind]:
             nswaps += 1
             # print(f"Swapping index {k} <--> {ind}")
@@ -174,7 +177,8 @@ def insertionsort3(the_list: list,
     # Count the number of comparisons and swaps made
     # Number of comps is the sum of the arithmetic
     # series 1 + 2 + ... + n = n * (n + 1) /2
-    ncomps = list_len * (list_len +1) /2
+    # ncomps = int(list_len * (list_len +1) / 2)
+    ncomps = 0
     nswaps = 0
     # Repeatedly move the smallest element to the top of the array.
     # The number of swaps
@@ -187,10 +191,12 @@ def insertionsort3(the_list: list,
         lc_k_len = len(lc[k:])
         lc_k = lc[k:]  # make a copy of lc
         for i in range(lc_k_len):
+            ncomps += 1
             if lc_k[i] < lc_k[ind]:
                 ind = i
         ind += k
         # Increase the number of comparisons
+        ncomps += 1
         if lc[k] > lc[ind]:
             nswaps += 1
             # print(f"Swapping index {k} <--> {ind}")
