@@ -14,15 +14,18 @@
 import numpy as np
 # pylint: disable=unused-import
 from . bubblesort import bubblesort
-from . bubblesort import bubblesort_2
-from . bubblesort import bubblesort_2_2
-from . bubblesort import bubblesort_3
+from . bubblesort import bubblesort_nocopy
+from . bubblesort import bubblesort2
+from . bubblesort import bubblesort2_nocopy
+from . bubblesort import bubblesort3
+from . bubblesort import bubblesort3_nocopy
 from . insertionsort import insertionsort
 from . insertionsort import insertionsort2
 from . insertionsort import insertionsort3
 # pylint: enable=unused-import
 
-__all__ = ["ALGORITHMS"]
+__all__ =  ["ALGORITHMS", "ALGOSALL"]
+__all__ += ["BS", "BSALL", "IS"]
 __all__ += ["COLUMNS"]
 __all__ += ["FIG_DIM", "FIG_DPI"]
 __all__ += ["ITERATIONS"]
@@ -34,12 +37,15 @@ __all__ += ["TIMEIT_ITERATIONS", "TIMEIT_REPEAT"]
 
 # pylint: disable=wildcard-import, unused-wildcard-import, unused-import
 
-# ALGORITHMS = (bubblesort, bubblesort_2, bubblesort_2_2, bubblesort_3,
-#               insertionsort, insertionsort2, insertionsort3)
-ALGORITHMS = (bubblesort, bubblesort_2, bubblesort_2_2,
-              insertionsort, insertionsort2, insertionsort3)
-ALGORITHMS = (insertionsort, insertionsort2, insertionsort3)
-ALGORITHMS = (bubblesort, bubblesort_2, bubblesort_2_2, bubblesort_3)
+# ALGORITHMS
+ALGORITHMS = (bubblesort, bubblesort2, bubblesort2_nocopy,
+              insertionsort, insertionsort3, insertionsort3)
+BS = (bubblesort, bubblesort2)
+BSALL = (bubblesort, bubblesort_nocopy, bubblesort2, bubblesort2_nocopy)
+IS = (insertionsort, insertionsort2, insertionsort3)
+ALGOSALL = BS + IS
+ALGORITHMS = IS
+#
 COLUMNS = ('t', 'comps', 'swaps')
 LENGTH_DEFAULT = 10
 FIG_DIM = (21, 8)
@@ -64,7 +70,8 @@ LIST_LENGTHS_2 = np.append(np.arange(10, 100, 10),
 #            1500, 2000])
 #
 # LIST_LENGTHS = np.array([10, 25, 50, 100, 150, 200, 250, 300])
-LIST_LENGTHS = np.append(np.arange(10, 100, 10), [250, 500])
+LIST_LENGTHS = np.arange(10, 100, 10)
+LIST_LENGTHS = np.append(np.arange(10, 110, 10), [250, 500])
 # Min/max sizes of a random number
 LOWER, UPPER = 1, 100
 # Number of iterations while measuring performance (comparisons, swaps)
