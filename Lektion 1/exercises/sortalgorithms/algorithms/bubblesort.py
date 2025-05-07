@@ -36,20 +36,19 @@ def bubblesort(the_list: list, reverse: bool = False) -> tuple:
 
 def bubblesort_nocopy(the_list: list, reverse: bool = False) -> tuple:
     """Vanilla bubblesort"""
-    list_copy = the_list.copy()
     nswaps = 0
     ncomps = 0
-    for _ in range(len(list_copy)):
-        for index in range(len(list_copy) - 1):
+    for _ in range(len(the_list)):
+        for index in range(len(the_list) - 1):
             ncomps += 1
-            if list_copy[index] > list_copy[index + 1]:
+            if the_list[index] > the_list[index + 1]:
                 nswaps += 1
-                (list_copy[index],
-                 list_copy[index + 1]) = (list_copy[index + 1],
-                                          list_copy[index])
+                (the_list[index],
+                 the_list[index + 1]) = (the_list[index + 1],
+                                          the_list[index])
     if reverse:
-        return (list_copy[::-1], ncomps, nswaps)
-    return (list_copy, ncomps, nswaps)
+        return (the_list[::-1], ncomps, nswaps)
+    return (the_list, ncomps, nswaps)
 
 
 def bubblesort2(the_list: list, reverse: bool = False) -> tuple:
