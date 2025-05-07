@@ -21,6 +21,7 @@ from pandas import DataFrame, Series
 
 from algorithms.defaults import ALGORITHMS
 from algorithms.defaults import LIST_LENGTHS
+from algorithms.defaults import LOWER, UPPER
 from algorithms.defaults import ITERATIONS
 from algorithms.defaults import TIMEIT_ITERATIONS
 from algorithms.defaults import TIMEIT_REPEAT
@@ -39,12 +40,27 @@ def collect_data() -> tuple:
             Collect data and return a tuple of
             dataframes of raw data (df_t, df_cs )
             and a dataframe of computed averages.
+        CALLED BY
+            sortperf()
         """
-    # Create lists used to contain pd.DataFrame's
+    #
+    # Initialise two lists used to contain the
+    # generated dataframes, one for each list-
+    # length in the LIST_LENGTHS variable.
     dfs_t = []
     dfs_cs = []
+    # Do the measurements
     for algo in ALGORITHMS:
         for length in LIST_LENGTHS:
+            # Here be code to generate an np.array with
+            # 'ITERATIONS' rows and 'length' columns...
+            # list_data_timeit = np.random.randint(LOWER, UPPER,
+            #                                      (TIMEIT_REPEAT, length))
+            # if __debug__:
+            #     print(f"Generated data ({TIMEIT_REPEAT} x {length}):")
+            #     print(f"{list_data_timeit}")
+
+
             # Initialise two data dicts, one for execution
             # time (data_t) and one for comparisons and swaps
             # (data_cs).
@@ -56,25 +72,27 @@ def collect_data() -> tuple:
                                               ITERATIONS),
                             'length': np.repeat(length,
                                                 ITERATIONS)}
-            # Measure execution time, using time_it_repeat() which
+            # MEASURE EXECUTION TIME, using time_it_repeat() which
             # returns a list of floats of length TIMEIT_REPEAT.
-            # Add the returned list to the data dict.
+            # Them add the returned array to the data dict
+            # (data_t, column name 't')
             t = np.array(time_it_repeat(algorithm=algo,
                                       timeit_repeat=TIMEIT_REPEAT,
                                       timeit_iterations=TIMEIT_ITERATIONS,
                                       list_length=length))
             data_t['t'] = t
-            # Measure execution time, using time_it_repeat() which
+            #   MEASURE NUMBER OF COMPARISONS AND SWAPS, using
+            # algo_perf() which repeatedly (ITERATIONS times)
+            # runs the algorithm with random arrays of specified
             # returns a list of floats of length TIMEIT_REPEAT.
-            # Add the returned list to the data dict (column-name:
-            # "elapsed").
+            #   algo_perf() returns two arrays, each of length
+            # 'length', with the number of comparisons and swaps,
+            # respectively, made in each run.
             comparisons, swaps = algo_perf(algorithm=algo,
                                            list_length=length,
                                            iterations=ITERATIONS)
-            # Measure execution time, using time_it_repeat() which
-            # returns a list of floats of length TIMEIT_REPEAT.
-            # Add the returned list to the data dict (column-name:
-            # "elapsed").
+            # Add the arrays to the data dict (column-names
+            # "comps", "swaps").
             data_cs['comps'] = comparisons
             data_cs['swaps'] = swaps
             # Convert the data-dicts to dataframes and append
