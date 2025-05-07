@@ -30,14 +30,7 @@ import numpy as np
 from pandas import DataFrame
 from algorithms import timestamp
 from algorithms import SAVEPATH
-
-def read_csv():
-    """
-        DESCRIPTION
-            Read a csv ifile of numbers into a dataframe.
-    """
-    return None
-
+from algorithms import read_csv
 
 # pylint: disable=too-many-arguments
 # pylint: disable=too-many-positional-arguments
@@ -85,12 +78,15 @@ def pregenint(low = 0, high = 100, lsize = 10,
         # ipdb.sset_trace()
         try:
             df.to_csv(outfile, header=True, index=False)
-            print(f"Saved dataframe to {outfile}")
+            # print(f"Saved dataframe to {outfile}")
         except OSError as exception:
             print(repr(exception))
             raise SystemExit(1) from exception
-    if __debug__:
-        print(df)
+        return df, outfile
+    # if __debug__:
+    #    print(df)
+    # We get here if 'save' is False,
+    # so return only the dataframe.
     return df
 
 
@@ -106,11 +102,26 @@ def pregen(*args):
 
 
 if __name__ == "__main__":
-    SAVE = False
+    # <commandline argument(s)>
+    SAVE = str()
     try:
         save_arg = sys.argv[1]
         if save_arg in ("1", "true", "True"):
             SAVE = True
     except IndexError:
         print("Save not specified. Setting 'save' to False")
-    pregenint(save=SAVE)
+        SAVE = False
+    # </commandline argument(s)>
+
+    # <print results>
+    if SAVE:
+        dataframe, file = pregenint(save=SAVE)
+        print(f"Data saved to {file}")
+        print("Dataframe read from disk by read_csv():")
+        print(read_csv(file))
+        print()
+    else:
+        dataframe = pregenint()  # no save, so no filename returned
+        print(dataframe)
+        print()
+    # </print results>
