@@ -14,11 +14,12 @@ from collections.abc import Callable
 import numpy as np
 from . utils import generate_random_list
 # from . defaults import ITERATIONS
-# from . defaults import TIMEIT_ITERATIONS
-# from . defaults import TIMEIT_REPEAT
+from . defaults import TIMEIT_ITERATIONS
+from . defaults import TIMEIT_REPEAT
 
 __all__ = ["algo_perf",
-           "time_it_repeat"]
+           "time_it_repeat",
+           "time_it_repeat_2"]
 
 
 def algo_perf(algorithm: Callable,
@@ -42,6 +43,27 @@ def algo_perf(algorithm: Callable,
     return np.array(comps), np.array(swaps)
 
 
+#def algo_perf_2(algorithm: Callable,
+#                lists: int,
+#                iterations: int):
+#    """
+#        NAME
+#            algo_perf
+#        DESCRIPTION
+#            Repeatedly sort lists of numbers using a specified
+#            sort-algorithm function
+#            (a Callable (function) object),...
+#            return (# comparisons, # swaps)"""
+#    comps = []
+#    swaps = []
+#    for _ in range(iterations):
+#        random_list = generate_random_list(list_length)
+#        (_, no_comps, no_swaps) = algorithm(random_list)
+#        comps.append(no_comps)
+#        swaps.append(no_swaps)
+#    return np.array(comps), np.array(swaps)
+#
+#
 def sort_wrapper(algorithm: Callable, list_length: int) -> None:
     """Wrapper routine used by the time_it* functions"""
     random_list = generate_random_list(list_length)
@@ -58,7 +80,35 @@ def time_it_repeat(algorithm: Callable,
                           list_length=list_length)
     t = timeit.Timer(f)
     times = t.repeat(repeat=timeit_repeat, number=timeit_iterations)
-    return times
+    return np.array(times)
+
+
+#def sort_wrapper_2(algorithm: Callable,
+#                   list_data: np.array) -> None:
+#    """Wrapper routine used by the time_it* functions"""
+#    random_list = generate_random_list(list_length)
+#    # random_list = get_next_list
+#    algorithm(random_list)
+
+
+def time_it_repeat_2(algorithm: Callable,
+        lists: np.array,
+        timeit_repeat: int = TIMEIT_REPEAT,
+        timeit_iterations: int = TIMEIT_ITERATIONS
+) -> tuple:
+    """measure execution time (elapsed) using timeit.repeat()"""
+    #f = functools.partial(sort_wrapper,
+    #                      algorithm=algorithm,
+    #                      list_length=list_length)
+    times = []
+    for k in timeit_repeat:
+        list_to_sort = lists[k]
+        f = f"{algorithm}({list_to_sort})"
+        t = timeit.Timer(f)
+        times.append(t.timeit(timeit_iterations))
+    return np.array(times)
+
+
 #
 #
 #def time_it(algorithm: Callable,
