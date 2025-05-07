@@ -29,7 +29,9 @@ from algorithms import ITERATIONS
 from algorithms import LIST_LENGTHS
 from algorithms import TIMEIT_ITERATIONS
 from algorithms import TIMEIT_REPEAT
+from algorithms import err_msg
 from algorithms import plot_data
+from algorithms import timestamp
 
 
 def sortperf() -> None:
@@ -55,25 +57,27 @@ def sortperf() -> None:
         print(f"\t{algo.__name__}")
     print()
 
-    # Collect data:
-    #       df_t        execution time
-    #       df_cs       number of comparisons and swaps
-    #       df          computed averages
-    (df_t, df_cs, df) = collect_data()
+    # Collect data (and get two pandas.DataFrames back, one for raw
+    # data, and one for averages)
+    (df_raw, df_means) = collect_data()
 
     # Save the dataframes to disk
-    df_t.to_csv("sortperf_t.csv", mode="w", index=False)
-    df_cs.to_csv("sortperf_cs.csv", mode="w", index=False)
-    df.to_csv("sortperf.csv", mode="w", index=False)
+    now = timestamp()
+    try:
+        df_raw.to_csv(f"lists/sortperf_raw_{now}.csv", mode="w", index=False)
+        df_means.to_csv(f"lists/sortperf_means_{now}.csv", mode="w", index=False)
+    except OSError as exception:
+        err_msg("Unable to save dataframes to disk")
+        err_msg(f"{repr(exception)}")
 
 
     # Plot data
     try:
-        # plot_data(df, columns=["t"])
-        # plot_data(df, columns=["comps"])
-        # plot_data(df, columns=["swaps"])
-        # plot_data(df, columns=["t", "comps"])
-        plot_data(df, columns=["t", "comps", "swaps"])
+        # plot_data(df_means, columns=["t"])
+        # plot_data(df_means, columns=["comps"])
+        # plot_data(df_means, columns=["swaps"])
+        # plot_data(df_means, columns=["t", "comps"])
+        plot_data(df_means, columns=["t", "comps", "swaps"])
     except ValueError as exception:
         print(repr(exception))
         raise SystemExit(1) from exception

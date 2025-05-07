@@ -8,18 +8,129 @@
         2025-05-04
 """
 
-import functools
 import timeit
 from collections.abc import Callable
+from functools import partial
+# pylint: disable=unused-import
 import numpy as np
-from . utils import generate_random_list
-# from . defaults import ITERATIONS
+from pandas import DataFrame
+from . defaults import ALGORITHMS, ALGOSALL
+from . defaults import bubblesort, bubblesort_nocopy
+from . defaults import bubblesort2, bubblesort2_nocopy
+from . defaults import insertionsort, insertionsort2, insertionsort3
+from . defaults import ITERATIONS
+from . defaults import LENGTH_DEFAULT
+from . defaults import LIST_LENGTHS
+from . defaults import LOWER, UPPER
 from . defaults import TIMEIT_ITERATIONS
 from . defaults import TIMEIT_REPEAT
+from . utils import generate_random_list
+from . utils import debug_msg, err_msg, sys_msg
+# pylint: enable=unused-import
 
 __all__ = ["algo_perf",
+           "genlists",
+           "measure",
            "time_it_repeat",
            "time_it_repeat_2"]
+
+
+def genlists(low: int = LOWER, high: int = UPPER,
+             size = (ITERATIONS, LENGTH_DEFAULT),
+             dtype = int):
+    """
+        NAME
+            genlists
+        DESCRIPTION
+            Basically a wrapper around np.random.randint with
+            default values provided.
+    """
+    return np.random.randint(low, high, size, dtype)
+
+
+# pylint: disable=too-many-locals
+def measure(ldata: np.array, algo: Callable,
+            nlists: int = ITERATIONS, llength: int = 10,
+            verbose = False, veryverbose = False):
+    """
+        Measure algorithm performance in terms of execution time ("t"),
+        number of comparisons ("comps"), and number of swaps ("swaps").
+
+        Parameters
+        ----------
+            ldata : numpy.ndarray – A two-dimensional numpy array containing
+                    lists of numbers (one list per row); the number of lists
+                    (rows) must be >= nlists; the length of each list (number
+                    of columns) must >= llength
+            algo : Callable/function used to sort the lists
+            nlists : int – Number of lists (number of rows in ldata) to process
+            llength : int – List-length (number of columns in ldata)
+            verbose : bool – if True, diagnostic/debug messages get printed
+
+        Returns
+        -------
+        DataFrame({'algorithm': np.repeat(algo.__name__, nlists),
+                   'length': np.repeat(llength, nlists),
+                   't': t, 'comps': comps, 'swaps': swaps})
+
+    """
+    # Initialise three lists to contain measurement data
+    t, comps, swaps = [], [], []
+    try:
+        if verbose:
+            print(f"algorithm {algo.__name__}")
+            print(f"ldata.shape {ldata.shape}")
+            print(f"llength {llength}")
+            print(f"nlists {nlists}")
+            print()
+        # Sanity check
+        try:
+            if llength > ldata.shape[1]:
+                errormsg = f"llength > (list length in ldata ({ldata.shape[1]}))"
+                raise IndexError(errormsg)
+        except AttributeError as exception:
+            err_msg(f"ldata should be a numpy.ndarray: {repr(exception)}")
+            raise
+        except IndexError as exception:
+            err_msg(f"{repr(exception)}")
+        # Measurements go here (number of measurements = nlists)
+        for iteration in range(nlists):
+            # Extract a list of suitable length from the data array
+            l = ldata[iteration][:llength]
+            if veryverbose:
+                print(f"List to be sorted: {l}")
+            # Measure number of comparisons and swaps
+            _, c, s = algo(l)
+            # Measure execution time
+            f = partial(algo, l)
+            timer = timeit.Timer(f)
+            # Append results to data lists
+            comps.append(c)
+            swaps.append(s)
+            t.append(timer.timeit(1))
+        if veryverbose:
+            print()
+            print(f"t = {t}")
+            print(f"comps = {comps}")
+            print(f"swaps = {swaps}")
+            print()
+        if verbose:
+            print(f"t.mean = {np.mean(t) / 1e-3:01.4f} ± {np.std(t) / 1e-3:01.4f} ms")
+            print(f"comps.mean = {np.mean(comps):01.2f} ± {np.std(comps):01.2f}")
+            print(f"swaps.mean = {np.mean(swaps):01.2f} ± {np.std(swaps):01.2f}")
+            print()
+    except AttributeError as exception:
+        err_msg("AttributeError:")
+        err_msg(f"{repr(exception)}")
+        raise
+    except IndexError as exception:
+        err_msg("IndexError:")
+        err_msg(f"{repr(exception)}")
+        raise
+    # Create and return a dataframe with the measurements as columns
+    return DataFrame({'algorithm': np.repeat(algo.__name__, nlists),
+                      'length': np.repeat(llength, nlists),
+                      't': t, 'comps': comps, 'swaps': swaps})
 
 
 def algo_perf(algorithm: Callable,
@@ -75,7 +186,7 @@ def time_it_repeat(algorithm: Callable,
                    timeit_iterations: int,
                    list_length: int) -> tuple:
     """measure execution time (elapsed) using timeit.repeat()"""
-    f = functools.partial(sort_wrapper,
+    f = partial(sort_wrapper,
                           algorithm=algorithm,
                           list_length=list_length)
     t = timeit.Timer(f)
@@ -97,7 +208,7 @@ def time_it_repeat_2(algorithm: Callable,
         timeit_iterations: int = TIMEIT_ITERATIONS
 ) -> tuple:
     """measure execution time (elapsed) using timeit.repeat()"""
-    #f = functools.partial(sort_wrapper,
+    #f = partial(sort_wrapper,
     #                      algorithm=algorithm,
     #                      list_length=list_length)
     times = []
@@ -116,7 +227,7 @@ def time_it_repeat_2(algorithm: Callable,
 #            timeit_iterations: int,
 #            list_length: int) -> tuple:
 #    """measure execution time (elapsed) using timeit.repeat()"""
-#    f = functools.partial(sort_wrapper,
+#    f = partial(sort_wrapper,
 #                          algorithm=algorithm,
 #                          list_length=list_length)
 #    t = timeit.Timer(f)

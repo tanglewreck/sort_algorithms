@@ -20,94 +20,55 @@ import pandas as pd
 from pandas import DataFrame, Series
 
 from algorithms.defaults import ALGORITHMS
+from algorithms.defaults import ITERATIONS
+from algorithms.defaults import LENGTH_DEFAULT
 from algorithms.defaults import LIST_LENGTHS
 from algorithms.defaults import LOWER, UPPER
-from algorithms.defaults import ITERATIONS
 from algorithms.defaults import TIMEIT_ITERATIONS
 from algorithms.defaults import TIMEIT_REPEAT
 
 # from algorithms.performance import do_measurements
 # from algorithms.performance import algorithm_perf
-from algorithms.performance import algo_perf
-from algorithms.performance import time_it_repeat
+# from algorithms.performance import algo_perf
+# from algorithms.performance import time_it_repeat
+from algorithms.performance import measure
+from algorithms.performance import genlists
 
 
 def collect_data() -> tuple:
     """
-        NAME
-            collect_data()
-        DESCRIPTION
-            Collect data and return a tuple of
-            dataframes of raw data (df_t, df_cs )
-            and a dataframe of computed averages.
-        CALLED BY
-            sortperf()
+       Collect data and return a tuple of dataframes one of raw data (df_t, df_cs )
+
+       Parameters
+       ----------
+       None – everything needed is imported from the algorithms package.
+
+       Returns
+       -------
+       Two dataframes are returned, as a tuple, one for raw data (df)
+       and one for computed averages (df_means)
+
+       Author
+       ------
+       mier
+
+       Date
+       ----
+       2025-05-07 (updated)
         """
+    # Generate test data (make it LARGE so there's
+    # room to spare!)
+    lists = genlists(size=(10_000, 10_000))  # 10 000 lists of length 10 000
     #
-    # Initialise two lists used to contain the
-    # generated dataframes, one for each list-
-    # length in the LIST_LENGTHS variable.
-    dfs_t = []
-    dfs_cs = []
+    # Initialise a list which will contain the generated dataframes
+    # (one for each list-length in LIST_LENGTHS).
+    dfs = []
     # Do the measurements
     for algo in ALGORITHMS:
         for length in LIST_LENGTHS:
-            # Here be code to generate an np.array with
-            # 'ITERATIONS' rows and 'length' columns...
-            # list_data_timeit = np.random.randint(LOWER, UPPER,
-            #                                      (TIMEIT_REPEAT, length))
-            # if __debug__:
-            #     print(f"Generated data ({TIMEIT_REPEAT} x {length}):")
-            #     print(f"{list_data_timeit}")
-
-
-            # Initialise two data dicts, one for execution
-            # time (data_t) and one for comparisons and swaps
-            # (data_cs).
-            data_t = {'algorithm': np.repeat(algo.__name__,
-                                             TIMEIT_REPEAT),
-                            'length': np.repeat(length,
-                                                TIMEIT_REPEAT)}
-            data_cs = {'algorithm': np.repeat(algo.__name__,
-                                              ITERATIONS),
-                            'length': np.repeat(length,
-                                                ITERATIONS)}
-            # MEASURE EXECUTION TIME, using time_it_repeat() which
-            # returns a list of floats of length TIMEIT_REPEAT.
-            # Them add the returned array to the data dict
-            # (data_t, column name 't')
-            t = np.array(time_it_repeat(algorithm=algo,
-                                      timeit_repeat=TIMEIT_REPEAT,
-                                      timeit_iterations=TIMEIT_ITERATIONS,
-                                      list_length=length))
-            data_t['t'] = t
-            #   MEASURE NUMBER OF COMPARISONS AND SWAPS, using
-            # algo_perf() which repeatedly (ITERATIONS times)
-            # runs the algorithm with random arrays of specified
-            # returns a list of floats of length TIMEIT_REPEAT.
-            #   algo_perf() returns two arrays, each of length
-            # 'length', with the number of comparisons and swaps,
-            # respectively, made in each run.
-            comparisons, swaps = algo_perf(algorithm=algo,
-                                           list_length=length,
-                                           iterations=ITERATIONS)
-            # Add the arrays to the data dict (column-names
-            # "comps", "swaps").
-            data_cs['comps'] = comparisons
-            data_cs['swaps'] = swaps
-            # Convert the data-dicts to dataframes and append
-            # to the lists of dataframes.
-            df_t = DataFrame(data_t,
-                              columns=["algorithm", "length", "t"])
-            df_cs = DataFrame(data_cs,
-                              columns=["algorithm", "length",
-                                       "comps", "swaps"])
-            dfs_t.append(df_t)
-            dfs_cs.append(df_cs)
-
-    # Concatenate the lists of dataframes
-    df_t = pd.concat(dfs_t, ignore_index=True)
-    df_cs = pd.concat(dfs_cs, ignore_index=True)
+            data = measure(lists, algo=algo, nlists=ITERATIONS, llength=length)
+            dfs.append(data)
+    df = pd.concat(dfs, ignore_index=True)
 
     # Create a dataframe of averages
     dfs = []
@@ -116,37 +77,33 @@ def collect_data() -> tuple:
         t = np.zeros(len(LIST_LENGTHS))
         comps = np.zeros(len(LIST_LENGTHS))
         swaps = np.zeros(len(LIST_LENGTHS))
-        # Compute averages from the data columns of
-        # the dataframes (df_t, df_cs). Store into
-        # np.array objects.
-        t = np.array(
-                [df_t.loc[
-                    (df_t.algorithm==algo.__name__) &
-                    (df_t.length==length)].t.mean()
+        # Compute averages; store in arrays
+        t = np.array([df.loc[
+                     (df.algorithm==algo.__name__) &
+                     (df.length==length)].t.mean()
                  for length in LIST_LENGTHS])
-        comps = np.array(
-                [df_cs.loc[
-                    (df_cs.algorithm==algo.__name__) &
-                    (df_cs.length==length)].comps.mean()
+        comps = np.array([df.loc[
+                         (df.algorithm==algo.__name__) &
+                         (df.length==length)].comps.mean()
                  for length in LIST_LENGTHS])
-        swaps = np.array(
-                [df_cs.loc[
-                    (df_cs.algorithm==algo.__name__) &
-                    (df_cs.length==length)].swaps.mean()
+        swaps = np.array([df.loc[
+                         (df.algorithm==algo.__name__) &
+                         (df.length==length)].swaps.mean()
                  for length in LIST_LENGTHS])
         # Create a dataframe with columns
         #       "algorithm", "length" (list-length), "t" (execution time),
         #       "comps" (number of comparisons), and "swaps (number of swaps),
         #       using the arrays of computed averages (t, comps, swaps).
         #       Then add the dataframe to the list of dataframes.
-        data = DataFrame(
-                {'algorithm': algo.__name__,
-                 'length': LIST_LENGTHS,
-                 't': t,
-                 'comps': comps,
-                 'swaps': swaps}
-                 )
-        dfs.append(data)
-    # Concatenat the list of dataframes
-    df = pd.concat(dfs, ignore_index=True)
-    return df_t, df_cs, df
+        df_means = DataFrame({'algorithm': algo.__name__,
+                              'length': LIST_LENGTHS,
+                              't': t,
+                              'comps': comps,
+                              'swaps': swaps})
+        dfs.append(df_means)
+    # Concatenate into one dataframe
+    df_means = pd.concat(dfs, ignore_index=True)
+
+    # Return two dataframes, one for raw data and
+    # one for averages
+    return df, df_means
