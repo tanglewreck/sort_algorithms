@@ -41,10 +41,14 @@ __all__ += ["TIMEIT_ITERATIONS", "TIMEIT_REPEAT"]
 ALGORITHMS = (bubblesort, bubblesort2, bubblesort2_nocopy,
               insertionsort, insertionsort3, insertionsort3)
 BS = (bubblesort, bubblesort2)
+BSNCP = (bubblesort_nocopy, bubblesort2_nocopy)
 BSALL = (bubblesort, bubblesort_nocopy, bubblesort2, bubblesort2_nocopy)
-IS = (insertionsort, insertionsort2, insertionsort3)
+IS = (insertionsort, )
+IS2 = (insertionsort2, )
+IS3 = (insertionsort3, )
+ISALL = IS + IS2 + IS3
 ALGOSALL = BS + IS
-ALGORITHMS = IS
+ALGORITHMS = BS + IS2 + IS3
 #
 COLUMNS = ('t', 'comps', 'swaps')
 LENGTH_DEFAULT = 10
@@ -70,13 +74,13 @@ LIST_LENGTHS_2 = np.append(np.arange(10, 100, 10),
 #            1500, 2000])
 #
 # LIST_LENGTHS = np.array([10, 25, 50, 100, 150, 200, 250, 300])
-LIST_LENGTHS = np.arange(10, 100, 10)
+# LIST_LENGTHS = np.arange(10, 100, 10)
 LIST_LENGTHS = np.append(np.arange(10, 110, 10), [250, 500])
 # Min/max sizes of a random number
-LOWER, UPPER = 1, 100
+LOWER, UPPER = 1, 10_000
 # Number of iterations while measuring performance (comparisons, swaps)
 # ITERATIONS = 200
-ITERATIONS = 10
+ITERATIONS = 20
 # Number of iterations using the timeite module
 # TIMEIT_ITERATIONS = 20
 # TIMEIT_REPEAT = 20
