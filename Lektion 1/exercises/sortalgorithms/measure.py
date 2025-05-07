@@ -16,7 +16,7 @@ from collections.abc import Callable
 from functools import partial
 import timeit
 import numpy as np
-import pandas as pd
+from pandas import DataFrame
 # pylint: disable=unused-import
 from algorithms.utils import debug_msg, err_msg, sys
 from algorithms.defaults import ALGORITHMS, ALGOSALL
@@ -44,7 +44,7 @@ def genarr(low: int = LOWER, high: int = UPPER,
     """
     return np.random.randint(low, high, size, dtype)
 
-
+# pylint: disable=too-many-locals
 def measure(ldata: np.array, algo: Callable = bubblesort,
             nlists: int = ITERATIONS, llength: int = 10,
             verbose = False):
@@ -95,7 +95,7 @@ def measure(ldata: np.array, algo: Callable = bubblesort,
         raise
     # return np.mean(t), np.mean(comps), np.mean(swaps)
     # return np.array(t), np.array(comps), np.array(swaps)
-    return pd.DataFrame([t, comps, swaps],
+    return DataFrame([t, comps, swaps],
                         index=["t", "comps", "swaps"])
 
 
