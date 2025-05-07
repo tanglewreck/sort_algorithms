@@ -9,21 +9,64 @@
 # pylint: disable=consider-using-enumerate
 
 __all__ = ["bubblesort",
-           "bubblesort_2",
-           "bubblesort_2_2",
-           "bubblesort_3"]
+           "bubblesort_nocopy",
+           "bubblesort2",
+           "bubblesort2_nocopy",
+           "bubblesort3",
+           "bubblesort3_nocopy"]
 
 
-def bubblesort_2(the_list: list, reverse: bool = False) -> tuple:
+def bubblesort(the_list: list, reverse: bool = False) -> tuple:
+    """Vanilla bubblesort"""
+    list_copy = the_list.copy()
+    nswaps = 0
+    ncomps = 0
+    for _ in range(len(list_copy)):
+        for index in range(len(list_copy) - 1):
+            ncomps += 1
+            if list_copy[index] > list_copy[index + 1]:
+                nswaps += 1
+                (list_copy[index],
+                 list_copy[index + 1]) = (list_copy[index + 1],
+                                          list_copy[index])
+    if reverse:
+        return (list_copy[::-1], ncomps, nswaps)
+    return (list_copy, ncomps, nswaps)
+
+
+def bubblesort_nocopy(the_list: list, reverse: bool = False) -> tuple:
+    """Vanilla bubblesort"""
+    list_copy = the_list.copy()
+    nswaps = 0
+    ncomps = 0
+    for _ in range(len(list_copy)):
+        for index in range(len(list_copy) - 1):
+            ncomps += 1
+            if list_copy[index] > list_copy[index + 1]:
+                nswaps += 1
+                (list_copy[index],
+                 list_copy[index + 1]) = (list_copy[index + 1],
+                                          list_copy[index])
+    if reverse:
+        return (list_copy[::-1], ncomps, nswaps)
+    return (list_copy, ncomps, nswaps)
+
+
+def bubblesort2(the_list: list, reverse: bool = False) -> tuple:
     """
         NAME
-            bubblesort_2
+            bubblesort2
         DESCRIPTION
-            Sort a list of numbers in increasing order using a
-            somewhat optimised version of bubblesort.
+            Bubblesort somewhat optimised: returns when no
+            swaps have been done.
+            Default is to sort in increasing order.
+        PARAMETERS
+            the_list : list of numbers to be sorted
+            reverse : bool
+
         RETURNS
             Returns a tuple consisting of
-            1. The sorted list
+            1. The a sorted copy of the list
             2. Number of swaps made during the sorting
             3. Number of comparisons made
         DATE
@@ -50,23 +93,23 @@ def bubblesort_2(the_list: list, reverse: bool = False) -> tuple:
     return (list_copy, ncomps, nswaps)
 
 
-def bubblesort_2_2(the_list: list, reverse: bool = False) -> tuple:
+def bubblesort2_nocopy(the_list: list, reverse: bool = False) -> tuple:
     """
         NAME
-            bubblesort_2_2
+            bubblesort2_2
         DESCRIPTION
-            Sort a list of numbers in increasing order using a
-            somewhat optimised version of bubblesort.
-                This version does not make a copy of the list
-            it gets as an argument, so the original list
-            will be sorted making the original, unsorted list
-            unavailable for comparison... 
-                NOTE: The calling code still expects the 
-            (now sorted) list as the first element in the 
-            returned tuple.
+            Bubblesort somewhat optimised: returns when no
+            swaps have been done.
+           Default is to sort in increasing order.
+           Same as bubblesort2() except no copy of the list
+            is made.
+        PARAMETERS
+            the_list : list of numbers to be sorted
+            reverse : bool
+
         RETURNS
             Returns a tuple consisting of
-            1. The sorted list
+            1. The a sorted copy of the list
             2. Number of swaps made during the sorting
             3. Number of comparisons made
         DATE
@@ -92,33 +135,15 @@ def bubblesort_2_2(the_list: list, reverse: bool = False) -> tuple:
     return (the_list, ncomps, nswaps)
 
 
-def bubblesort(the_list: list, reverse: bool = False) -> tuple:
-    """Another bubblesort implementation (slower)"""
-    list_copy = the_list.copy()
-    nswaps = 0
-    ncomps = 0
-    for _ in range(len(list_copy)):
-        for index in range(len(list_copy) - 1):
-            ncomps += 1
-            if list_copy[index] > list_copy[index + 1]:
-                nswaps += 1
-                (list_copy[index],
-                 list_copy[index + 1]) = (list_copy[index + 1],
-                                          list_copy[index])
-    if reverse:
-        return (list_copy[::-1], ncomps, nswaps)
-    return (list_copy, ncomps, nswaps)
-
-
-def bubblesort_3(the_list: list, reverse: bool = False) -> tuple:
-    """Another bubblesort implementation"""
+def bubblesort3(the_list: list, reverse: bool = False) -> tuple:
+    """Another bubblesort implementation, or rather insertionsort(?)..."""
     list_copy = the_list.copy()
     nswaps = 0
     ncomps = 0
     for index_one in range(len(list_copy)):
         for index_two in range(len(list_copy) - 1):
             ncomps += 1
-            if list_copy[index_one] > list_copy[index_two]:
+            if list_copy[index_one] < list_copy[index_two]:
                 nswaps += 1
                 (list_copy[index_one],
                  list_copy[index_two]) = (list_copy[index_two],
@@ -126,3 +151,21 @@ def bubblesort_3(the_list: list, reverse: bool = False) -> tuple:
     if reverse:
         return (list_copy[::-1], ncomps, nswaps)
     return (list_copy, ncomps, nswaps)
+
+
+def bubblesort3_nocopy(the_list: list, reverse: bool = False) -> tuple:
+    """Another bubblesort implementation, or rather insertionsort(?)...
+       Same as bubblesort3 but no copy is made """
+    nswaps = 0
+    ncomps = 0
+    for index_one in range(len(the_list)):
+        for index_two in range(len(the_list) - 1):
+            ncomps += 1
+            if the_list[index_one] < the_list[index_two]:
+                nswaps += 1
+                (the_list[index_one],
+                 the_list[index_two]) = (the_list[index_two],
+                                          the_list[index_one])
+    if reverse:
+        return (the_list[::-1], ncomps, nswaps)
+    return (the_list, ncomps, nswaps)
