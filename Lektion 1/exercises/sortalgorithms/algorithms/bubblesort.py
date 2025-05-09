@@ -29,6 +29,7 @@ __all__ = ["bubblesort",
 # xpylint: enable=unused-import
 import numpy as np
 
+
 def bubblesort(arr: np.ndarray, reverse: bool = False) -> tuple:
     """
         Vanilla bubble sort (https://en.wikipedia.org/wiki/bubblesort).
@@ -43,7 +44,7 @@ def bubblesort(arr: np.ndarray, reverse: bool = False) -> tuple:
 
         Returns
         -------
-        arr_copy, ncomps, nswaps 
+        arr_copy, ncomps, nswaps
             arr_copy : array_like, sorted copy of 'arr'
             ncomps : int, number of comparisons made by the sorting algorithm.
             nswaps : int, number of swaps made by the sorting algorithm.
@@ -58,7 +59,7 @@ def bubblesort(arr: np.ndarray, reverse: bool = False) -> tuple:
                 nswaps += 1
                 (arr_copy[index],
                  arr_copy[index + 1]) = (arr_copy[index + 1],
-                                          arr_copy[index])
+                                         arr_copy[index])
     if reverse:
         return (arr_copy[::-1], ncomps, nswaps)
     return (arr_copy, ncomps, nswaps)
@@ -80,7 +81,7 @@ def bubblesort_nocopy(arr: np.ndarray, reverse: bool = False) -> tuple:
 
         Returns
         -------
-        arr, ncomps, nswaps 
+        arr, ncomps, nswaps
             arr : array_like, 'arr' sorted (inline)
             ncomps : int, number of comparisons made by the sorting algorithm.
             nswaps : int, number of swaps made by the sorting algorithm.
@@ -94,7 +95,7 @@ def bubblesort_nocopy(arr: np.ndarray, reverse: bool = False) -> tuple:
                 nswaps += 1
                 (arr[index],
                  arr[index + 1]) = (arr[index + 1],
-                                          arr[index])
+                                    arr[index])
     if reverse:
         return (arr[::-1], ncomps, nswaps)
     return (arr, ncomps, nswaps)
@@ -114,7 +115,7 @@ def bubblesort2(arr: np.ndarray, reverse: bool = False) -> tuple:
 
         Returns
         -------
-        arr_copy, ncomps, nswaps 
+        arr_copy, ncomps, nswaps
             arr_copy : array_like, sorted copy of 'arr'
             ncomps : int, number of comparisons made by the sorting algorithm.
             nswaps : int, number of swaps made by the sorting algorithm.
@@ -134,7 +135,7 @@ def bubblesort2(arr: np.ndarray, reverse: bool = False) -> tuple:
                 nswaps += 1
                 (arr_copy[index],
                  arr_copy[index + 1]) = (arr_copy[index + 1],
-                                          arr_copy[index])
+                                         arr_copy[index])
     if reverse:
         return (arr_copy[::-1], ncomps, nswaps)
     return (arr_copy, ncomps, nswaps)
@@ -155,7 +156,7 @@ def bubblesort2_nocopy(arr: np.ndarray, reverse: bool = False) -> tuple:
 
         Returns
         -------
-        arr, ncomps, nswaps 
+        arr, ncomps, nswaps
             arr : array_like, 'arr' sorted (inline)
             ncomps : int, number of comparisons made by the sorting algorithm.
             nswaps : int, number of swaps made by the sorting algorithm.
@@ -174,7 +175,7 @@ def bubblesort2_nocopy(arr: np.ndarray, reverse: bool = False) -> tuple:
                 nswaps += 1
                 (arr[index],
                  arr[index + 1]) = (arr[index + 1],
-                                          arr[index])
+                                    arr[index])
     if reverse:
         return (arr[::-1], ncomps, nswaps)
     return (arr, ncomps, nswaps)
@@ -184,7 +185,7 @@ def bubblesort3(arr: np.ndarray, reverse: bool = False) -> tuple:
     """
         Optimised bubble sort* (https://en.wikipedia.org/wiki/bubblesort).
 
-        *This implementation is rather more like the insertion sort 
+        *This implementation is rather more like the insertion sort
          algorithm (https://en.wikipedia.org/wiki/insertionsort).
 
         Parameters
@@ -197,7 +198,7 @@ def bubblesort3(arr: np.ndarray, reverse: bool = False) -> tuple:
 
         Returns
         -------
-        arr, ncomps, nswaps 
+        arr, ncomps, nswaps
             arr : array_like, 'arr' sorted (inline)
             ncomps : int, number of comparisons made by the sorting algorithm.
             nswaps : int, number of swaps made by the sorting algorithm.
@@ -212,7 +213,7 @@ def bubblesort3(arr: np.ndarray, reverse: bool = False) -> tuple:
                 nswaps += 1
                 (arr_copy[index_one],
                  arr_copy[index_two]) = (arr_copy[index_two],
-                                          arr_copy[index_one])
+                                         arr_copy[index_one])
     if reverse:
         return (arr_copy[::-1], ncomps, nswaps)
     return (arr_copy, ncomps, nswaps)
@@ -224,7 +225,7 @@ def bubblesort3_nocopy(arr: np.ndarray, reverse: bool = False) -> tuple:
 
         Sorts 'arr' inline (no copy of 'arr' is made).
 
-        *This implementation is rather more like the insertion sort 
+        *This implementation is rather more like the insertion sort
          algorithm (https://en.wikipedia.org/wiki/insertionsort).
 
         Parameters
@@ -237,7 +238,7 @@ def bubblesort3_nocopy(arr: np.ndarray, reverse: bool = False) -> tuple:
 
         Returns
         -------
-        arr, ncomps, nswaps 
+        arr, ncomps, nswaps
             arr : array_like, 'arr' sorted (inline)
             ncomps : int, number of comparisons made by the sorting algorithm.
             nswaps : int, number of swaps made by the sorting algorithm.
@@ -251,7 +252,7 @@ def bubblesort3_nocopy(arr: np.ndarray, reverse: bool = False) -> tuple:
                 nswaps += 1
                 (arr[index_one],
                  arr[index_two]) = (arr[index_two],
-                                          arr[index_one])
+                                    arr[index_one])
     if reverse:
         return (arr[::-1], ncomps, nswaps)
     return (arr, ncomps, nswaps)
