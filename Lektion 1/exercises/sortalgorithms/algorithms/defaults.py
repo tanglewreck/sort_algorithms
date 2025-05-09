@@ -75,12 +75,13 @@ LIST_LENGTHS_2 = np.append(np.arange(10, 100, 10),
 #
 # LIST_LENGTHS = np.array([10, 25, 50, 100, 150, 200, 250, 300])
 # LIST_LENGTHS = np.arange(10, 100, 10)
-LIST_LENGTHS = np.append(np.arange(10, 110, 10), [250, 500])
+LIST_LENGTHS = np.append(np.arange(10, 110, 10),
+                         [150, 200, 250, 300, 350, 400, 450, 500])
 # Min/max sizes of a random number
 LOWER, UPPER = 1, 10_000
 # Number of iterations while measuring performance (comparisons, swaps)
 # ITERATIONS = 200
-ITERATIONS = 20
+ITERATIONS = 10
 # Number of iterations using the timeite module
 # TIMEIT_ITERATIONS = 20
 # TIMEIT_REPEAT = 20
