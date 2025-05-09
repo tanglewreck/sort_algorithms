@@ -24,13 +24,6 @@ from algorithms.defaults import ITERATIONS
 from algorithms.defaults import LENGTH_DEFAULT
 from algorithms.defaults import LIST_LENGTHS
 from algorithms.defaults import LOWER, UPPER
-from algorithms.defaults import TIMEIT_ITERATIONS
-from algorithms.defaults import TIMEIT_REPEAT
-
-# from algorithms.performance import do_measurements
-# from algorithms.performance import algorithm_perf
-# from algorithms.performance import algo_perf
-# from algorithms.performance import time_it_repeat
 from algorithms.performance import measure
 from algorithms.performance import genlists
 
