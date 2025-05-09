@@ -12,11 +12,14 @@
 __all__ = ["genarr", "measure", "measurements"]
 
 ## xpylint: disable=unused-import
+import timeit
+
 from collections.abc import Callable
 from functools import partial
-import timeit
+
 import numpy as np
 from pandas import DataFrame
+
 # pylint: disable=unused-import
 from algorithms.utils import debug_msg, err_msg, sys
 from algorithms.defaults import ALGORITHMS, ALGOSALL
@@ -34,13 +37,24 @@ from algorithms.defaults import ITERATIONS
 def genarr(low: int = LOWER, high: int = UPPER,
            size = (ITERATIONS, LENGTH_DEFAULT),
            dtype = int):
-#            nlists: int = ITERATIONS, llength: int = LENGTH_DEFAULT):
     """
-        NAME
-            genarr
-        DESCRIPTION
-            Basically a wrapper around np.random.randint with
-            default values provided.
+        Basically a wrapper around np.random.randint with
+        default values provided.
+
+        Parameters
+        ----------
+            low : int
+                  Smallest number to generate
+            high : int
+                   Largest number to generate
+            size : tuple of ints
+                   Number of lists and number of numbers
+                   in each list, default: (ITERATIONS, LENGTH_DEFAULT)
+            dtype : defaults to int
+        Returns
+        -------
+            np.ndarray of random numbers (of type 'dtype') in the half-open interval
+            [low, high) of size 'size'.
     """
     return np.random.randint(low, high, size, dtype)
 
@@ -145,3 +159,8 @@ def measurements(ldata: list = None, algo: Callable = bubblesort,
         err_msg("Got an IndexError:")
         err_msg(f"{repr(exception)}")
     return None
+
+
+if __name__ == "__main__":
+    data = genarr(size=(10_000, 10_000))
+    measurements(data, bubblesort)
