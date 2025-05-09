@@ -11,7 +11,7 @@
 """
 __all__ = ["genarr", "measure", "measurements"]
 
-## xpylint: disable=unused-import
+# xpylint: disable=unused-import
 import timeit
 
 from collections.abc import Callable
@@ -25,6 +25,7 @@ from algorithms.utils import debug_msg, err_msg, sys
 from algorithms.defaults import ALGORITHMS, ALGOSALL
 from algorithms.defaults import bubblesort, bubblesort_nocopy
 from algorithms.defaults import bubblesort2, bubblesort2_nocopy
+from algorithms.defaults import bubblesort3, bubblesort3_nocopy
 from algorithms.defaults import insertionsort, insertionsort2, insertionsort3
 # pylint: enable=unused-import
 from algorithms.defaults import LENGTH_DEFAULT
@@ -33,10 +34,9 @@ from algorithms.defaults import LOWER, UPPER
 from algorithms.defaults import ITERATIONS
 
 
-
 def genarr(low: int = LOWER, high: int = UPPER,
-           size = (ITERATIONS, LENGTH_DEFAULT),
-           dtype = int):
+           size=(ITERATIONS, LENGTH_DEFAULT),
+           dtype=int):
     """
         Basically a wrapper around np.random.randint with
         default values provided.
@@ -53,16 +53,17 @@ def genarr(low: int = LOWER, high: int = UPPER,
             dtype : defaults to int
         Returns
         -------
-            np.ndarray of random numbers (of type 'dtype') in the half-open interval
-            [low, high) of size 'size'.
+            np.ndarray of random numbers (of type 'dtype') in the
+            half-open interval [low, high) of size 'size'.
     """
     return np.random.randint(low, high, size, dtype)
+
 
 # pylint: disable=too-many-locals
 def measure(ldata: np.array, algo: Callable = bubblesort,
             nlists: int = ITERATIONS, llength: int = 10,
-            verbose = False):
-    """Do the measurements"""
+            verbose=0):
+    """Measure performance of a sorting algorithm."""
     t, comps, swaps = [], [], []
     try:
         # Get number of ldata to sort (nlists)
@@ -71,34 +72,43 @@ def measure(ldata: np.array, algo: Callable = bubblesort,
         # variable (np.array):
         # nlists, llength = ldata.shape
         # nlists, llength = ITERATIONS
-        if verbose:
+        if verbose > 0:
             print(f"algorithm {algo.__name__}")
-            print(f"ldata.shape {ldata.shape}")
-            print(f"llength {llength}")
-            print(f"nlists {nlists}")
+            print(f"ldata.shape {ldata.shape}, "
+                  f"llength {llength}, "
+                  f"nlists {nlists}")
         if llength > ldata.shape[1]:
             errormsg = f"llength > (list length in ldata ({ldata.shape[1]}))"
             raise IndexError(errormsg)
         for k in range(nlists):
-            l = ldata[k][:llength]
-            if verbose:
-                print(l)
+            lslice = ldata[k][:llength]
+            if verbose > 2:
+                print(lslice)
             # Measure number of comparisons and swaps
-            _, c, s = algo(l)
+            _, c, s = algo(lslice)
             comps.append(c)
             swaps.append(s)
             # Measure execution time
-            f = partial(algo, l)
+            f = partial(algo, lslice)
             timer = timeit.Timer(f)
             t.append(timer.timeit(1))
-        if verbose:
+        if verbose > 1:
             print(f"t = {t}")
             print(f"comps = {comps}")
             print(f"swaps = {swaps}")
             print()
-            print(f"t.mean = {np.mean(t):01.2f} ± {np.std(t):01.2f}")
-            print(f"comps.mean = {np.mean(comps):01.2f} ± {np.std(comps):01.2f}")
-            print(f"swaps.mean = {np.mean(swaps):01.2f} ± {np.std(swaps):01.2f}")
+        if verbose > 0:
+            print(f"t.mean = {np.mean(t) / 1e-3:01.2f} ± "
+                  f"{np.std(t) / 1e-3:01.2f} ms")
+            print(f"t.min = {np.min(t) / 1e-3:01.2f} ms")
+            print(f"t.max = {np.max(t) / 1e-3:01.2f} ms")
+            print()
+        if verbose >= 1.5:
+            print(f"comps.mean = {np.mean(comps):01.2f} ± "
+                  f"{np.std(comps):01.2f}")
+            print(f"swaps.mean = {np.mean(swaps):01.2f} ± "
+                  f"{np.std(swaps):01.2f}")
+            print()
     except AttributeError as exception:
         err_msg("Got an AttributeError:")
         err_msg(f"{repr(exception)}")
@@ -110,25 +120,25 @@ def measure(ldata: np.array, algo: Callable = bubblesort,
     # return np.mean(t), np.mean(comps), np.mean(swaps)
     # return np.array(t), np.array(comps), np.array(swaps)
     return DataFrame([t, comps, swaps],
-                        index=["t", "comps", "swaps"])
+                     index=["t", "comps", "swaps"])
 
 
 def measurements(ldata: list = None, algo: Callable = bubblesort,
-             llengths=LIST_LENGTHS, nlists=(ITERATIONS,),
-                 verbose = False) -> None:
+                 llengths=LIST_LENGTHS, nlists=(ITERATIONS,),
+                 verbose=False) -> None:
     """
-        Measure performance of a sort algorithm. 
+        Measure performance of a sort algorithm.
         Wrapper around measure().
 
         Parameters
         ----------
-        ldata : list or numpy array. If None, a (rather large) two-dimensional 
-                array is generated using genarr(). 
-        algo : Callable – the sort algorithm (a function, not a function *name*).
+        ldata : list or numpy array. If None, a (rather large) two-dimensional
+                array is generated using genarr().
+        algo : Callable – the sort algorithm (not a function *name*).
                Defaults to bubblesort().
         llengths : iterable – a list of listlengths to be tested. Defaults
                to LIST_LENGTHS, imported from algorithms.default.
-        nlists : list – the number of lists to be tested. Defaults to 
+        nlists : list – the number of lists to be tested. Defaults to
                  ITERATIONS, imported from algorithms.defaults.
 
     """
@@ -142,14 +152,18 @@ def measurements(ldata: list = None, algo: Callable = bubblesort,
             ldata = genarr()
             llengths = [LENGTH_DEFAULT, ]
         for ll in llengths:
-            print(f"Current list-length: {ll}",)
+            print("_________________")
+            print(f"list-length: {ll}",)
+            print("_________________")
             for nl in nlists:
-                df = measure(ldata, algo, nlists=nl, llength=ll, verbose=verbose)
+                df = measure(ldata, algo, nlists=nl,
+                             llength=ll, verbose=verbose)
                 print(f"    nlists (iterations): {nl} :", end="")
                 print(f'{"t"}: {df.loc["t"].mean() / 1e-3:2.4f} ± '
                       f'{df.loc["t"].std() / 1e-3:2.4f} ms', end=" ")
                 for ind in df.index[1:]:
-                    print(f'{ind}: {df.loc[ind].mean():2.2f} ± {df.loc[ind].std():2.2f}', end=" ")
+                    print(f'{ind}: {df.loc[ind].mean():2.2f} ± '
+                          f'{df.loc[ind].std():2.2f}', end=" ")
                 print()
     except AttributeError as exception:
         err_msg("Got an AttributeError:")
@@ -161,6 +175,25 @@ def measurements(ldata: list = None, algo: Callable = bubblesort,
     return None
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """main"""
     data = genarr(size=(10_000, 10_000))
-    measurements(data, bubblesort)
+    nlists = 30
+    for llength in [100, 250, 500, 750, 1000]:
+        print("-" * 30)
+        measure(ldata=data, algo=bubblesort,
+                nlists=nlists, llength=llength, verbose=1)
+        measure(ldata=data, algo=insertionsort3,
+                nlists=nlists, llength=llength, verbose=1)
+        # nlists=np.arange(30, 60, 10))
+    print()
+    print("-" * 30)
+#    measurements(ldata=data,
+#                 algo=insertionsort3,
+#                 llengths=np.arange(100, 1001, 100),
+#                 nlists=(30, ))
+    # print(df)
+
+
+if __name__ == "__main__":
+    main()
