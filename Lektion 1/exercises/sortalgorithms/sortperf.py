@@ -60,12 +60,13 @@ def sortperf() -> None:
     # Save the dataframes to disk
     now = timestamp()
     try:
-        df_raw.to_csv(f"lists/sortperf_raw_{now}.csv", mode="w", index=False)
-        df_means.to_csv(f"lists/sortperf_means_{now}.csv", mode="w", index=False)
+        df_raw.to_csv(f"lists/sortperf_raw_{now}.csv",
+                      mode="w", index=False)
+        df_means.to_csv(f"lists/sortperf_means_{now}.csv",
+                        mode="w", index=False)
     except OSError as exception:
         err_msg("Unable to save dataframes to disk")
         err_msg(f"{repr(exception)}")
-
 
     # Plot data
     try:
