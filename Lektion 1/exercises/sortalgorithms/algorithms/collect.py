@@ -30,7 +30,9 @@ from algorithms.performance import genlists
 
 def collect_data() -> tuple:
     """
-       Collect data and return a tuple of dataframes one of raw data (df_t, df_cs )
+       Collect data and return a tuple of dataframes,
+       one with raw data (df) and one with computed
+       mean values.
 
        Parameters
        ----------
@@ -72,16 +74,16 @@ def collect_data() -> tuple:
         swaps = np.zeros(len(LIST_LENGTHS))
         # Compute averages; store in arrays
         t = np.array([df.loc[
-                     (df.algorithm==algo.__name__) &
-                     (df.length==length)].t.mean()
+                     (df.algorithm == algo.__name__) &
+                     (df.length == length)].t.mean()
                  for length in LIST_LENGTHS])
         comps = np.array([df.loc[
-                         (df.algorithm==algo.__name__) &
-                         (df.length==length)].comps.mean()
+                         (df.algorithm == algo.__name__) &
+                         (df.length == length)].comps.mean()
                  for length in LIST_LENGTHS])
         swaps = np.array([df.loc[
-                         (df.algorithm==algo.__name__) &
-                         (df.length==length)].swaps.mean()
+                         (df.algorithm == algo.__name__) &
+                         (df.length == length)].swaps.mean()
                  for length in LIST_LENGTHS])
         # Create a dataframe with columns
         #       "algorithm", "length" (list-length), "t" (execution time),
