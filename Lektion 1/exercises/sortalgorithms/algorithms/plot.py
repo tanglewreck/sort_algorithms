@@ -58,13 +58,13 @@ def plot_data(data: DataFrame,
                    "blue", "red", "lightgreen") * 2
         markers = ("o", "^", "*", "x", "D", "v", ",") * 2
         styles = ("-", "--", "-.", ":") * 2
-        for k, ax in enumerate(axs):
-            column = columns[k]
-            for l, algo in enumerate(ALGORITHMS):
-                fmt = f"{markers[l]}{styles[l]}"
+        for i, ax in enumerate(axs):
+            column = columns[i]
+            for j, algo in enumerate(ALGORITHMS):
+                fmt = f"{markers[j]}{styles[j]}"
                 ax.plot(LIST_LENGTHS,
                         data.loc[(data.algorithm == algo.__name__)][column],
-                        fmt, label=algo.__name__, color=colours[l])
+                        fmt, label=algo.__name__, color=colours[j])
             ax.set_title(column)
             ax.set_xlabel('length')
             if column == "t":

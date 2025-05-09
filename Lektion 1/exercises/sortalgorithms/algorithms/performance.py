@@ -24,8 +24,8 @@ __all__ = ["genlists", "measure"]
 
 
 def genlists(low: int = LOWER, high: int = UPPER,
-             size = (ITERATIONS, LENGTH_DEFAULT),
-             dtype = int):
+             size=(ITERATIONS, LENGTH_DEFAULT),
+             dtype=int):
     """
         NAME
             genlists
@@ -74,7 +74,8 @@ def measure(ldata: np.array, algo: Callable,
         # Sanity check
         try:
             if llength > ldata.shape[1]:
-                errormsg = f"llength > (list length in ldata ({ldata.shape[1]}))"
+                errormsg = "llength > (list length in "
+                errormsg += "ldata ({ldata.shape[1]}))"
                 raise IndexError(errormsg)
         except AttributeError as exception:
             err_msg(f"ldata should be a numpy.ndarray: {repr(exception)}")
@@ -84,13 +85,13 @@ def measure(ldata: np.array, algo: Callable,
         # Measurements go here (number of measurements = nlists)
         for iteration in range(nlists):
             # Extract a list of suitable length from the data array
-            l = ldata[iteration][:llength]
+            lslice = ldata[iteration][:llength]
             if verbose > 1:
-                print(f"List to be sorted: {l}")
+                print(f"List to be sorted: {lslice}")
             # Measure number of comparisons and swaps
-            _, c, s = algo(l)
+            _, c, s = algo(lslice)
             # Measure execution time
-            f = partial(algo, l)
+            f = partial(algo, lslice)
             timer = timeit.Timer(f)
             # Append results to data lists
             comps.append(c)
@@ -103,9 +104,12 @@ def measure(ldata: np.array, algo: Callable,
             print(f"swaps = {swaps}")
             print()
         if verbose:
-            print(f"t.mean = {np.mean(t) / 1e-3:01.4f} ± {np.std(t) / 1e-3:01.4f} ms")
-            print(f"comps.mean = {np.mean(comps):01.2f} ± {np.std(comps):01.2f}")
-            print(f"swaps.mean = {np.mean(swaps):01.2f} ± {np.std(swaps):01.2f}")
+            print(f"t.mean = {np.mean(t) / 1e-3:01.4f} ± "
+                  f"{np.std(t) / 1e-3:01.4f} ms")
+            print(f"comps.mean = {np.mean(comps):01.2f} ± "
+                  f"{np.std(comps):01.2f}")
+            print(f"swaps.mean = {np.mean(swaps):01.2f} ± "
+                  f"{np.std(swaps):01.2f}")
             print()
     except AttributeError as exception:
         err_msg("AttributeError:")
