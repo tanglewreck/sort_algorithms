@@ -33,10 +33,16 @@ __all__ += ["LENGTH_DEFAULT", "LIST_LENGTHS"]
 __all__ += ["LIST_LENGTHS_2"]
 __all__ += ["LOWER", "UPPER"]
 __all__ += ["SAVEPATH"]
-__all__ += ["TIMEIT_ITERATIONS", "TIMEIT_REPEAT"]
+# __all__ += ["TIMEIT_ITERATIONS", "TIMEIT_REPEAT"]
 
 # pylint: disable=wildcard-import, unused-wildcard-import, unused-import
 
+# Directory where generated lists are saved:
+SAVEPATH = "lists/"
+LENGTH_DEFAULT = 10
+# Plot size
+FIG_DIM = (30, 15)
+FIG_DPI = 100
 # ALGORITHMS
 ALGORITHMS = (bubblesort, bubblesort2, bubblesort2_nocopy,
               insertionsort, insertionsort3, insertionsort3)
@@ -51,9 +57,18 @@ ALGOSALL = BS + IS
 ALGORITHMS = BS + IS2 + IS3
 #
 COLUMNS = ('t', 'comps', 'swaps')
-LENGTH_DEFAULT = 10
-FIG_DIM = (21, 8)
-FIG_DPI = 150
+
+# Number of iterations (=number of arrays to sort) during data-collection.
+ITERATIONS = 10
+# Min/max sizes of a random number
+LOWER, UPPER = 1, 10_000
+
+# Number of iterations using the timeite module
+# TIMEIT_ITERATIONS = 20
+# TIMEIT_REPEAT = 20
+# TIMEIT_ITERATIONS = 10
+# TIMEIT_REPEAT = 10
+#
 # List-lenghts examples:
 # LIST_LENGTHS = range(2, 100)
 # LIST_LENGTHS = np.arange(2,100)
@@ -75,17 +90,7 @@ LIST_LENGTHS_2 = np.append(np.arange(10, 100, 10),
 #
 # LIST_LENGTHS = np.array([10, 25, 50, 100, 150, 200, 250, 300])
 # LIST_LENGTHS = np.arange(10, 100, 10)
-LIST_LENGTHS = np.append(np.arange(10, 110, 10),
-                         [150, 200, 250, 300, 350, 400, 450, 500])
-# Min/max sizes of a random number
-LOWER, UPPER = 1, 10_000
-# Number of iterations while measuring performance (comparisons, swaps)
-# ITERATIONS = 200
-ITERATIONS = 10
-# Number of iterations using the timeite module
-# TIMEIT_ITERATIONS = 20
-# TIMEIT_REPEAT = 20
-TIMEIT_ITERATIONS = 10
-TIMEIT_REPEAT = 10
-# Directory where generated lists are saved:
-SAVEPATH = "lists/"
+#
+#LIST_LENGTHS = np.append(np.arange(10, 110, 10),
+#                         [150, 200, 250, 300, 350, 400, 450, 500])
+LIST_LENGTHS = np.arange(10, 110, 10)
