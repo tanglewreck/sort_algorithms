@@ -27,8 +27,6 @@ from algorithms import collect_data
 from algorithms import ALGORITHMS
 from algorithms import ITERATIONS
 from algorithms import LIST_LENGTHS
-from algorithms import TIMEIT_ITERATIONS
-from algorithms import TIMEIT_REPEAT
 from algorithms import err_msg
 from algorithms import plot_data
 from algorithms import timestamp
