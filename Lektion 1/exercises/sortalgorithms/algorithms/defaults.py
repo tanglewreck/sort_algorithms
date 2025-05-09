@@ -33,7 +33,6 @@ __all__ += ["LENGTH_DEFAULT", "LIST_LENGTHS"]
 __all__ += ["LIST_LENGTHS_2"]
 __all__ += ["LOWER", "UPPER"]
 __all__ += ["SAVEPATH"]
-# __all__ += ["TIMEIT_ITERATIONS", "TIMEIT_REPEAT"]
 
 # pylint: disable=wildcard-import, unused-wildcard-import, unused-import
 
@@ -63,18 +62,9 @@ ITERATIONS = 10
 # Min/max sizes of a random number
 LOWER, UPPER = 1, 10_000
 
-# Number of iterations using the timeite module
-# TIMEIT_ITERATIONS = 20
-# TIMEIT_REPEAT = 20
-# TIMEIT_ITERATIONS = 10
-# TIMEIT_REPEAT = 10
-#
 # List-lenghts examples:
-# LIST_LENGTHS = range(2, 100)
-# LIST_LENGTHS = np.arange(2,100)
 # LIST_LENGTHS = np.arange(10, 100, 10)
 # LIST_LENGTHS = np.append(LIST_LENGTHS, np.arange(100, 301, 50))
-# LIST_LENGTHS = np.arange(100, 201, 25)
 # LIST_LENGTHS = np.append(np.arange(2,10) + np.arange(10, 100, 10))
 # A somewhat complex case...
 LIST_LENGTHS_2 = np.append(np.arange(10, 100, 10),
@@ -90,7 +80,6 @@ LIST_LENGTHS_2 = np.append(np.arange(10, 100, 10),
 #
 # LIST_LENGTHS = np.array([10, 25, 50, 100, 150, 200, 250, 300])
 # LIST_LENGTHS = np.arange(10, 100, 10)
-#
-#LIST_LENGTHS = np.append(np.arange(10, 110, 10),
+# LIST_LENGTHS = np.append(np.arange(10, 110, 10),
 #                         [150, 200, 250, 300, 350, 400, 450, 500])
 LIST_LENGTHS = np.arange(10, 110, 10)
