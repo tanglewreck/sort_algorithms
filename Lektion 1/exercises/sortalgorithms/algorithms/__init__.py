@@ -8,23 +8,6 @@
     VERSION
         2025-05-05
 """
-# Export these:
-__all__ =[
-          # collect.py
-          "collect_data",
-          # plot.py
-          "plot_data",
-          # utils.py
-          "debug_msg", "err_msg", "sys_msg",
-          "read_csv", "timestamp",
-          "get_command_line_arguments",
-          # defaults.py
-          "ALGORITHMS", "ALGOSALL",
-          "BS", "BSALL", "IS",
-          "COLUMNS", "ITERATIONS",
-          "LENGTH_DEFAULT", "LIST_LENGTHS",
-          "SAVEPATH", "LOWER", "UPPER"]
-
 # These are used in ../sortperf.py
 from .collect import collect_data
 from .defaults import ALGORITHMS, ALGOSALL, BS, BSALL, IS
@@ -49,6 +32,23 @@ from .utils import read_csv
 # This one might be used in sortperf.py
 # at a later point:
 from .utils import get_command_line_arguments
+
+# Export these:
+__all__ = [
+          # collect.py
+          "collect_data",
+          # plot.py
+          "plot_data",
+          # utils.py
+          "debug_msg", "err_msg", "sys_msg",
+          "read_csv", "timestamp",
+          "get_command_line_arguments",
+          # defaults.py
+          "ALGORITHMS", "ALGOSALL",
+          "BS", "BSALL", "IS",
+          "COLUMNS", "ITERATIONS",
+          "LENGTH_DEFAULT", "LIST_LENGTHS",
+          "SAVEPATH", "LOWER", "UPPER"]
 
 
 # The imports below are currently not used outside
