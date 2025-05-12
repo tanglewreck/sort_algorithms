@@ -14,14 +14,13 @@
 import numpy as np
 # pylint: disable=unused-import
 from . bubblesort import bubblesort
-from . bubblesort import bubblesort_nocopy
 from . bubblesort import bubblesort2
-from . bubblesort import bubblesort2_nocopy
 from . bubblesort import bubblesort3
-from . bubblesort import bubblesort3_nocopy
 from . insertionsort import insertionsort
 from . insertionsort import insertionsort2
 from . insertionsort import insertionsort3
+from . insertionsort import insertionsortwikipedia_for
+from . insertionsort import insertionsortwikipedia_while
 # pylint: enable=unused-import
 
 __all__ = ["ALGORITHMS", "ALGOSALL"]
@@ -43,22 +42,26 @@ LENGTH_DEFAULT = 10
 FIG_DIM = (30, 15)
 FIG_DPI = 100
 # ALGORITHMS
-ALGORITHMS = (bubblesort, bubblesort2, bubblesort2_nocopy,
-              insertionsort, insertionsort3, insertionsort3)
+ALGORITHMS = (bubblesort, bubblesort2, insertionsort,
+              insertionsort3, insertionsort3)
+BS1 = (bubblesort, )
+BS2 = (bubblesort2, )
 BS = (bubblesort, bubblesort2)
-BSNCP = (bubblesort_nocopy, bubblesort2_nocopy)
-BSALL = (bubblesort, bubblesort_nocopy, bubblesort2, bubblesort2_nocopy)
+BSALL = (bubblesort, bubblesort2 )
 IS = (insertionsort, )
 IS2 = (insertionsort2, )
 IS3 = (insertionsort3, )
+ISWFOR = (insertionsortwikipedia_for, )
+ISWWHILE = (insertionsortwikipedia_while, )
+ISW = ISWFOR + ISWWHILE
 ISALL = IS + IS2 + IS3
 ALGOSALL = BS + IS
-ALGORITHMS = BS + IS2 + IS3
+ALGORITHMS = ISW
 #
 COLUMNS = ('t', 'comps', 'swaps')
 
 # Number of iterations (=number of arrays to sort) during data-collection.
-ITERATIONS = 30
+ITERATIONS = 20
 # Min/max sizes of a random number
 LOWER, UPPER = 1, 10_000
 
@@ -83,4 +86,4 @@ LIST_LENGTHS_2 = np.append(np.arange(10, 100, 10),
 # LIST_LENGTHS = np.arange(10, 110, 10)
 LIST_LENGTHS = np.append(np.arange(10, 110, 10),
                          np.array([150, 200, 250, 300, 350, 400, 450, 500]))
-LIST_LENGTHS = np.array([150, 200, 250, 300, 350, 400, 450, 500])
+LIST_LENGTHS = np.array([100, 250, 500])
