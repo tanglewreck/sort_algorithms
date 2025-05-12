@@ -27,7 +27,10 @@
 """
 __all__ = ["insertionsort",
            "insertionsort2",
-           "insertionsort3"]
+           "insertionsort3",
+           "insertionsortwikipedia_for",
+           "insertionsortwikipedia_while"
+           ]
 
 # xpylint: disable=import-error
 # xpylint: disable=unused-import
@@ -35,6 +38,117 @@ __all__ = ["insertionsort",
 # xpylint: enable=import-error
 # xpylint: enable=unused-import
 import numpy as np
+
+
+def insertionsortwikipedia_for(arr: np.ndarray, reverse: bool = False) -> tuple:
+    """
+        An implementation of insertion sort
+        (https://en.wikipedia.org/wiki/insertionsort).
+
+        Parameters
+        _________
+        arr : array_like
+              Array to be sorted.
+        reverse : bool, optional
+                  Defaults to False, in which case the array is
+                  sorted in ascending order.
+
+        Returns
+        -------
+        arr_copy, ncomps, nswaps
+            arr_copy : array_like, sorted copy of 'arr'
+            ncomps : int, number of comparisons made by the sorting algorithm.
+            nswaps : int, number of swaps made by the sorting algorithm.
+
+        Pseudocode
+        ----------
+            i ← 1
+            while i < length(A)
+            x ← A[i]
+            j ← i
+            while j > 0 and A[j-1] > x
+                A[j] ← A[j-1]
+                j ← j - 1
+            end while
+            A[j] ← x
+            i ← i + 1
+            end while
+    """
+    # Make a copy of the list
+    # arr = arr.copy()
+    # Save array length
+    arrlen = len(arr)
+    # Count the number of comparisons and swaps
+    ncomps, nassignments = 0, 0
+    for i in range(1, arrlen):
+        x = arr[i]
+        for j in range(i, -1, -1):
+            arr[j] = arr[j-1]
+            if arr[j-1] < x:
+                ncomps += 1
+                break
+        arr[j] = x
+        nassignments += 1
+    if reverse:
+        arr = np.sort(arr)[::-1]
+    return arr, ncomps, nassignments
+
+
+def insertionsortwikipedia_while(arr: np.ndarray, reverse: bool = False) -> tuple:
+    """
+        An implementation of insertion sort
+        (https://en.wikipedia.org/wiki/insertionsort).
+
+        Parameters
+        _________
+        arr : array_like
+              Array to be sorted.
+        reverse : bool, optional
+                  Defaults to False, in which case the array is
+                  sorted in ascending order.
+
+        Returns
+        -------
+        arr_copy, ncomps, nswaps
+            arr_copy : array_like, sorted copy of 'arr'
+            ncomps : int, number of comparisons made by the sorting algorithm.
+            nswaps : int, number of swaps made by the sorting algorithm.
+
+        Pseudocode
+        ----------
+            i ← 1
+            while i < length(A)
+            x ← A[i]
+            j ← i
+            while j > 0 and A[j-1] > x
+                A[j] ← A[j-1]
+                j ← j - 1
+            end while
+            A[j] ← x
+            i ← i + 1
+            end while
+    """
+    # Make a copy of the list
+    # arr = arr.copy()
+    # Save array length
+    arrlen = len(arr)
+    # Count the number of comparisons and swaps
+    ncomps, nassignments = 0, 0
+    i = 1
+    while i < arrlen:
+        x = arr[i]
+        j = i
+        while j > 0 and arr[j-1] > x:
+            ncomps += 2
+            nassignments += 1
+            arr[j] = arr[j-1]
+            j = j - 1
+        nassignments += 1
+        arr[j] = x
+        i += 1
+    if reverse:
+        arr = np.sort(arr)[::-1]
+    return arr, ncomps, nassignments
 
 
 def insertionsort(arr: np.ndarray, reverse: bool = False) -> tuple:
