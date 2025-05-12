@@ -9,7 +9,8 @@
     DATE
         2025-05-07
 """
-__all__ = ["genarr", "measure", "measurements"]
+__all__ = ["genarr", "measure", "measurements",
+           "main_function"]
 
 # xpylint: disable=unused-import
 import timeit
@@ -165,6 +166,7 @@ def measurements(ldata: list = None, algo: Callable = bubblesort,
                     print(f'{ind}: {df.loc[ind].mean():2.2f} ± '
                           f'{df.loc[ind].std():2.2f}', end=" ")
                 print()
+        print()
     except AttributeError as exception:
         err_msg("Got an AttributeError:")
         err_msg(f"{repr(exception)}")
@@ -175,7 +177,7 @@ def measurements(ldata: list = None, algo: Callable = bubblesort,
     return None
 
 
-def main() -> None:
+def main_function() -> None:
     """main"""
     data = genarr(size=(10_000, 10_000))
     nlists = 30
@@ -196,4 +198,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main_function()
