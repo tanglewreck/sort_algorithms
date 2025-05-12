@@ -40,7 +40,9 @@ __all__ = ["insertionsort",
 import numpy as np
 
 
-def insertionsortwikipedia_for(arr: np.ndarray, reverse: bool = False) -> tuple:
+def insertionsortwikipedia_for(arr: np.ndarray,
+                               copylist: bool = True,
+                               reverse: bool = False) -> tuple:
     """
         An implementation of insertion sort
         (https://en.wikipedia.org/wiki/insertionsort).
@@ -55,8 +57,8 @@ def insertionsortwikipedia_for(arr: np.ndarray, reverse: bool = False) -> tuple:
 
         Returns
         -------
-        arr_copy, ncomps, nswaps
-            arr_copy : array_like, sorted copy of 'arr'
+        arr, ncomps, nswaps
+            arr : array_like, sorted copy of 'arr'
             ncomps : int, number of comparisons made by the sorting algorithm.
             nswaps : int, number of swaps made by the sorting algorithm.
 
@@ -74,27 +76,32 @@ def insertionsortwikipedia_for(arr: np.ndarray, reverse: bool = False) -> tuple:
             i ← i + 1
             end while
     """
-    # Make a copy of the list
-    # arr = arr.copy()
+    if copylist:
+        # Make a copy of the list
+        arr = arr.copy()
     # Save array length
     arrlen = len(arr)
     # Count the number of comparisons and swaps
-    ncomps, nassignments = 0, 0
+    ncomps, nswaps = 0, 0
     for i in range(1, arrlen):
         x = arr[i]
+        nswaps += 1
         for j in range(i, -1, -1):
             arr[j] = arr[j-1]
+            nswaps += 1
             if arr[j-1] < x:
                 ncomps += 1
                 break
         arr[j] = x
-        nassignments += 1
+        nswaps += 1
     if reverse:
         arr = np.sort(arr)[::-1]
-    return arr, ncomps, nassignments
+    return arr, ncomps, nswaps
 
 
-def insertionsortwikipedia_while(arr: np.ndarray, reverse: bool = False) -> tuple:
+def insertionsortwikipedia_while(arr: np.ndarray,
+                                 copylist: bool = True,
+                                 reverse: bool = False) -> tuple:
     """
         An implementation of insertion sort
         (https://en.wikipedia.org/wiki/insertionsort).
@@ -109,8 +116,8 @@ def insertionsortwikipedia_while(arr: np.ndarray, reverse: bool = False) -> tupl
 
         Returns
         -------
-        arr_copy, ncomps, nswaps
-            arr_copy : array_like, sorted copy of 'arr'
+        arr, ncomps, nswaps
+            arr : array_like, sorted copy of 'arr'
             ncomps : int, number of comparisons made by the sorting algorithm.
             nswaps : int, number of swaps made by the sorting algorithm.
 
@@ -128,30 +135,34 @@ def insertionsortwikipedia_while(arr: np.ndarray, reverse: bool = False) -> tupl
             i ← i + 1
             end while
     """
-    # Make a copy of the list
-    # arr = arr.copy()
+    if copylist:
+        # Make a copy of the list
+        arr = arr.copy()
     # Save array length
     arrlen = len(arr)
     # Count the number of comparisons and swaps
-    ncomps, nassignments = 0, 0
+    ncomps, nswaps = 0, 0
     i = 1
     while i < arrlen:
         x = arr[i]
+        nswaps += 1
         j = i
         while j > 0 and arr[j-1] > x:
             ncomps += 2
-            nassignments += 1
+            nswaps += 1
             arr[j] = arr[j-1]
             j = j - 1
-        nassignments += 1
+        nswaps += 1
         arr[j] = x
         i += 1
     if reverse:
         arr = np.sort(arr)[::-1]
-    return arr, ncomps, nassignments
+    return arr, ncomps, nswaps
 
 
-def insertionsort(arr: np.ndarray, reverse: bool = False) -> tuple:
+def insertionsort(arr: np.ndarray,
+                  copylist: bool = True,
+                  reverse: bool = False) -> tuple:
     """
         An implementation of insertion sort
         (https://en.wikipedia.org/wiki/insertionsort).
@@ -166,52 +177,51 @@ def insertionsort(arr: np.ndarray, reverse: bool = False) -> tuple:
 
         Returns
         -------
-        arr_copy, ncomps, nswaps
-            arr_copy : array_like, sorted copy of 'arr'
+        arr, ncomps, nswaps
+            arr : array_like, sorted copy of 'arr'
             ncomps : int, number of comparisons made by the sorting algorithm.
             nswaps : int, number of swaps made by the sorting algorithm.
     """
+    if copylist:
+        # Make a copy of the list
+        arr = arr.copy()
     # We count the number of comparisons and swaps made
     ncomps = 0
     nswaps = 0
-
-    # Make a copy of the list and sort this instead of the original
-    # so we can compare input and output.
-    arr_copy = arr.copy()
     # Save length of the array for future reference
-    arrlen = len(arr_copy)
+    arrlen = len(arr)
     # Count the number of comparisons and swaps made
     # Number of comps is the sum of the arithmetic
     # series 1 + 2 + ... + n = n * (n + 1) /2
     # ncomps = int(arrlen * (arrlen +1) / 2)
-    ncomps = 0
-    nswaps = 0
-
+    ncomps, nswaps = 0, 0
     # Repeatedly move the smallest element to the top of the array.
     for index_one in range(arrlen):  # outer loop
         # If no swaps are made, we're done
         done = True
         for index_two in range(index_one + 1, arrlen):  # inner loop
             ncomps += 1
-            if arr_copy[index_one] > arr_copy[index_two]:
-                # Move the smaller element (arr_copy[index_two])
+            if arr[index_one] > arr[index_two]:
+                # Move the smaller element (arr[index_two])
                 # towards the current front of the list
-                # (arr_copy[index_one]).
-                (arr_copy[index_one],
-                 arr_copy[index_two]) = (arr_copy[index_two],
-                                         arr_copy[index_one])
+                # (arr[index_one]).
+                (arr[index_one],
+                 arr[index_two]) = (arr[index_two],
+                                    arr[index_one])
                 nswaps += 1
                 done = False
         if done:
             break
     # Reverse sort
     if reverse:
-        return (arr_copy[::-1], ncomps, nswaps)
+        return (arr[::-1], ncomps, nswaps)
     # Forward sort
-    return (arr_copy, ncomps, nswaps)
+    return (arr, ncomps, nswaps)
 
 
-def insertionsort2(arr: np.ndarray, reverse: bool = False) -> tuple:
+def insertionsort2(arr: np.ndarray,
+                   copylist: bool = True,
+                   reverse: bool = False) -> tuple:
     """
         An optimised implementation of insertion sort
         (https://en.wikipedia.org/wiki/insertionsort).
@@ -230,8 +240,8 @@ def insertionsort2(arr: np.ndarray, reverse: bool = False) -> tuple:
 
         Returns
         -------
-        arr_copy, ncomps, nswaps
-            arr_copy : array_like, sorted copy of 'arr'
+        arr, ncomps, nswaps
+            arr : array_like, sorted copy of 'arr'
             ncomps : int, number of comparisons made by the sorting algorithm.
             nswaps : int, number of swaps made by the sorting algorithm.
     """
@@ -257,40 +267,41 @@ def insertionsort2(arr: np.ndarray, reverse: bool = False) -> tuple:
                 index = k
         return index, ncomps
 
-    # Make a copy of the list and sort this instead of the original
-    # so we can compare input and output.
-    arr_copy = arr.copy()
+    if copylist:
+        # Make a copy of the list
+        arr = arr.copy()
     # Save length of the array for future reference
     arrlen = len(arr)
     # Count the number of comparisons and swaps made
     # Number of comps is the sum of the arithmetic
     # series 1 + 2 + ... + n = n * (n + 1) /2
     # ncomps = int(arrlen * (arrlen +1) / 2)
-    ncomps = 0
-    nswaps = 0
+    ncomps, nswaps = 0, 0
     # Repeatedly move the smallest element to the top of the array.
     for k in range(arrlen):
         # Save a slice of the array to search for
         # the (index of) the next smallest element.
-        arr_slice_k = arr_copy[k:]
+        arr_slice_k = arr[k:]
         # Get index of the smallest element in 'the rest' of
-        # the list (i.e. the index in the slice arr_copy[k:]).
+        # the list (i.e. the index in the slice arr[k:]).
         ind, nc = indmin(arr_slice_k)
         ind += k
         # Increase the number of comparisons
         ncomps += (nc + 1)
-        if arr_copy[k] > arr_copy[ind]:
+        if arr[k] > arr[ind]:
             nswaps += 1
             # print(f"Swapping index {k} <--> {ind}")
-            arr_copy[k], arr_copy[ind] = arr_copy[ind], arr_copy[k]
+            arr[k], arr[ind] = arr[ind], arr[k]
     # Reverse sort
     if reverse:
-        return arr_copy[::-1], ncomps, nswaps
+        return arr[::-1], ncomps, nswaps
     # Forward sort
-    return arr_copy, ncomps, nswaps
+    return arr, ncomps, nswaps
 
 
-def insertionsort3(arr: np.ndarray, reverse: bool = False) -> tuple:
+def insertionsort3(arr: np.ndarray,
+                   copylist: bool = True,
+                   reverse: bool = False) -> tuple:
     """
         An optimised implementation of insertion sort
         (https://en.wikipedia.org/wiki/insertionsort).
@@ -308,31 +319,30 @@ def insertionsort3(arr: np.ndarray, reverse: bool = False) -> tuple:
 
         Returns
         -------
-        arr_copy, ncomps, nswaps
-            arr_copy : array_like, sorted copy of 'arr'
+        arr, ncomps, nswaps
+            arr : array_like, sorted copy of 'arr'
             ncomps : int, number of comparisons made by the sorting algorithm.
             nswaps : int, number of swaps made by the sorting algorithm.
     """
-    # Make a copy of the list and sort this instead of the original
-    # so we can compare input and output.
-    arr_copy = arr.copy()
+    if copylist:
+        # Make a copy of the list
+        arr = arr.copy()
     # Save length of the array for future reference
-    arrlen = len(arr_copy)
+    arrlen = len(arr)
     # Count the number of comparisons and swaps made
     # Number of comps is the sum of the arithmetic
     # series 1 + 2 + ... + n = n * (n + 1) /2
     # ncomps = int(arrlen * (arrlen +1) / 2)
-    ncomps = 0
-    nswaps = 0
+    ncomps, nswaps = 0, 0
     # Repeatedly move the smallest element to the top of the array.
     # The number of swaps
     for k in range(arrlen):
         # Save a slice of the array to search for
         # the (index of) the next smallest element.
-        arr_slice_k = arr_copy[k:]
+        arr_slice_k = arr[k:]
         arr_slice_k_len = len(arr_slice_k)
         # Get index of the smallest element in 'the rest' of
-        # the list (i.e. the index in the slice arr_copy[k:]).
+        # the list (i.e. the index in the slice arr[k:]).
         ind = 0  # Start at the beginning of the slice
         for i in range(arr_slice_k_len):
             if arr_slice_k[i] < arr_slice_k[ind]:
@@ -343,17 +353,17 @@ def insertionsort3(arr: np.ndarray, reverse: bool = False) -> tuple:
         # Transform the index found in the slice to the index
         # of the same element in the original array.
         ind += k
-        if arr_copy[k] > arr_copy[ind]:
+        if arr[k] > arr[ind]:
             nswaps += 1
             # print(f"Swapping index {k} <--> {ind}")
-            arr_copy[k], arr_copy[ind] = arr_copy[ind], arr_copy[k]
+            arr[k], arr[ind] = arr[ind], arr[k]
         # Increase the number of comparisons
         ncomps += 1
     # Reverse sort
     if reverse:
-        return arr_copy[::-1], ncomps, nswaps
+        return arr[::-1], ncomps, nswaps
     # Forward sort
-    return arr_copy, ncomps, nswaps
+    return arr, ncomps, nswaps
 
 
 # def insertionsort3_nocopy(arr: np.ndarray, reverse: bool = False) -> tuple:
