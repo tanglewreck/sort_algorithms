@@ -46,7 +46,7 @@ def sortperf() -> None:
 
     # Print some info about this run.
     print("Measuring performance...")
-    print(f"Number of iterations: {ITERATIONS}\n"
+    print(f"Number of lists to sort (iterations): {ITERATIONS}\n"
           f"List lengths: {[int(k) for k in list(LIST_LENGTHS)]}")
     print("Algorithms:")
     for algo in ALGORITHMS:
@@ -55,7 +55,8 @@ def sortperf() -> None:
 
     # Collect data (and get two pandas.DataFrames back, one for raw
     # data, and one for averages)
-    (df_raw, df_means) = collect_data()
+    # (df_raw, df_means) = collect_data()
+    (_, df_means) = collect_data()  # Throw away the raw data
 
     # Save the dataframes to disk
 #     now = timestamp()
@@ -67,7 +68,7 @@ def sortperf() -> None:
 #     except OSError as exception:
 #         err_msg("Unable to save dataframes to disk")
 #         err_msg(f"{repr(exception)}")
-# 
+#
 
     # Plot data
     try:
