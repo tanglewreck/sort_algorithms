@@ -57,7 +57,7 @@ ISWWHILE = (insertionsortwikipedia_while, )
 ISW = ISWFOR + ISWWHILE
 ISALL = IS + ISW
 ALGOSALL = BS + IS
-ALGORITHMS = BS + IS1 + IS3 + ISW
+ALGORITHMS = IS3 + ISW
 #
 COLUMNS = ('t', 'comps', 'swaps')
 
