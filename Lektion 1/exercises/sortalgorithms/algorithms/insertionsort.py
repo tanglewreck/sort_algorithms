@@ -84,9 +84,12 @@ def insertionsortwikipedia_for(arr: np.ndarray,
     # Count the number of comparisons and swaps
     ncomps, nswaps = 0, 0
     for i in range(1, arrlen):
+        # for loops make comparisons
+        ncomps += 1
         x = arr[i]
-        nswaps += 1
         for j in range(i, -1, -1):
+            # for loops make comparisons
+            ncomps += 1
             arr[j] = arr[j-1]
             nswaps += 1
             if arr[j-1] < x:
@@ -144,13 +147,15 @@ def insertionsortwikipedia_while(arr: np.ndarray,
     ncomps, nswaps = 0, 0
     i = 1
     while i < arrlen:
+        # while-loops make comparisons
+        ncomps += 1
         x = arr[i]
-        nswaps += 1
         j = i
         while j > 0 and arr[j-1] > x:
+            # while-loops make comparisons
             ncomps += 2
-            nswaps += 1
             arr[j] = arr[j-1]
+            nswaps += 1
             j = j - 1
         nswaps += 1
         arr[j] = x
@@ -197,9 +202,12 @@ def insertionsort(arr: np.ndarray,
     ncomps, nswaps = 0, 0
     # Repeatedly move the smallest element to the top of the array.
     for index_one in range(arrlen):  # outer loop
+        # for loops make comparisons
+        ncomps += 1
         # If no swaps are made, we're done
         done = True
         for index_two in range(index_one + 1, arrlen):  # inner loop
+            # for loops make comparisons
             ncomps += 1
             if arr[index_one] > arr[index_two]:
                 # Move the smaller element (arr[index_two])
@@ -208,6 +216,8 @@ def insertionsort(arr: np.ndarray,
                 (arr[index_one],
                  arr[index_two]) = (arr[index_two],
                                     arr[index_one])
+                # Update number of comparisons and swaps
+                ncomps += 1
                 nswaps += 1
                 done = False
         if done:
@@ -279,6 +289,8 @@ def insertionsort2(arr: np.ndarray,
     ncomps, nswaps = 0, 0
     # Repeatedly move the smallest element to the top of the array.
     for k in range(arrlen):
+        # for loops make comparisons
+        ncomps += 1
         # Save a slice of the array to search for
         # the (index of) the next smallest element.
         arr_slice_k = arr[k:]
@@ -289,6 +301,8 @@ def insertionsort2(arr: np.ndarray,
         # Increase the number of comparisons
         ncomps += (nc + 1)
         if arr[k] > arr[ind]:
+            # Update # of comparisons and swaps
+            ncomps += 1
             nswaps += 1
             # print(f"Swapping index {k} <--> {ind}")
             arr[k], arr[ind] = arr[ind], arr[k]
@@ -337,6 +351,8 @@ def insertionsort3(arr: np.ndarray,
     # Repeatedly move the smallest element to the top of the array.
     # The number of swaps
     for k in range(arrlen):
+        # for loops make comparisons
+        ncomps += 1
         # Save a slice of the array to search for
         # the (index of) the next smallest element.
         arr_slice_k = arr[k:]
@@ -345,6 +361,8 @@ def insertionsort3(arr: np.ndarray,
         # the list (i.e. the index in the slice arr[k:]).
         ind = 0  # Start at the beginning of the slice
         for i in range(arr_slice_k_len):
+            # for loops make comparisons
+            ncomps += 1
             if arr_slice_k[i] < arr_slice_k[ind]:
                 ind = i
         # Increase the number of comparisons withe number of comparisons
@@ -354,77 +372,13 @@ def insertionsort3(arr: np.ndarray,
         # of the same element in the original array.
         ind += k
         if arr[k] > arr[ind]:
+            # Increase the number of comparisons and swaps
+            ncomps += 1
             nswaps += 1
             # print(f"Swapping index {k} <--> {ind}")
             arr[k], arr[ind] = arr[ind], arr[k]
-        # Increase the number of comparisons
-        ncomps += 1
     # Reverse sort
     if reverse:
         return arr[::-1], ncomps, nswaps
     # Forward sort
     return arr, ncomps, nswaps
-
-
-# def insertionsort3_nocopy(arr: np.ndarray, reverse: bool = False) -> tuple:
-#     """
-#         An optimised implementation of insertion sort
-#         (https://en.wikipedia.org/wiki/insertionsort).
-#
-#         Sorts 'arr' inline (no copy of 'arr' made).
-#
-#         Also does the searches for the index of the smallest
-#         element inline instead of using a function (like
-#         insertionsort2() does
-#
-#         Parameters
-#         _________
-#         arr : array_like
-#               Array to be sorted.
-#         reverse : bool, optional
-#                   Defaults to False, in which case the array is
-#                   sorted in ascending order.
-#
-#         Returns
-#         -------
-#         arr, ncomps, nswaps
-#             arr : array_like, 'arr' sorted (inline)
-#             ncomps : int, number of comparisons made by the sorting algorithm
-#             nswaps : int, number of swaps made by the sorting algorithm
-#     """
-#     # Save length of list for future reference
-#     arrlen = len(arr)
-#     # Count the number of comparisons and swaps made
-#     # Number of comps is the sum of the arithmetic
-#     # series 1 + 2 + ... + n = n * (n + 1) /2
-#     # ncomps = int(arrlen * (arrlen +1) / 2)
-#     ncomps = 0
-#     nswaps = 0
-#     # Repeatedly move the smallest element to the top of the array.
-#     # The number of swaps
-#     for k in range(arrlen):
-#         # Get index of the smallest element in 'the rest' of
-#         # the list (i.e. in the list-slice arr[k:]).
-#         ind = 0
-#         # for i, _ in enumerate(arr[k:]):
-#         arr_k_len = len(arr[k:])
-#         lc_k = lc[k:]  # make a copy of lc
-#         for i in range(lc_k_len):
-#             ncomps += 1
-#             if lc_k[i] < lc_k[ind]:
-#                 ind = i
-#         ind += k
-#         # Increase the number of comparisons
-#         ncomps += 1
-#         if lc[k] > lc[ind]:
-#             nswaps += 1
-#             # print(f"Swapping index {k} <--> {ind}")
-#             lc[k], lc[ind] = lc[ind], lc[k]
-#         # print("post: ", lc)
-#         # print()
-#     # ipdb.sset_trace()
-#     # Reverse sort
-#     if reverse:
-#         return lc[::-1], ncomps, nswaps
-#     # Forward sort
-#     return lc, ncomps, nswaps
