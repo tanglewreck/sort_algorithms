@@ -51,8 +51,7 @@ def collect_data() -> tuple:
        ----
        2025-05-07 (updated)
         """
-    # Generate test data (make it LARGE so there's
-    # room to spare!)
+    # Generate test data (make it LARGE so there's # room to spare!)
     lists = genlists(size=(10_000, 10_000))  # 10 000 lists of length 10 000
     #
     # Initialise a list which will contain the generated dataframes

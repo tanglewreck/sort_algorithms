@@ -48,15 +48,16 @@ BS1 = (bubblesort, )
 BS2 = (bubblesort2, )
 BS = (bubblesort, bubblesort2)
 BSALL = (bubblesort, bubblesort2 )
-IS = (insertionsort, )
+IS1 = (insertionsort, )
 IS2 = (insertionsort2, )
 IS3 = (insertionsort3, )
+IS = IS1 + IS2 + IS3
 ISWFOR = (insertionsortwikipedia_for, )
 ISWWHILE = (insertionsortwikipedia_while, )
 ISW = ISWFOR + ISWWHILE
-ISALL = IS + IS2 + IS3
+ISALL = IS + ISW
 ALGOSALL = BS + IS
-ALGORITHMS = ISW
+ALGORITHMS = IS3 + ISW
 #
 COLUMNS = ('t', 'comps', 'swaps')
 
@@ -80,10 +81,7 @@ LIST_LENGTHS_2 = np.append(np.arange(10, 100, 10),
 # --> array([10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
 #            150, 200, 300, 400, 500, 600, 800, 1000,
 #            1500, 2000])
-#
-# LIST_LENGTHS = np.array([10, 25, 50, 100, 150, 200, 250, 300])
-# LIST_LENGTHS = np.arange(10, 100, 10)
-# LIST_LENGTHS = np.arange(10, 110, 10)
 LIST_LENGTHS = np.append(np.arange(10, 110, 10),
-                         np.array([150, 200, 250, 300, 350, 400, 450, 500]))
-LIST_LENGTHS = np.array([100, 250, 500])
+                         np.array([150, 200, 250, 300, 350, 400, 450, 500, 750,
+                                   1000, 1200]))
+LIST_LENGTHS = np.array([50, 100, 200, 300, 400, 500, 750])

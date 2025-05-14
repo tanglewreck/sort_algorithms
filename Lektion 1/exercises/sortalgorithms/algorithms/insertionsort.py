@@ -92,8 +92,8 @@ def insertionsortwikipedia_for(arr: np.ndarray,
             ncomps += 1
             arr[j] = arr[j-1]
             nswaps += 1
+            ncomps += 1
             if arr[j-1] < x:
-                ncomps += 1
                 break
         arr[j] = x
         nswaps += 1
