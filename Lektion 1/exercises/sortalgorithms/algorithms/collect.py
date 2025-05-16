@@ -21,9 +21,10 @@ from pandas import DataFrame, Series
 
 from algorithms.defaults import ALGORITHMS
 from algorithms.defaults import ITERATIONS
-from algorithms.defaults import LENGTH_DEFAULT
 from algorithms.defaults import LIST_LENGTHS
 from algorithms.defaults import LOWER, UPPER
+from algorithms.defaults import MAXLENGTH
+from algorithms.defaults import NPREGEN
 from algorithms.performance import measure
 from algorithms.performance import genlists
 
@@ -52,7 +53,8 @@ def collect_data() -> tuple:
        2025-05-07 (updated)
         """
     # Generate test data (make it LARGE so there's # room to spare!)
-    lists = genlists(size=(10_000, 10_000))  # 10 000 lists of length 10 000
+    # lists = genlists(size=(10_000, 20_000))  # 10 000 lists of length 10 000
+    lists = genlists(size=(NPREGEN, MAXLENGTH))  # 10 000 lists of length 10 000
     #
     # Initialise a list which will contain the generated dataframes
     # (one for each list-length in LIST_LENGTHS).
