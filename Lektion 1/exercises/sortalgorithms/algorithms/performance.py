@@ -66,11 +66,10 @@ def measure(ldata: np.array, algo: Callable,
     t, comps, swaps = [], [], []
     try:
         if verbose:
-            print(f"algorithm {algo.__name__}")
-            print(f"ldata.shape {ldata.shape}")
-            print(f"llength {llength}")
-            print(f"nlists {nlists}")
-            print()
+            print(f"algorithm {algo.__name__}",
+                  f"ldata.shape {ldata.shape}",
+                  f"llength {llength}",
+                  f"nlists {nlists}", sep="\n", end="\n\n")
         # Sanity check
         try:
             if llength > ldata.shape[1]:
@@ -88,21 +87,25 @@ def measure(ldata: np.array, algo: Callable,
             lslice = ldata[iteration][:llength]
             if verbose > 1:
                 print(f"List to be sorted: {lslice}")
-            # Measure number of comparisons and swaps
-            _, c, s = algo(lslice)
-            # Measure execution time
-            f = partial(algo, lslice)
-            timer = timeit.Timer(f)
+            # quicksort() requires special handling
+            if algo.__name__ in ('quicksort', 'quicksort2'):
+                # Measure number of comparisons and swaps
+                _, c, s = algo(lslice, 0, len(lslice) - 1)
+                # Measure execution time
+                f = partial(algo, lslice, 0, len(lslice) - 1)
+                timer = timeit.Timer(f)
+            else:
+                _, c, s = algo(lslice)
+                # Measure execution time
+                f = partial(algo, lslice)
+                timer = timeit.Timer(f)
             # Append results to data lists
             comps.append(c)
             swaps.append(s)
             t.append(timer.timeit(1))
         if verbose > 1:
-            print()
-            print(f"t = {t}")
-            print(f"comps = {comps}")
-            print(f"swaps = {swaps}")
-            print()
+            print(f"\nt = {t}, comps = {comps}",
+                  f"swaps = {swaps}", sep="\n", end="\n\n")
         if verbose:
             print(f"t.mean = {np.mean(t) / 1e-3:01.4f} ± "
                   f"{np.std(t) / 1e-3:01.4f} ms")
