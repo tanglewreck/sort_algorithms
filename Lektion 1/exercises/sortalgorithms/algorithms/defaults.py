@@ -21,7 +21,7 @@ from . insertionsort import insertionsort2
 from . insertionsort import insertionsort3
 from . insertionsort import insertionsortwikipedia_for
 from . insertionsort import insertionsortwikipedia_while
-from . quicksort import quicksort, quicksort2, quicksort_iterative
+from . qsort import qsort, qsort2, qsort_iterative
 # pylint: enable=unused-import
 
 __all__ = ["ALGORITHMS", "ALGOSALL"]
@@ -60,9 +60,9 @@ ISWWHILE = (insertionsortwikipedia_while, )
 ISW = ISWFOR + ISWWHILE
 ISALL = IS + ISW
 #
-QS1 = (quicksort, )
-QS2 = (quicksort2, )
-QS3 = (quicksort_iterative, )
+QS1 = (qsort, )
+QS2 = (qsort2, )
+QS3 = (qsort_iterative, )
 QS = QS1 + QS2 + QS3
 ALGOSALL = BS + IS
 ALGORITHMS = IS3 + ISW

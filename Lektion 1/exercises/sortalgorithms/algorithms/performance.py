@@ -88,7 +88,7 @@ def measure(ldata: np.array, algo: Callable,
             if verbose > 1:
                 print(f"List to be sorted: {lslice}")
             # quicksort() requires special handling
-            qs_algos = ('quicksort', 'quicksort2', 'quicksort_iterative')
+            qs_algos = ('qsort', 'qsort2', 'qsort_iterative')
             if algo.__name__ in qs_algos:
                 # Measure number of comparisons and swaps
                 _, c, s = algo(lslice, 0, len(lslice) - 1)

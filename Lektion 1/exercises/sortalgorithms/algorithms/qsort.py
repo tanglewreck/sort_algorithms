@@ -1,9 +1,9 @@
 # coding: utf-8
 """
     NAME
-        quicksort
+        qsort
     DESCRIPTION
-        The quicksort algorithm
+        The quicksort algorithm in various disguises.
     AUTHOR
         mier
     DATE
@@ -13,8 +13,8 @@
 
 """
 __all__ = ["partition", "partition2",
-           "quicksort", "quicksort2",
-           "quicksort_iterative"]
+           "qsort", "qsort2",
+           "qsort_iterative"]
 
 # pylint: disable=multiple-statements
 # xpylint: disable=import-error
@@ -183,7 +183,7 @@ def partition2(arr, lo:int, hi: int) -> int:
 
 
 
-def quicksort(arr, lo: int, hi: int,
+def qsort(arr, lo: int, hi: int,
               copylist: bool = False,
               reverse: bool = False) -> tuple:
     """
@@ -256,8 +256,8 @@ def quicksort(arr, lo: int, hi: int,
     # NOTE that the element at the partition index
     # is not included here; this is because the partitioning
     # ensures that the pivot element is in its final position.
-    _, ncomps_lower, nswaps_lower = quicksort(arr, lo, pivot_index - 1)
-    _, ncomps_upper, nswaps_upper = quicksort(arr, pivot_index + 1, hi)
+    _, ncomps_lower, nswaps_lower = qsort(arr, lo, pivot_index - 1)
+    _, ncomps_upper, nswaps_upper = qsort(arr, pivot_index + 1, hi)
     # Update number of comparisons and swaps
     ncomps += (ncomps_lower + ncomps_upper)
     nswaps += (nswaps_lower + nswaps_upper)
@@ -266,7 +266,7 @@ def quicksort(arr, lo: int, hi: int,
     return None, ncomps, nswaps
 
 
-def quicksort2(arr, lo: int, hi: int,
+def qsort2(arr, lo: int, hi: int,
               copylist: bool = False,
               reverse: bool = False) -> tuple:
     """
@@ -340,8 +340,8 @@ def quicksort2(arr, lo: int, hi: int,
     # NOTE that the element at the partition index
     # is not included here; this is because the partitioning
     # ensures that the pivot element is in its final position.
-    _, ncomps_lower, nswaps_lower = quicksort(arr, lo, pivot_index - 1)
-    _, ncomps_upper, nswaps_upper = quicksort(arr, pivot_index + 1, hi)
+    _, ncomps_lower, nswaps_lower = qsort(arr, lo, pivot_index - 1)
+    _, ncomps_upper, nswaps_upper = qsort(arr, pivot_index + 1, hi)
     # Update number of comparisons and swaps
     ncomps += (ncomps_lower + ncomps_upper)
     nswaps += (nswaps_lower + nswaps_upper)
@@ -350,7 +350,7 @@ def quicksort2(arr, lo: int, hi: int,
     return None, ncomps, nswaps
 
 
-def quicksort_iterative(arr, lo: int, hi: int,
+def qsort_iterative(arr, lo: int, hi: int,
               copylist: bool = False,
               reverse: bool = False) -> tuple:
     """
