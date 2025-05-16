@@ -64,9 +64,9 @@ QS2 = (quicksort2, )
 QS = QS1 + QS2
 ALGOSALL = BS + IS
 ALGORITHMS = IS3 + ISW
-ALGORITHMS = QS
 ALGORITHMS = IS3 + QS
 ALGORITHMS = BS + IS + ISW
+ALGORITHMS = QS
 #
 COLUMNS = ('t', 'comps', 'swaps')
 
@@ -74,6 +74,7 @@ COLUMNS = ('t', 'comps', 'swaps')
 ITERATIONS = 10
 # Min/max sizes of a random number
 LOWER, UPPER = 1, 10_000
+LOWER, UPPER = 1, 100
 
 # List-lenghts examples:
 # LIST_LENGTHS = np.arange(10, 100, 10)
