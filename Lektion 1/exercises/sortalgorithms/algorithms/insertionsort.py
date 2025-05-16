@@ -191,8 +191,7 @@ def insertionsort(arr: np.ndarray,
         # Make a copy of the list
         arr = arr.copy()
     # We count the number of comparisons and swaps made
-    ncomps = 0
-    nswaps = 0
+    ncomps, nswaps  = 0, 0
     # Save length of the array for future reference
     arrlen = len(arr)
     # Count the number of comparisons and swaps made

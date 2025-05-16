@@ -46,7 +46,8 @@ FIG_DPI = 100
 # ALGORITHMS
 BS1 = (bubblesort, )
 BS2 = (bubblesort2, )
-BS = (bubblesort, bubblesort2)
+BS3 = (bubblesort3, )
+BS = (bubblesort, bubblesort2, bubblesort3)
 BSALL = (bubblesort, bubblesort2 )
 #
 IS1 = (insertionsort, )
@@ -65,6 +66,7 @@ ALGOSALL = BS + IS
 ALGORITHMS = IS3 + ISW
 ALGORITHMS = QS
 ALGORITHMS = IS3 + QS
+ALGORITHMS = BS + IS + ISW
 #
 COLUMNS = ('t', 'comps', 'swaps')
 
@@ -93,3 +95,4 @@ LIST_LENGTHS = np.append(np.arange(10, 110, 10),
                                    1000, 1200]))
 LIST_LENGTHS = np.array([1000, 2000])
 LIST_LENGTHS = np.array([50, 100, 200, 300, 400, 500, 750, 1000, 2000])
+LIST_LENGTHS = np.array([50, 100, 200, 500, 750])

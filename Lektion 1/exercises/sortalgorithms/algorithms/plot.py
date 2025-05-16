@@ -68,9 +68,10 @@ def plot_data(data: DataFrame,
             ax.set_title(column)
             ax.set_xlabel('length')
             if column == "t":
-                ax.set_ylabel("t (ms)")
-            else:
-                ax.set_ylabel(column)
+                # ax.set_ylabel("t (ms)")
+                ax.set_title("t (ms)")
+            # else:
+            #     ax.set_ylabel(column)
             ax.legend()
     fig.dpi = FIG_DPI
     fig.set(figwidth=FIG_DIM[0], figheight=FIG_DIM[1])
