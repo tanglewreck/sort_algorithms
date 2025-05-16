@@ -28,6 +28,7 @@ from .utils import err_msg
 from .utils import sys_msg
 from .utils import timestamp
 from .utils import read_csv
+from .utils import get_args
 # from .utils import generate_random_list
 # This one might be used in sortperf.py
 # at a later point:
@@ -41,6 +42,7 @@ __all__ = [
           "plot_data",
           # utils.py
           "debug_msg", "err_msg", "sys_msg",
+          "get_args",
           "read_csv", "timestamp",
           "get_command_line_arguments",
           # defaults.py
