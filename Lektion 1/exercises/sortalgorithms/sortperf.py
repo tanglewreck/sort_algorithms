@@ -16,6 +16,8 @@
 
 # xxxpylint: disable=consider-using-dict-items
 # pylint: disable=unused-import
+# pylint: disable=unused-variable
+# pylint: disable=unused-argument
 
 __all__ = ["sortperf"]
 
@@ -23,16 +25,23 @@ __all__ = ["sortperf"]
 # import ipdb
 # pylint: enable=import-error
 
-from algorithms import collect_data
 from algorithms import ALGORITHMS
 from algorithms import ITERATIONS
 from algorithms import LIST_LENGTHS
-from algorithms import err_msg
+from algorithms import LOWER
+from algorithms import UPPER
+from algorithms import collect_data
 from algorithms import plot_data
-from algorithms import timestamp
+from algorithms import get_args
+# from algorithms import err_msg
+# from algorithms import timestamp
+# from algorithms import *
 
 
-def sortperf() -> None:
+def sortperf(low: int = LOWER, high: int = UPPER,
+             iterations: int = ITERATIONS,
+             listlengths: list = LIST_LENGTHS,
+             algorithms: list = ALGORITHMS) -> None:
     """
         NAME
             sortperf_elapsed()
@@ -83,4 +92,5 @@ def sortperf() -> None:
 
 
 if __name__ == "__main__":
+    args = get_args()
     sortperf()
