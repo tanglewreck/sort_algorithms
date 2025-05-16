@@ -9,7 +9,9 @@
     DATE
         2025-05-07
 """
-__all__ = ["genarr", "measure", "measurements",
+__all__ = ["genarr",
+           "measure",
+           "measurements",
            "main_function"]
 
 # xpylint: disable=unused-import
@@ -24,10 +26,15 @@ from pandas import DataFrame
 # pylint: disable=unused-import
 from algorithms.utils import debug_msg, err_msg, sys
 from algorithms.defaults import ALGORITHMS, ALGOSALL
-from algorithms.defaults import bubblesort, bubblesort_nocopy
-from algorithms.defaults import bubblesort2, bubblesort2_nocopy
-from algorithms.defaults import bubblesort3, bubblesort3_nocopy
-from algorithms.defaults import insertionsort, insertionsort2, insertionsort3
+from algorithms.defaults import bubblesort
+from algorithms.defaults import bubblesort2
+from algorithms.defaults import bubblesort3
+from algorithms.defaults import insertionsort
+from algorithms.defaults import insertionsort2
+from algorithms.defaults import insertionsort3
+from algorithms.defaults import qsort
+from algorithms.defaults import qsort2
+from algorithms.defaults import qsort_iterative
 # pylint: enable=unused-import
 from algorithms.defaults import LENGTH_DEFAULT
 from algorithms.defaults import LIST_LENGTHS
@@ -86,13 +93,21 @@ def measure(ldata: np.array, algo: Callable = bubblesort,
             if verbose > 2:
                 print(lslice)
             # Measure number of comparisons and swaps
-            _, c, s = algo(lslice)
+            # quicksort() requires special handling
+            qs_algos = ('qsort', 'qsort2', 'qsort_iterative')
+            if algo.__name__ in qs_algos:
+                _, c, s = algo(lslice, lo=0, hi=len(lslice) - 1)
+                # Measure execution time
+                f = partial(algo, lslice, 0, len(lslice) - 1)
+                timer = timeit.Timer(f)
+                t.append(timer.timeit(1))
+            else:
+                _, c, s = algo(lslice)
+                f = partial(algo, lslice)
+                timer = timeit.Timer(f)
+                t.append(timer.timeit(1))
             comps.append(c)
             swaps.append(s)
-            # Measure execution time
-            f = partial(algo, lslice)
-            timer = timeit.Timer(f)
-            t.append(timer.timeit(1))
         if verbose > 1:
             print(f"t = {t}")
             print(f"comps = {comps}")
@@ -180,12 +195,17 @@ def measurements(ldata: list = None, algo: Callable = bubblesort,
 def main_function() -> None:
     """main"""
     data = genarr(size=(10_000, 10_000))
-    nlists = 30
-    for llength in [100, 250, 500, 750, 1000]:
+    nlists = 10
+    # for llength in [100, 250, 500, 750, 1000]:
+    for llength in LIST_LENGTHS:
         print("-" * 30)
-        measure(ldata=data, algo=bubblesort,
-                nlists=nlists, llength=llength, verbose=1)
+        # measure(ldata=data, algo=bubblesort,
+        #         nlists=nlists, llength=llength, verbose=1)
         measure(ldata=data, algo=insertionsort3,
+                nlists=nlists, llength=llength, verbose=1)
+        measure(ldata=data, algo=qsort2,
+                nlists=nlists, llength=llength, verbose=1)
+        measure(ldata=data, algo=qsort_iterative,
                 nlists=nlists, llength=llength, verbose=1)
         # nlists=np.arange(30, 60, 10))
     print()
