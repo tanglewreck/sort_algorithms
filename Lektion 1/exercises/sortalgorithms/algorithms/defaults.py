@@ -21,6 +21,7 @@ from . insertionsort import insertionsort2
 from . insertionsort import insertionsort3
 from . insertionsort import insertionsortwikipedia_for
 from . insertionsort import insertionsortwikipedia_while
+from . quicksort import quicksort, quicksort2
 # pylint: enable=unused-import
 
 __all__ = ["ALGORITHMS", "ALGOSALL"]
@@ -41,13 +42,13 @@ LENGTH_DEFAULT = 10
 # Plot size
 FIG_DIM = (30, 15)
 FIG_DPI = 100
+#
 # ALGORITHMS
-ALGORITHMS = (bubblesort, bubblesort2, insertionsort,
-              insertionsort3, insertionsort3)
 BS1 = (bubblesort, )
 BS2 = (bubblesort2, )
 BS = (bubblesort, bubblesort2)
 BSALL = (bubblesort, bubblesort2 )
+#
 IS1 = (insertionsort, )
 IS2 = (insertionsort2, )
 IS3 = (insertionsort3, )
@@ -56,13 +57,19 @@ ISWFOR = (insertionsortwikipedia_for, )
 ISWWHILE = (insertionsortwikipedia_while, )
 ISW = ISWFOR + ISWWHILE
 ISALL = IS + ISW
+#
+QS1 = (quicksort, )
+QS2 = (quicksort2, )
+QS = QS1 + QS2
 ALGOSALL = BS + IS
 ALGORITHMS = IS3 + ISW
+ALGORITHMS = QS
+ALGORITHMS = IS3 + QS
 #
 COLUMNS = ('t', 'comps', 'swaps')
 
 # Number of iterations (=number of arrays to sort) during data-collection.
-ITERATIONS = 20
+ITERATIONS = 10
 # Min/max sizes of a random number
 LOWER, UPPER = 1, 10_000
 
@@ -84,4 +91,5 @@ LIST_LENGTHS_2 = np.append(np.arange(10, 100, 10),
 LIST_LENGTHS = np.append(np.arange(10, 110, 10),
                          np.array([150, 200, 250, 300, 350, 400, 450, 500, 750,
                                    1000, 1200]))
-LIST_LENGTHS = np.array([50, 100, 200, 300, 400, 500, 750])
+LIST_LENGTHS = np.array([1000, 2000])
+LIST_LENGTHS = np.array([50, 100, 200, 300, 400, 500, 750, 1000, 2000])
