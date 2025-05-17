@@ -66,9 +66,9 @@ __all__ = [
 # from .bubblesort import bubblesort_2
 # from .bubblesort import bubblesort_3
 
-# from .insertionsort import insertionsort
-# from .insertionsort import insertionsort2
-# from .insertionsort import insertionsort3
+# from .inssort import inssort
+# from .inssort import inssort2
+# from .inssort import inssort3
 
 # from .performance import algo_perf
 # from .performance import time_it_repeat

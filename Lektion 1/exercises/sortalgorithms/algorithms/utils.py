@@ -50,8 +50,8 @@ def get_args():
         'listlength': "List-lengths to test (provide once per list-length)",
         'algorithm': "Algorithm to test (provide multiple times to test "
                      "multiple algorithms. Possible values: bubblesort, "
-                     "bubblesort2, bubblesort3, insertionsort, insertionsort2, "
-                     "insertionsort3, qsort, qsort2, qsort_iterative"
+                     "bubblesort2, bubblesort3, inssort, inssort2, "
+                     "inssort3, qsort, qsort2, qsort_iterative"
     }
 
     parser.add_argument('-d', '--debug',
@@ -77,7 +77,7 @@ def get_args():
                         help=help_dict['listlength'])
     parser.add_argument('--algorithm', '-a',
                         nargs='+',  # at least one required
-                        default=["insertionssort3", "qsort"],
+                        default=["inssort3", "qsort"],
                         type=str,
                         help=help_dict['algorithm'])
     args = parser.parse_args()

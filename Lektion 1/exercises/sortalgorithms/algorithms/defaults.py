@@ -16,11 +16,11 @@ import numpy as np
 from . bubblesort import bubblesort
 from . bubblesort import bubblesort2
 from . bubblesort import bubblesort3
-from . insertionsort import insertionsort
-from . insertionsort import insertionsort2
-from . insertionsort import insertionsort3
-from . insertionsort import insertionsortwikipedia_for
-from . insertionsort import insertionsortwikipedia_while
+from . inssort import inssort
+from . inssort import inssort2
+from . inssort import inssort3
+from . inssort import inssort_wikipedia_for
+from . inssort import inssort_wikipedia_while
 from . qsort import qsort, qsort2, qsort_iterative
 # pylint: enable=unused-import
 
@@ -90,12 +90,12 @@ BS3 = (bubblesort3, )
 BS = (bubblesort, bubblesort2, bubblesort3)
 BSALL = (bubblesort, bubblesort2 )
 #
-IS1 = (insertionsort, )
-IS2 = (insertionsort2, )
-IS3 = (insertionsort3, )
+IS1 = (inssort, )
+IS2 = (inssort2, )
+IS3 = (inssort3, )
 IS = IS1 + IS2 + IS3
-ISWFOR = (insertionsortwikipedia_for, )
-ISWWHILE = (insertionsortwikipedia_while, )
+ISWFOR = (inssort_wikipedia_for, )
+ISWWHILE = (inssort_wikipedia_while, )
 ISW = ISWFOR + ISWWHILE
 ISALL = IS + ISW
 #
