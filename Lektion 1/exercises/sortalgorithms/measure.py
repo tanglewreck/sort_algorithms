@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # coding: utf-8
 """
     NAME
@@ -14,27 +15,30 @@ __all__ = ["genarr",
            "measurements",
            "main_function"]
 
-# xpylint: disable=unused-import
+# pylint: disable=unused-import
 import timeit
 
 from collections.abc import Callable
 from functools import partial
 
 import numpy as np
+import pandas as pd
 from pandas import DataFrame
 
-# pylint: disable=unused-import
 from algorithms.utils import debug_msg, err_msg, sys
 from algorithms.defaults import ALGORITHMS, ALGOSALL
-from algorithms.defaults import bubblesort
-from algorithms.defaults import bubblesort2
-from algorithms.defaults import bubblesort3
-from algorithms.defaults import insertionsort
-from algorithms.defaults import insertionsort2
-from algorithms.defaults import insertionsort3
+from algorithms.bubblesort import bubblesort
+from algorithms.bubblesort import bubblesort2
+from algorithms.bubblesort import bubblesort3
+from algorithms.inssort import inssort
+from algorithms.inssort import inssort2
+from algorithms.inssort import inssort3
+from algorithms.inssort import inssort_wikipedia_for
+from algorithms.inssort import inssort_wikipedia_while
 from algorithms.defaults import qsort
 from algorithms.defaults import qsort2
 from algorithms.defaults import qsort_iterative
+from algorithms.defaults import qsort_iterative2
 # pylint: enable=unused-import
 from algorithms.defaults import LENGTH_DEFAULT
 from algorithms.defaults import LIST_LENGTHS
@@ -94,7 +98,8 @@ def measure(ldata: np.array, algo: Callable = bubblesort,
                 print(lslice)
             # Measure number of comparisons and swaps
             # quicksort() requires special handling
-            qs_algos = ('qsort', 'qsort2', 'qsort_iterative')
+            qs_algos = ('qsort', 'qsort2',
+                        'qsort_iterative', 'qsort_iterative2')
             if algo.__name__ in qs_algos:
                 _, c, s = algo(lslice, lo=0, hi=len(lslice) - 1)
                 # Measure execution time
@@ -196,22 +201,25 @@ def main_function() -> None:
     """main"""
     data = genarr(size=(10_000, 10_000))
     nlists = 10
+    for llength in [1000, 1500, 2000, 3000, 4000, 5000]:
     # for llength in [100, 250, 500, 750, 1000]:
-    for llength in LIST_LENGTHS:
+    # for llength in LIST_LENGTHS:
         print("-" * 30)
         # measure(ldata=data, algo=bubblesort,
         #         nlists=nlists, llength=llength, verbose=1)
-        measure(ldata=data, algo=insertionsort3,
-                nlists=nlists, llength=llength, verbose=1)
-        measure(ldata=data, algo=qsort2,
-                nlists=nlists, llength=llength, verbose=1)
+#         measure(ldata=data, algo=inssort3,
+#                 nlists=nlists, llength=llength, verbose=1)
+#         measure(ldata=data, algo=qsort2,
+#                 nlists=nlists, llength=llength, verbose=1)
         measure(ldata=data, algo=qsort_iterative,
+                nlists=nlists, llength=llength, verbose=1)
+        measure(ldata=data, algo=qsort_iterative2,
                 nlists=nlists, llength=llength, verbose=1)
         # nlists=np.arange(30, 60, 10))
     print()
     print("-" * 30)
 #    measurements(ldata=data,
-#                 algo=insertionsort3,
+#                 algo=inssort3,
 #                 llengths=np.arange(100, 1001, 100),
 #                 nlists=(30, ))
     # print(df)
