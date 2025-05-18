@@ -206,9 +206,9 @@ def main_function() -> None:
     #            20_000, 30_000,
     #            40_000]:
     # for ll in [100, 250, 500, 750, 1000]:
-    nlists = 5
+    nlists = 2
     ll_lower = 10_000
-    ll_upper = 30_000
+    ll_upper = 15_000
     ll_step = 1000
     ll_range = range(ll_lower, ll_upper + 1, ll_step)
     data = genarr(size=(nlists, ll_upper))
