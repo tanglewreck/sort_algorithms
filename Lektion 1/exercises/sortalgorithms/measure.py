@@ -90,7 +90,8 @@ def measure(ldata: np.array, algo: Callable = bubblesort,
                   f"llength {llength}, "
                   f"nlists {nlists}")
         if llength > ldata.shape[1]:
-            errormsg = f"llength > (list length in ldata ({ldata.shape[1]}))"
+            errormsg = f"llength ({llength}) > " + \
+                    "(list-length in ldata ({ldata.shape[1]}))"
             raise IndexError(errormsg)
         for k in range(nlists):
             lslice = ldata[k][:llength]
@@ -199,22 +200,31 @@ def measurements(ldata: list = None, algo: Callable = bubblesort,
 
 def main_function() -> None:
     """main"""
-    data = genarr(size=(10_000, 10_000))
-    nlists = 10
-    for llength in [1000, 1500, 2000, 3000, 4000, 5000]:
-    # for llength in [100, 250, 500, 750, 1000]:
-    # for llength in LIST_LENGTHS:
+    # llmax = 50_000
+    # llmax = 40_000
+    # for ll in [10_000, 15_000,
+    #            20_000, 30_000,
+    #            40_000]:
+    # for ll in [100, 250, 500, 750, 1000]:
+    nlists = 2
+    ll_lower = 1_000
+    ll_upper = 2_000
+    ll_step = 100
+    ll_range = range(ll_lower, ll_upper + 1, ll_step)
+    data = genarr(size=(nlists, ll_upper))
+    for ll in ll_range:
         print("-" * 30)
         # measure(ldata=data, algo=bubblesort,
-        #         nlists=nlists, llength=llength, verbose=1)
+        #         nlists=nlists, llength=ll, verbose=1)
 #         measure(ldata=data, algo=inssort3,
-#                 nlists=nlists, llength=llength, verbose=1)
+#                 nlists=nlists, llength=ll, verbose=1)
 #         measure(ldata=data, algo=qsort2,
-#                 nlists=nlists, llength=llength, verbose=1)
+#                 nlists=nlists, llength=ll, verbose=1)
+        # data = np.random.randint(LOWER, UPPER, (nlists, ll), dtype=int)
         measure(ldata=data, algo=qsort_iterative,
-                nlists=nlists, llength=llength, verbose=1)
+                nlists=nlists, llength=ll, verbose=1)
         measure(ldata=data, algo=qsort_iterative2,
-                nlists=nlists, llength=llength, verbose=1)
+                nlists=nlists, llength=ll, verbose=1)
         # nlists=np.arange(30, 60, 10))
     print()
     print("-" * 30)
