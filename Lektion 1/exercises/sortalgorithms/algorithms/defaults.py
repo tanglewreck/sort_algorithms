@@ -11,8 +11,10 @@
         2025-05-05
 
 """
+# from collections.abc import Callable
 import numpy as np
 # pylint: disable=unused-import
+# pylint: enable=unused-import
 from . bubblesort import bubblesort
 from . bubblesort import bubblesort2
 from . bubblesort import bubblesort3
@@ -21,8 +23,10 @@ from . inssort import inssort2
 from . inssort import inssort3
 from . inssort import inssort_wikipedia_for
 from . inssort import inssort_wikipedia_while
-from . qsort import qsort, qsort2, qsort_iterative
-# pylint: enable=unused-import
+from . qsort import qsort
+from . qsort import qsort2
+from . qsort import qsort_iterative
+from . qsort import qsort_iterative2
 
 __all__ = ["ALGORITHMS", "ALGOSALL"]
 __all__ += ["BS", "BSALL", "IS"]
@@ -79,33 +83,38 @@ LIST_LENGTHS = np.array([10, 20, 30 , 40, 50, 60, 70, 80,
                          90, 100, 200, 300, 400, 500, 750,
                          1_000, 2_000, 5_000, 10_000])
 LIST_LENGTHS = np.array([50, 100, 200, 500, 750, 1000, 2000])
+LIST_LENGTHS = np.array([50, 100, 200])
 # Number of iterations (=number of arrays to sort) during data-collection.
 ITERATIONS = 2
 ITERATIONS = 5
 ITERATIONS = 10
 # ALGORITHMS
-BS1 = (bubblesort, )
-BS2 = (bubblesort2, )
-BS3 = (bubblesort3, )
-BS = (bubblesort, bubblesort2, bubblesort3)
-BSALL = (bubblesort, bubblesort2 )
+BS1 = [bubblesort]
+BS2 = [bubblesort2]
+BS3 = [bubblesort3]
+BS = [bubblesort, bubblesort2, bubblesort3]
+BSALL = [bubblesort, bubblesort2]
 #
-IS1 = (inssort, )
-IS2 = (inssort2, )
-IS3 = (inssort3, )
+IS1 = [inssort]
+IS2 = [inssort2]
+IS3 = [inssort3]
 IS = IS1 + IS2 + IS3
-ISWFOR = (inssort_wikipedia_for, )
-ISWWHILE = (inssort_wikipedia_while, )
+ISWFOR = [inssort_wikipedia_for]
+ISWWHILE = [inssort_wikipedia_while]
 ISW = ISWFOR + ISWWHILE
 ISALL = IS + ISW
 #
-QS1 = (qsort, )
-QS2 = (qsort2, )
-QS3 = (qsort_iterative, )
-QS = QS1 + QS2 + QS3
+QS1 = [qsort]
+QS2 = [qsort2]
+QSI = [qsort_iterative]
+QSI2 = [qsort_iterative2]
+QS = QS1 + QS2 + QSI
 ALGOSALL = BS + IS
+#
+ALGORITHMS: list = []
 ALGORITHMS = IS3 + ISW
 ALGORITHMS = IS3 + QS
 ALGORITHMS = BS + IS + ISW
 ALGORITHMS = IS3 + QS
-ALGORITHMS = IS3 + QS2 + QS3
+ALGORITHMS = IS3 + QSI
+ALGORITHMS = QSI + QSI2
