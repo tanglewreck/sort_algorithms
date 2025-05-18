@@ -406,7 +406,6 @@ def qsort_iterative(arr: np.ndarray, lo: int, hi: int,
     # of 'lo' and 'hi' onto the stack.
     # Note that 'lo' and 'hi' are always pushed in that
     # order (and popped in the reverse order).
-    # top = -1  # Not needed. Start by setting top to zero.
     stack[0] = lo  # top = 0
     stack[1] = hi  # top = 1
     top = 1
@@ -463,8 +462,8 @@ def qsort_iterative(arr: np.ndarray, lo: int, hi: int,
 
 
 def qsort_iterative2(arr: np.ndarray, lo: int, hi: int,
-                    copylist: bool = False,
-                    reverse: bool = False) -> tuple:
+                     copylist: bool = False,
+                     reverse: bool = False) -> tuple:
     """
         Non-recursive (i.e. iterative) implementation of
         Quicksort.
@@ -494,18 +493,13 @@ def qsort_iterative2(arr: np.ndarray, lo: int, hi: int,
     # Count the number of comparisons and swaps
     ncomps: int = 0
     nswaps: int = 0
-    # ncomps, nswaps = 0, 0
     # Make sure the indices are in correct order.
     if lo >= hi or lo < 0:
         # Update number of comparisons
         ncomps += 2
         return None, ncomps, nswaps
-    # Create a stack where onto which we will push index-pointers
-    # (successive values of 'lo' and 'hi').
-    # NOTE: Implementing the stack using append() and pop()
-    #       seems to come with a performance penalty compared
-    #       to using a fixed-length list, as in qsort_iterative()
-    #       above.
+    # Create a stack onto which we will push and pop
+    # successive values of 'lo' and 'hi'.
     stack: list = []
     # Initialise the stack and push the current (initial) values
     # of 'lo' and 'hi' onto the stack.
@@ -513,15 +507,13 @@ def qsort_iterative2(arr: np.ndarray, lo: int, hi: int,
     # order (and popped in the reverse order).
     stack.append(lo)
     stack.append(hi)
-    top: int = len(stack) - 1
+    top: int = len(stack) - 1  # top <-- 1
     # Loop while the stack's not empty by popping off
     # values of 'hi' and 'lo'
     while top >= 0:
         # Update number of comparisons
         ncomps += 1
         # Pop hi and lo from the stack
-        # hi = stack[top]; top -= 1
-        # lo = stack[top]; top -= 1
         hi = stack.pop()
         lo = stack.pop()
         top -= 2
@@ -533,30 +525,22 @@ def qsort_iterative2(arr: np.ndarray, lo: int, hi: int,
         ncomps += nc
         nswaps += ns
         # If there are elements to the left of the pivot
-        # element (i.e. if pivot is not at the beginning of the array?),
-        # push the left side of the array onto the stack, to be
-        # popped off in the iteration of the loop.
+        # (i.e. if pivot is not at the beginning of the array?),
+        # push the left side of the array onto the stack.
         if pivot_index > lo + 1:
             # Update number of comparisons
             ncomps += 1
             # Push onto the stack (first lo, then hi)
-            # top += 1; stack[top] = lo  # lo of the left-hand side
-            # top += 1; stack[top] = pivot_index - 1  # hi of the left-hand side
-            stack.append(lo)
-            stack.append(pivot_index - 1)
+            stack.append(lo)  # lo of the left-hand side
+            stack.append(pivot_index - 1)  # hi of the left-hand side
             top += 2
-        # If there are still elements to the right of the pivot
-        # element (i.e. if pivot is not at the end of the array?),
-        # push the right side of the array onto the stack, to be
-        # popped off in the iteration of the loop.
+        # Push the right-hand side of the array onto the stack
         if pivot_index < hi - 1:
             # Update number of comparisons
             ncomps += 1
             # Push onto the stack (first lo, then hi)
-            # top += 1; stack[top] = pivot_index + 1  # lo of the right-hand side
-            # top += 1; stack[top] = hi  # hi of the right-hand side
-            stack.append(pivot_index + 1)
-            stack.append(hi)
+            stack.append(pivot_index + 1)  # lo of the right-hand side
+            stack.append(hi)  # hi of the right-hand side
             top += 2
     if reverse:
         arr = np.sort(arr)[::-1]
@@ -566,4 +550,4 @@ def qsort_iterative2(arr: np.ndarray, lo: int, hi: int,
     # from the code any-time-soon... Also, the number of 'swaps' does not
     # seem to be relevant for, at least, the quicksort code (should we instead
     # count number of assignments?)
-    return None, ncomps, nswaps
+    return (None, ncomps, nswaps)
