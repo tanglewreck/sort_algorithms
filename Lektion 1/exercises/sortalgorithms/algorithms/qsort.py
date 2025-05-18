@@ -12,9 +12,9 @@
         Wikipedia: https://en.wikipedia.org/wiki/Quicksort
 
 """
-__all__ = ["partition", "partition2",
-           "qsort", "qsort2",
-           "qsort_iterative"]
+__all__ = ["qsort", "qsort2",
+           "qsort_iterative",
+           "qsort_iterative2"]
 
 # pylint: disable=multiple-statements
 # xpylint: disable=import-error
@@ -29,7 +29,8 @@ import numpy as np
 # the sorting. Defined here (as globals)
 # so there's les
 
-def partition(arr, lo:int, hi: int) -> int:
+
+def partition(arr: np.ndarray, lo: int, hi: int) -> tuple:
     """
         Partition the array arr and return the
         position of the pivot element
@@ -60,7 +61,8 @@ def partition(arr, lo:int, hi: int) -> int:
         for j := lo to hi - 1 do
             # If the current element is less than or equal to the pivot
             if A[j] <= pivot then
-                # Swap the current element with the element at the temporary pivot index
+                # Swap the current element with the element at
+                # the temporary pivot index
                 swap A[i] with A[j]
                 # Move the temporary pivot index forward
                 i := i + 1
@@ -73,8 +75,8 @@ def partition(arr, lo:int, hi: int) -> int:
     # made during the partitionen
     ncomps, nswaps = 0, 0
     # Temporary pivot index
-    pivot_index = lo
-    ### Choose the last element as pivot
+    pivot_index: int = lo
+    # Choose the last element as pivot
     pivot = arr[hi]
     for k in range(lo, hi):
         # Update number of comparisons (for-loops make
@@ -97,10 +99,10 @@ def partition(arr, lo:int, hi: int) -> int:
     arr[hi], arr[pivot_index] = arr[pivot_index], arr[hi]
     nswaps += 1
     # Return the (now final) pivot index
-    return pivot_index, ncomps, nswaps
+    return (pivot_index, ncomps, nswaps)
 
 
-def partition2(arr, lo:int, hi: int) -> int:
+def partition2(arr: np.ndarray, lo: int, hi: int) -> tuple:
     """
         Partition the array arr and return the
         position of the pivot element
@@ -131,7 +133,8 @@ def partition2(arr, lo:int, hi: int) -> int:
         for j := lo to hi - 1 do
             # If the current element is less than or equal to the pivot
             if A[j] <= pivot then
-                # Swap the current element with the element at the temporary pivot index
+                # Swap the current element with the element at
+                # the temporary pivot index
                 swap A[i] with A[j]
                 # Move the temporary pivot index forward
                 i := i + 1
@@ -141,10 +144,10 @@ def partition2(arr, lo:int, hi: int) -> int:
         return i // the pivot index
     """
     # Keep track of the number os comparisons and swaps
-    # made during the partitionen
+    # made during the partitioning
     ncomps, nswaps = 0, 0
     # Temporary pivot index
-    pivot_index = lo
+    pivot_index: int = lo
     # Median of three choice of pivot
     mid = int((lo + hi) / 2)
     if arr[mid] < arr[lo]:
@@ -154,8 +157,9 @@ def partition2(arr, lo:int, hi: int) -> int:
     if arr[mid] < arr[hi]:
         arr[mid], arr[hi] = arr[hi], arr[mid]
     # Update number of comparisons and swaps
-    ncomps += 3; nswaps += 3
-    ### Choose the last element as pivot
+    ncomps += 3
+    nswaps += 3
+    # Choose the last element as pivot
     pivot = arr[hi]
     for k in range(lo, hi):
         # Update number of comparisons (for-loops make
@@ -179,13 +183,12 @@ def partition2(arr, lo:int, hi: int) -> int:
     # Update number of comparisons
     nswaps += 1
     # Return the (now final) pivot index
-    return pivot_index, ncomps, nswaps
+    return (pivot_index, ncomps, nswaps)
 
 
-
-def qsort(arr, lo: int, hi: int,
-              copylist: bool = False,
-              reverse: bool = False) -> tuple:
+def qsort(arr: np.ndarray, lo: int, hi: int,
+          copylist: bool = False,
+          reverse: bool = False) -> tuple:
     """
         An implementation of Quicksort
 
@@ -199,13 +202,14 @@ def qsort(arr, lo: int, hi: int,
 
         Returns
         -------
-        ncomps, nswaps
+        tuple(None, ncomps, nswaps)
             ncomps : int, number of comparisons made by the sorting algorithm.
             nswaps : int, number of swaps made by the sorting algorithm.
 
         Pseudocode
         ----------
-        // Sorts (a portion of) an array, divides it into partitions, then sorts those
+        // Sorts (a portion of) an array, divides it into partitions,
+        // then sorts those
         algorithm quicksort(A, lo, hi) is
         if lo >= 0 && hi >= 0 && lo < hi then
             p := partition(A, lo, hi)
@@ -224,12 +228,12 @@ def qsort(arr, lo: int, hi: int,
             j := hi + 1
 
             loop forever
-                // Move the left index to the right at least once and while the element at
-                // the left index is less than the pivot
+                // Move the left index to the right at least once and
+                // while the element at the left index is less than the pivot
                 do i := i + 1 while A[i] < pivot
 
-                // Move the right index to the left at least once and while the element at
-                // the right index is greater than the pivot
+                // Move the right index to the left at least once and while
+                // the element at the right index is greater than the pivot
                 do j := j - 1 while A[j] > pivot
 
                 // If the indices crossed, return
@@ -247,11 +251,13 @@ def qsort(arr, lo: int, hi: int,
     # Make sure the indices are in correct order.
     # This also the condition for breaking the recursion (?)
     if lo >= hi or lo < 0:
-        ncomps += 1; nswaps += 1
+        ncomps += 1
+        nswaps += 1
         return None, ncomps, nswaps
     # Partition the array and get the pivot index
     pivot_index, nc, ns = partition(arr, lo, hi)
-    ncomps += nc; nswaps += ns
+    ncomps += nc
+    nswaps += ns
     # Recursively sort the two sub-partitions.
     # NOTE that the element at the partition index
     # is not included here; this is because the partitioning
@@ -266,9 +272,9 @@ def qsort(arr, lo: int, hi: int,
     return None, ncomps, nswaps
 
 
-def qsort2(arr, lo: int, hi: int,
-              copylist: bool = False,
-              reverse: bool = False) -> tuple:
+def qsort2(arr: np.ndarray, lo: int, hi: int,
+           copylist: bool = False,
+           reverse: bool = False) -> tuple:
     """
         An implementation of Quicksort.
         Uses an optimised pivot-selection procedure.
@@ -283,13 +289,14 @@ def qsort2(arr, lo: int, hi: int,
 
         Returns
         -------
-        ncomps, nswaps
+        tuple(None, ncomps, nswaps)
             ncomps : int, number of comparisons made by the sorting algorithm.
             nswaps : int, number of swaps made by the sorting algorithm.
 
         Pseudocode
         ----------
-        // Sorts (a portion of) an array, divides it into partitions, then sorts those
+        // Sorts (a portion of) an array, divides it into partitions,
+        // then sorts those
         algorithm quicksort(A, lo, hi) is
         if lo >= 0 && hi >= 0 && lo < hi then
             p := partition(A, lo, hi)
@@ -308,12 +315,12 @@ def qsort2(arr, lo: int, hi: int,
             j := hi + 1
 
             loop forever
-                // Move the left index to the right at least once and while the element at
-                // the left index is less than the pivot
+                // Move the left index to the right at least once and while
+                // the element at the left index is less than the pivot
                 do i := i + 1 while A[i] < pivot
 
-                // Move the right index to the left at least once and while the element at
-                // the right index is greater than the pivot
+                // Move the right index to the left at least once and while
+                // the element at the right index is greater than the pivot
                 do j := j - 1 while A[j] > pivot
 
                 // If the indices crossed, return
@@ -331,11 +338,13 @@ def qsort2(arr, lo: int, hi: int,
     # Make sure the indices are in correct order.
     # This also the condition for breaking the recursion (?)
     if lo >= hi or lo < 0:
-        ncomps += 1; nswaps += 1
+        ncomps += 1
+        nswaps += 1
         return None, ncomps, nswaps
     # Partition the array and get the pivot index
-    pivot_index, nc, ns = partition2(arr, lo, hi)
-    ncomps += nc; nswaps += ns
+    (pivot_index, nc, ns) = partition2(arr, lo, hi)
+    ncomps += nc
+    nswaps += ns
     # Recursively sort the two sub-partitions.
     # NOTE that the element at the partition index
     # is not included here; this is because the partitioning
@@ -350,9 +359,112 @@ def qsort2(arr, lo: int, hi: int,
     return None, ncomps, nswaps
 
 
-def qsort_iterative(arr, lo: int, hi: int,
-              copylist: bool = False,
-              reverse: bool = False) -> tuple:
+def qsort_iterative(arr: np.ndarray, lo: int, hi: int,
+                    copylist: bool = False,
+                    reverse: bool = False) -> tuple:
+    """
+        Non-recursive (i.e. iterative) implementation of
+        Quicksort.
+        Uses an optimised pivot-selection procedure.
+
+        Parameters
+        _________
+        arr : array_like
+                Array to be sorted.
+        lo, hi : int
+                Lower and upper indices, defining a
+                slice of the array, to be sorted.
+        reverse : bool, optional
+                Defaults to False, in which case the array is
+                sorted in ascending order.
+        Returns:
+        -------
+        tuple(None, ncomps, nswaps)
+            ncomps : int, number of comparisons made by the sorting algorithm.
+            nswaps : int, number of swaps made by the sorting algorithm.
+
+    """
+    # pylint: disable=unused-variable
+    if copylist:
+        # Make a copy of the list
+        arr = arr.copy()
+    # Count the number of comparisons and swaps
+    ncomps: int = 0
+    nswaps: int = 0
+    # ncomps, nswaps = 0, 0
+    # Make sure the indices are in correct order.
+    if lo >= hi or lo < 0:
+        # Update number of comparisons
+        ncomps += 2
+        return None, ncomps, nswaps
+    # Create a stack where onto which we will push index-pointers
+    # (successive values of 'lo' and 'hi').
+    stack_size = hi - lo + 1  # Current length of the subarray
+    stack = [0] * stack_size
+    # stack = np.zeros(stack_size, dtype=np.int64)
+    # Initialise the stack and push the current (initial) values
+    # of 'lo' and 'hi' onto the stack.
+    # Note that 'lo' and 'hi' are always pushed in that
+    # order (and popped in the reverse order).
+    # top = -1  # Not needed. Start by setting top to zero.
+    stack[0] = lo  # top = 0
+    stack[1] = hi  # top = 1
+    top = 1
+    # Loop while the stack's not empty by popping off
+    # values of 'hi' and 'lo'
+    while top >= 0:
+        # Update number of comparisons
+        ncomps += 1
+        # Pop hi and lo from the stack
+        hi = stack[top]
+        top -= 1
+        lo = stack[top]
+        top -= 1
+        # Partition the current subarray (defined by the current
+        # values of hi and lo). Get the current position of (the
+        # index of) the pivot element, as chosen by partition().
+        pivot_index, nc, ns = partition2(arr, lo, hi)
+        # Update number of comparisons and swaps
+        ncomps += nc
+        nswaps += ns
+        # If there are elements to the left of the pivot
+        # element (i.e. if pivot is not at the beginning of the array?),
+        # push the left side of the array onto the stack, to be
+        # popped off in the iteration of the loop.
+        if pivot_index > lo + 1:
+            # Update number of comparisons
+            ncomps += 1
+            # Push onto the stack (first lo, then hi)
+            top += 1
+            stack[top] = lo  # lo of the left-hand side
+            top += 1
+            stack[top] = pivot_index - 1  # hi of the left-hand side
+        # If there are still elements to the right of the pivot
+        # element (i.e. if pivot is not at the end of the array?),
+        # push the right side of the array onto the stack, to be
+        # popped off in the iteration of the loop.
+        if pivot_index < hi - 1:
+            # Update number of comparisons
+            ncomps += 1
+            # Push onto the stack (first lo, then hi)
+            top += 1
+            stack[top] = pivot_index + 1  # lo of the right-hand side
+            top += 1
+            stack[top] = hi  # hi of the right-hand side
+    if reverse:
+        arr = np.sort(arr)[::-1]
+    # Return a tuple of (<do_not_care_value>, <number of comparisons>,
+    # <number of swaps>). The <do_not_care_value> is an artifact of the way
+    # the performance-testing code collects data and could (should) be removed
+    # from the code any-time-soon... Also, the number of 'swaps' does not
+    # seem to be relevant for, at least, the quicksort code (should we instead
+    # count number of assignments?)
+    return None, ncomps, nswaps
+
+
+def qsort_iterative2(arr: np.ndarray, lo: int, hi: int,
+                    copylist: bool = False,
+                    reverse: bool = False) -> tuple:
     """
         Non-recursive (i.e. iterative) implementation of
         Quicksort.
@@ -370,9 +482,9 @@ def qsort_iterative(arr, lo: int, hi: int,
                 sorted in ascending order.
         Returns
         -------
-        ncomps, nswaps
-                ncomps : int, number of comparisons made by the sorting algorithm.
-                nswaps : int, number of swaps made by the sorting algorithm.
+        tuple(None, ncomps, nswaps)
+            ncomps : int, number of comparisons made by the sorting algorithm.
+            nswaps : int, number of swaps made by the sorting algorithm.
 
     """
     # pylint: disable=unused-variable
@@ -380,7 +492,9 @@ def qsort_iterative(arr, lo: int, hi: int,
         # Make a copy of the list
         arr = arr.copy()
     # Count the number of comparisons and swaps
-    ncomps, nswaps = 0, 0
+    ncomps: int = 0
+    nswaps: int = 0
+    # ncomps, nswaps = 0, 0
     # Make sure the indices are in correct order.
     if lo >= hi or lo < 0:
         # Update number of comparisons
@@ -388,31 +502,36 @@ def qsort_iterative(arr, lo: int, hi: int,
         return None, ncomps, nswaps
     # Create a stack where onto which we will push index-pointers
     # (successive values of 'lo' and 'hi').
-    stack_size = hi - lo + 1  # Current length of the subarray
-    stack = [0] * stack_size
-    stack = np.zeros(stack_size, dtype=np.int64)
+    # NOTE: Implementing the stack using append() and pop()
+    #       seems to come with a performance penalty compared
+    #       to using a fixed-length list, as in qsort_iterative()
+    #       above.
+    stack: list = []
     # Initialise the stack and push the current (initial) values
     # of 'lo' and 'hi' onto the stack.
     # Note that 'lo' and 'hi' are always pushed in that
     # order (and popped in the reverse order).
-    # top = -1  # Not needed. Start by setting top to zero.
-    top = -1
-    top += 1; stack[top] = lo  # top = 0
-    top += 1; stack[top] = hi  # top = 1
+    stack.append(lo)
+    stack.append(hi)
+    top: int = len(stack) - 1
     # Loop while the stack's not empty by popping off
     # values of 'hi' and 'lo'
     while top >= 0:
         # Update number of comparisons
         ncomps += 1
         # Pop hi and lo from the stack
-        hi = stack[top]; top -= 1
-        lo = stack[top]; top -= 1
+        # hi = stack[top]; top -= 1
+        # lo = stack[top]; top -= 1
+        hi = stack.pop()
+        lo = stack.pop()
+        top -= 2
         # Partition the current subarray (defined by the current
         # values of hi and lo). Get the current position of (the
         # index of) the pivot element, as chosen by partition().
         pivot_index, nc, ns = partition2(arr, lo, hi)
         # Update number of comparisons and swaps
-        ncomps += nc; nswaps += ns
+        ncomps += nc
+        nswaps += ns
         # If there are elements to the left of the pivot
         # element (i.e. if pivot is not at the beginning of the array?),
         # push the left side of the array onto the stack, to be
@@ -421,8 +540,11 @@ def qsort_iterative(arr, lo: int, hi: int,
             # Update number of comparisons
             ncomps += 1
             # Push onto the stack (first lo, then hi)
-            top += 1; stack[top] = lo  # lo of the left-hand side
-            top += 1; stack[top] = pivot_index - 1  # hi of the left-hand side
+            # top += 1; stack[top] = lo  # lo of the left-hand side
+            # top += 1; stack[top] = pivot_index - 1  # hi of the left-hand side
+            stack.append(lo)
+            stack.append(pivot_index - 1)
+            top += 2
         # If there are still elements to the right of the pivot
         # element (i.e. if pivot is not at the end of the array?),
         # push the right side of the array onto the stack, to be
@@ -431,8 +553,11 @@ def qsort_iterative(arr, lo: int, hi: int,
             # Update number of comparisons
             ncomps += 1
             # Push onto the stack (first lo, then hi)
-            top += 1; stack[top] = pivot_index + 1  # lo of the right-hand side
-            top += 1; stack[top] = hi  # hi of the right-hand side
+            # top += 1; stack[top] = pivot_index + 1  # lo of the right-hand side
+            # top += 1; stack[top] = hi  # hi of the right-hand side
+            stack.append(pivot_index + 1)
+            stack.append(hi)
+            top += 2
     if reverse:
         arr = np.sort(arr)[::-1]
     # Return a tuple of (<do_not_care_value>, <number of comparisons>,
