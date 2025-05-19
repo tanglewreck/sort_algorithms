@@ -40,8 +40,8 @@ from algorithms import get_args
 
 def sortperf(low: int = LOWER, high: int = UPPER,
              iterations: int = ITERATIONS,
-             listlengths: list = LIST_LENGTHS,
-             algorithms: list = ALGORITHMS) -> None:
+             listlengths=LIST_LENGTHS,
+             algorithms=ALGORITHMS) -> None:
     """
         NAME
             sortperf_elapsed()
@@ -85,7 +85,7 @@ def sortperf(low: int = LOWER, high: int = UPPER,
         # plot_data(df_means, columns=["comps"])
         # plot_data(df_means, columns=["swaps"])
         # plot_data(df_means, columns=["t", "comps"])
-        plot_data(df_means, columns=["t", "comps", "swaps"])
+        plot_data(df_means, columns=("t", "comps", "swaps"))
     except ValueError as exception:
         print(repr(exception))
         raise SystemExit(1) from exception
