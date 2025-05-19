@@ -206,9 +206,9 @@ def main_function() -> None:
     #            20_000, 30_000,
     #            40_000]:
     # for ll in [100, 250, 500, 750, 1000]:
-    nlists = 2
+    nlists = 5
     ll_lower = 100
-    ll_upper = 500
+    ll_upper = 1000
     ll_step = 100
     ll_range = range(ll_lower, ll_upper + 1, ll_step)
     data = genarr(size=(nlists, ll_upper))
@@ -221,10 +221,19 @@ def main_function() -> None:
 #         measure(ldata=data, algo=qsort2,
 #                 nlists=nlists, llength=ll, verbose=1)
         # data = np.random.randint(LOWER, UPPER, (nlists, ll), dtype=int)
-        measure(ldata=data, algo=qsort_iterative,
-                nlists=nlists, llength=ll, verbose=1)
-        measure(ldata=data, algo=qsort_iterative2,
-                nlists=nlists, llength=ll, verbose=1)
+        for algorithm in [bubblesort, bubblesort2, bubblesort3,
+                          inssort, inssort2, inssort3,
+                          inssort_wikipedia_for,
+                          inssort_wikipedia_while,
+                          qsort, qsort2,
+                          qsort_iterative,
+                          qsort_iterative2]:
+            measure(ldata=data, algo=algorithm,
+                    nlists=nlists, llength=ll, verbose=1)
+        #measure(ldata=data, algo=qsort_iterative,
+        #        nlists=nlists, llength=ll, verbose=1)
+        #measure(ldata=data, algo=qsort_iterative2,
+        #        nlists=nlists, llength=ll, verbose=1)
         # nlists=np.arange(30, 60, 10))
     print()
     print("-" * 30)
