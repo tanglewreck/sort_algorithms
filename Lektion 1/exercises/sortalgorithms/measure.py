@@ -15,17 +15,19 @@ __all__ = ["genarr",
            "measurements",
            "main_function"]
 
-# pylint: disable=unused-import
 import timeit
 
 from collections.abc import Callable
 from functools import partial
 
 import numpy as np
-import pandas as pd
+# import pandas as pd
+# pylint disable=import-untyped
 from pandas import DataFrame
 
-from algorithms.utils import debug_msg, err_msg, sys
+# from algorithms.utils import debug_msg, err_msg, sys_msg
+from algorithms.utils import err_msg
+# pylint: disable=unused-import
 from algorithms.defaults import ALGORITHMS, ALGOSALL
 from algorithms.bubblesort import bubblesort
 from algorithms.bubblesort import bubblesort2
@@ -48,7 +50,7 @@ from algorithms.defaults import ITERATIONS
 
 def genarr(low: int = LOWER, high: int = UPPER,
            size=(ITERATIONS, LENGTH_DEFAULT),
-           dtype=int):
+           dtype=int) -> np.ndarray:
     """
         Basically a wrapper around np.random.randint with
         default values provided.
@@ -72,7 +74,7 @@ def genarr(low: int = LOWER, high: int = UPPER,
 
 
 # pylint: disable=too-many-locals
-def measure(ldata: np.array, algo: Callable = bubblesort,
+def measure(ldata: np.ndarray, algo,
             nlists: int = ITERATIONS, llength: int = 10,
             verbose=0):
     """Measure performance of a sorting algorithm."""
@@ -145,10 +147,12 @@ def measure(ldata: np.array, algo: Callable = bubblesort,
                      index=["t", "comps", "swaps"])
 
 
-def measurements(ldata: list = None, algo: Callable = bubblesort,
+def measurements(ldata: np.ndarray,
+                 algo: Callable[[np.ndarray, bool, bool], tuple] = bubblesort,
                  llengths=LIST_LENGTHS, nlists=(ITERATIONS,),
                  verbose=False) -> None:
     """
+    Callable[[np.ndarray, int, int, bool, bool], tuple]
         Measure performance of a sort algorithm.
         Wrapper around measure().
 
