@@ -25,7 +25,7 @@ __all__ = ["genlists", "measure"]
 
 def genlists(low: int = LOWER, high: int = UPPER,
              size=(ITERATIONS, LENGTH_DEFAULT),
-             dtype=int):
+             dtype=int) -> np.ndarray:
     """
         NAME
             genlists
@@ -37,7 +37,7 @@ def genlists(low: int = LOWER, high: int = UPPER,
 
 
 # pylint: disable=too-many-locals
-def measure(ldata: np.array, algo: Callable,
+def measure(ldata: np.ndarray, algo: Callable,
             nlists: int = ITERATIONS, llength: int = 10,
             verbose: int = 0):
     """
