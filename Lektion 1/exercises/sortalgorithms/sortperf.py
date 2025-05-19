@@ -1,4 +1,4 @@
-#!/usr/bin/env python3 -O
+#!/usr/bin/env python3
 """
     NAME
         sortperf.py
@@ -58,7 +58,7 @@ def sortperf(low: int = LOWER, high: int = UPPER,
     print(f"Number of lists to sort (iterations): {ITERATIONS}\n"
           f"List lengths: {[int(k) for k in list(LIST_LENGTHS)]}")
     print("Algorithms:")
-    for algo in ALGORITHMS:
+    for algo in algorithms:
         print(f"\t{algo.__name__}")
     print()
 
