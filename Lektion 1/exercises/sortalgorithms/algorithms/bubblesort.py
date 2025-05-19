@@ -28,6 +28,7 @@ import numpy as np
 
 
 def bubblesort(arr: np.ndarray,
+               _: int = 0, __: int = 0,  # Dummy arguments (for compliance)
                copylist: bool = True,
                reverse: bool = False) -> tuple:
     """
@@ -66,6 +67,7 @@ def bubblesort(arr: np.ndarray,
 
 
 def bubblesort2(arr: np.ndarray,
+                _: int = 0, __: int = 0,  # Dummy arguments (for compliance)
                 copylist: bool = True,
                 reverse: bool = False) -> tuple:
     """
@@ -110,6 +112,7 @@ def bubblesort2(arr: np.ndarray,
 
 
 def bubblesort3(arr: np.ndarray,
+                _: int = 0, __: int = 0,  # Dummy arguments (for compliance)
                 copylist: bool = True,
                 reverse: bool = False) -> tuple:
     """

@@ -41,8 +41,9 @@ import numpy as np
 
 
 def inssort_wikipedia_for(arr: np.ndarray,
-                               copylist: bool = True,
-                               reverse: bool = False) -> tuple:
+                          _: int = 0, __: int = 0,  # Dummy arguments (for compliance)
+                          copylist: bool = True,
+                          reverse: bool = False) -> tuple:
     """
         An implementation of insertion sort
         (https://en.wikipedia.org/wiki/insertionsort).
@@ -103,8 +104,9 @@ def inssort_wikipedia_for(arr: np.ndarray,
 
 
 def inssort_wikipedia_while(arr: np.ndarray,
-                                 copylist: bool = True,
-                                 reverse: bool = False) -> tuple:
+                            _: int = 0, __: int = 0,  # Dummy arguments (for compliance)
+                            copylist: bool = True,
+                            reverse: bool = False) -> tuple:
     """
         An implementation of insertion sort
         (https://en.wikipedia.org/wiki/insertionsort).
@@ -166,8 +168,9 @@ def inssort_wikipedia_while(arr: np.ndarray,
 
 
 def inssort(arr: np.ndarray,
-                  copylist: bool = True,
-                  reverse: bool = False) -> tuple:
+            _: int = 0, __: int = 0,  # Dummy arguments (for compliance)
+            copylist: bool = True,
+            reverse: bool = False) -> tuple:
     """
         An implementation of insertion sort
         (https://en.wikipedia.org/wiki/insertionsort).
@@ -229,8 +232,9 @@ def inssort(arr: np.ndarray,
 
 
 def inssort2(arr: np.ndarray,
-                   copylist: bool = True,
-                   reverse: bool = False) -> tuple:
+             _: int = 0, __: int = 0,  # Dummy arguments (for compliance)
+             copylist: bool = True,
+             reverse: bool = False) -> tuple:
     """
         An optimised implementation of insertion sort
         (https://en.wikipedia.org/wiki/insertionsort).
@@ -313,8 +317,9 @@ def inssort2(arr: np.ndarray,
 
 
 def inssort3(arr: np.ndarray,
-                   copylist: bool = True,
-                   reverse: bool = False) -> tuple:
+             _: int = 0, __: int = 0,  # Dummy arguments (for compliance)
+             copylist: bool = True,
+             reverse: bool = False) -> tuple:
     """
         An optimised implementation of insertion sort
         (https://en.wikipedia.org/wiki/insertionsort).
@@ -346,38 +351,37 @@ def inssort3(arr: np.ndarray,
     # Number of comps is the sum of the arithmetic
     # series 1 + 2 + ... + n = n * (n + 1) /2
     # ncomps = int(arrlen * (arrlen +1) / 2)
-    ncomps, nswaps = 0, 0
+    stats = np.zeros(2)  # no. of comps. & swaps
     # Repeatedly move the smallest element to the top of the array.
     # The number of swaps
     for k in range(arrlen):
         # for loops make comparisons
-        ncomps += 1
+        stats[0] += 1
         # Save a slice of the array to search for
         # the (index of) the next smallest element.
         arr_slice_k = arr[k:]
         arr_slice_k_len = len(arr_slice_k)
         # Get index of the smallest element in 'the rest' of
         # the list (i.e. the index in the slice arr[k:]).
-        ind = 0  # Start at the beginning of the slice
+        minind = 0  # Start at the beginning of the slice
         for i in range(arr_slice_k_len):
             # for loops make comparisons
-            ncomps += 1
-            if arr_slice_k[i] < arr_slice_k[ind]:
-                ind = i
+            stats[0] += 1
+            if arr_slice_k[i] < arr_slice_k[minind]:
+                minind = i
         # Increase the number of comparisons withe number of comparisons
         # made in the loop, i.e. with 'arr_slice_k_len':
-        ncomps += arr_slice_k_len
+        stats[0] += arr_slice_k_len
         # Transform the index found in the slice to the index
         # of the same element in the original array.
-        ind += k
-        if arr[k] > arr[ind]:
+        minind += k
+        if arr[k] > arr[minind]:
             # Increase the number of comparisons and swaps
-            ncomps += 1
-            nswaps += 1
-            # print(f"Swapping index {k} <--> {ind}")
-            arr[k], arr[ind] = arr[ind], arr[k]
+            stats += 1
+            # print(f"Swapping index {k} <--> {minind}")
+            arr[k], arr[minind] = arr[minind], arr[k]
     # Reverse sort
     if reverse:
-        return arr[::-1], ncomps, nswaps
+        return arr[::-1], stats[0], stats[1]
     # Forward sort
-    return arr, ncomps, nswaps
+    return arr, stats[0], stats[1]  # arr, ncomps, nswaps
