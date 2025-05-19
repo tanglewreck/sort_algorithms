@@ -7,8 +7,8 @@
         2025-05-03
 """
 
-# pylint: disable=consider-using-dict-items
-# pylint: disable=unused-import
+# xpylint: disable=consider-using-dict-items
+# xpylint: disable=unused-import
 
 __all__ = ["collect_data"]
 
@@ -17,12 +17,11 @@ __all__ = ["collect_data"]
 # pylint: enable=import-error
 import numpy as np
 import pandas as pd
-from pandas import DataFrame, Series
+from pandas import DataFrame
 
 from algorithms.defaults import ALGORITHMS
 from algorithms.defaults import ITERATIONS
 from algorithms.defaults import LIST_LENGTHS
-from algorithms.defaults import LOWER, UPPER
 from algorithms.defaults import MAXLENGTH
 from algorithms.defaults import NPREGEN
 from algorithms.performance import measure
