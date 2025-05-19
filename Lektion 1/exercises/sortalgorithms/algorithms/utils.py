@@ -141,7 +141,7 @@ def get_command_line_arguments(list_length: int,
     return (lower, upper, list_length)
 
 
-def read_csv(path: str = None):
+def read_csv(path: str = ""):
     """
         NAME
             read_csv
@@ -200,7 +200,7 @@ def genlist():
 def generate_random_list(list_length: int,
                          lower: int = LOWER,
                          upper: int = UPPER
-                         ) -> list:
+                         ) -> np.ndarray:
     """
     Generate a list of random integers btw min and max, inclusive.
     """
