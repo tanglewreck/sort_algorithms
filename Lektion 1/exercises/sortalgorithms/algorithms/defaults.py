@@ -82,12 +82,13 @@ LIST_LENGTHS = np.array([100, 500, 1_000, 5_000, 10_000])
 LIST_LENGTHS = np.array([10, 20, 30 , 40, 50, 60, 70, 80,
                          90, 100, 200, 300, 400, 500, 750,
                          1_000, 2_000, 5_000, 10_000])
-LIST_LENGTHS = np.array([50, 100, 200, 500, 750, 1000, 2000])
 LIST_LENGTHS = np.array([50, 100, 200])
+LIST_LENGTHS = np.array([50, 100, 200, 500, 750, 1000, 2000])
+LIST_LENGTHS = np.arange(1000, 10001, 1000)
 # Number of iterations (=number of arrays to sort) during data-collection.
 ITERATIONS = 2
-ITERATIONS = 5
 ITERATIONS = 10
+ITERATIONS = 5
 # ALGORITHMS
 BS1 = [bubblesort]
 BS2 = [bubblesort2]
@@ -108,8 +109,11 @@ QS1 = [qsort]
 QS2 = [qsort2]
 QSI = [qsort_iterative]
 QSI2 = [qsort_iterative2]
-QS = QS1 + QS2 + QSI
-ALGOSALL = BS + IS
+QS = QS1 + QS2 + QSI + QSI2
+QSALL = QS
+#
+# Everything:
+ALGOSALL = BSALL + ISALL + QSALL
 #
 ALGORITHMS: list = []
 ALGORITHMS = IS3 + ISW
@@ -118,3 +122,5 @@ ALGORITHMS = BS + IS + ISW
 ALGORITHMS = IS3 + QS
 ALGORITHMS = IS3 + QSI
 ALGORITHMS = QSI + QSI2
+ALGORITHMS = BSALL + ISALL + QSALL
+ALGORITHMS = ISWWHILE + QSI2
