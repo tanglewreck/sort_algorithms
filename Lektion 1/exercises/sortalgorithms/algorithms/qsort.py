@@ -184,7 +184,7 @@ def partition2(arr: np.ndarray, lo: int, hi: int) -> tuple:
 
 
 def qsort(arr: np.ndarray, lo: int, hi: int,
-          copylist: bool = False,
+          copylist: bool = True,
           reverse: bool = False) -> tuple:
     """
         An implementation of Quicksort
@@ -269,7 +269,7 @@ def qsort(arr: np.ndarray, lo: int, hi: int,
 
 
 def qsort2(arr: np.ndarray, lo: int, hi: int,
-           copylist: bool = False,
+           copylist: bool = True,
            reverse: bool = False) -> tuple:
     """
         An implementation of Quicksort.
@@ -355,7 +355,7 @@ def qsort2(arr: np.ndarray, lo: int, hi: int,
 
 
 def qsort_iterative(arr: np.ndarray, lo: int, hi: int,
-                    copylist: bool = False,
+                    copylist: bool = True,
                     reverse: bool = False) -> tuple:
     """
         Non-recursive (i.e. iterative) implementation of
@@ -454,7 +454,7 @@ def qsort_iterative(arr: np.ndarray, lo: int, hi: int,
 
 
 def qsort_iterative2(arr: np.ndarray, lo: int, hi: int,
-                     copylist: bool = False,
+                     copylist: bool = True,
                      reverse: bool = False) -> tuple:
     """
         Non-recursive (i.e. iterative) implementation of
