@@ -93,14 +93,14 @@ def measure(ldata: np.ndarray, algo: Callable,
                         'qsort_iterative2')
             if algo.__name__ in qs_algos:
                 # Measure number of comparisons and swaps
-                _, c, s = algo(lslice, 0, len(lslice) - 1)
+                _, c, s = algo(lslice, 0, len(lslice) - 1, copylist=True)
                 # Measure execution time
-                f = partial(algo, lslice, 0, len(lslice) - 1)
+                f = partial(algo, lslice, 0, len(lslice) - 1, copylist=True)
                 timer = timeit.Timer(f)
             else:
-                _, c, s = algo(lslice)
+                _, c, s = algo(lslice, copylist=True)
                 # Measure execution time
-                f = partial(algo, lslice)
+                f = partial(algo, lslice, copylist=True)
                 timer = timeit.Timer(f)
             # Append results to data lists
             comps.append(c)
