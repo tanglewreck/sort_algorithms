@@ -68,8 +68,8 @@ def plot_data(data: DataFrame,
             ax.set_title(column)
             ax.set_xlabel('length')
             if column == "t":
-                # ax.set_ylabel("t (ms)")
-                ax.set_title("t (ms)")
+                # ax.set_ylabel("t (s)")
+                ax.set_title("t (s)")
             # else:
             #     ax.set_ylabel(column)
             ax.legend()
