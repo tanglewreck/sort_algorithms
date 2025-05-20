@@ -15,19 +15,17 @@ __all__ = ["genarr",
            "measurements",
            "main_function"]
 
+# pylint: disable=unused-import
 import timeit
 
 from collections.abc import Callable
 from functools import partial
 
 import numpy as np
-# import pandas as pd
-# pylint disable=import-untyped
+import pandas as pd
 from pandas import DataFrame
 
-# from algorithms.utils import debug_msg, err_msg, sys_msg
-from algorithms.utils import err_msg
-# pylint: disable=unused-import
+from algorithms.utils import debug_msg, err_msg, sys
 from algorithms.defaults import ALGORITHMS, ALGOSALL
 from algorithms.bubblesort import bubblesort
 from algorithms.bubblesort import bubblesort2
@@ -35,8 +33,8 @@ from algorithms.bubblesort import bubblesort3
 from algorithms.inssort import inssort
 from algorithms.inssort import inssort2
 from algorithms.inssort import inssort3
-from algorithms.inssort import inssort_wikipedia_for
-from algorithms.inssort import inssort_wikipedia_while
+from algorithms.inssort import inssortw_for
+from algorithms.inssort import inssortw_while
 from algorithms.defaults import qsort
 from algorithms.defaults import qsort2
 from algorithms.defaults import qsort_iterative
@@ -50,7 +48,7 @@ from algorithms.defaults import ITERATIONS
 
 def genarr(low: int = LOWER, high: int = UPPER,
            size=(ITERATIONS, LENGTH_DEFAULT),
-           dtype=int) -> np.ndarray:
+           dtype=int):
     """
         Basically a wrapper around np.random.randint with
         default values provided.
@@ -74,7 +72,8 @@ def genarr(low: int = LOWER, high: int = UPPER,
 
 
 # pylint: disable=too-many-locals
-def measure(ldata: np.ndarray, algo,
+def measure(ldata: np.ndarray,
+            algo: Callable[[np.ndarray, int, int, bool, bool], tuple],
             nlists: int = ITERATIONS, llength: int = 10,
             verbose=0):
     """Measure performance of a sorting algorithm."""
@@ -148,11 +147,10 @@ def measure(ldata: np.ndarray, algo,
 
 
 def measurements(ldata: np.ndarray,
-                 algo: Callable[[np.ndarray, bool, bool], tuple] = bubblesort,
+                 algo: Callable[[np.ndarray, int, int, bool, bool], tuple],
                  llengths=LIST_LENGTHS, nlists=(ITERATIONS,),
                  verbose=False) -> None:
     """
-    Callable[[np.ndarray, int, int, bool, bool], tuple]
         Measure performance of a sort algorithm.
         Wrapper around measure().
 
@@ -228,8 +226,8 @@ def main_function() -> None:
         algos_list = [
                 # bubblesort, bubblesort2, bubblesort3,
                 # inssort, inssort2, inssort3,
-                # inssort_wikipedia_for,
-                inssort_wikipedia_while,
+                # inssortw_for,
+                inssortw_while,
                 # qsort, qsort2,
                 # qsort_iterative,
                 qsort_iterative2]
