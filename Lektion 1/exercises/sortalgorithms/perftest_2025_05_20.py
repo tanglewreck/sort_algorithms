@@ -12,16 +12,32 @@ from algorithms.bubblesort import bubblesort3 as bs3
 from algorithms.inssort import inssort as ins
 from algorithms.inssort import inssort2 as ins2
 from algorithms.inssort import inssort3 as ins3
-from algorithms.inssort import inssort_wikipedia_while as insww
-from algorithms.inssort import inssort_wikipedia_for as inswf
+from algorithms.inssort import inssortw_while as insww
+from algorithms.inssort import inssortw_for as inswf
 from algorithms.qsort import qsort as qs
 from algorithms.qsort import qsort2 as qs2
-from algorithms.qsort import qsort_iterative as qsi
-from algorithms.qsort import qsort_iterative2 as qsi2
+from algorithms.qsort import qsorti as qsi
+from algorithms.qsort import qsorti2 as qsi2
 
 
-ALGS2 = [bs, bs2, bs3, ins, ins2, ins3, inswf, insww, qsi2]
+# Create some arrays
+N = 5000
+LS = np.arange(0, N + 1)  # Sorted array: [0...N]
+LR = LS[::-1]  # Reverse-sorted array
+LRAND = np.random.randint(0, 10_000, N)  # Random array
+LRANDISH = np.append(np.random.randint(0, 2, int(N/2)),
+                     np.arange(int(N/2) ))
+LRANDISH = np.random.randint(0, 2, N)
+LRANDISH2 = np.append(np.random.randint(0, 2, int(N/2)),
+                      np.arange(int(N/2) )[::-1])
+# Choose one to sort (below)
+L = LR
 
+# Algorithms to test
+# pylint: disable=unused-variable
+ALGS = [bs, bs2, bs3, ins, ins2, ins3, insww, qsi2]
+ALGS2 = [bs, bs2, bs3, ins, ins2, ins3, inswf, insww, qsi, qsi2]
+# pylint: enable=unused-variable
 
 # def fw(algo: Callable[[np.ndarray, int, int, bool, bool], tuple],
 def fw(algo, l: np.ndarray) -> tuple:
@@ -33,20 +49,34 @@ def tw(func, arr: np.ndarray, n: int):
     """tw"""
     f = partial(func, arr, 0, len(arr) -1, copylist=True)
     t = timeit.Timer(f)
-    return func.__name__, t.timeit(n)
+    return t.timeit(n)
 
 
 def main():
     """main"""
-    n = 100
-    # pylint: disable=unused-variable
-    ls = np.arange(0, n + 1)
-    lr = np.arange(n, -1, -1)
-    lrand = np.random.randint(0, 10_000, n)
-    for a in ALGS2:
-        l = lrand.copy()
-        ret = tw(a, l, 1)
-        print(": ".join([str(x) for x in ret]))
+    print(f"N={N}")
+    for algo in ALGS2:
+        print(f"{algo.__name__}")
+        print("sorted:  \t", end="")
+        t = tw(func=algo, arr=LS, n=1)
+        print(f"{t:2.4f} s")
+        #
+        print("reversed:\t", end="")
+        t = tw(func=algo, arr=LS, n=1)
+        print(f"{t:2.4f} s")
+        #
+        print("random:  \t", end="")
+        t = tw(func=algo, arr=LRAND, n=1)
+        print(f"{t:2.4f} s")
+        #
+        print("randish:  \t", end="")
+        t = tw(func=algo, arr=LRANDISH, n=1)
+        print(f"{t:2.4f} s")
+        #
+        print("randish2:  \t", end="")
+        t = tw(func=algo, arr=LRANDISH, n=1)
+        print(f"{t:2.4f} s")
+        # print()
 
 
 if __name__ == "__main__":
