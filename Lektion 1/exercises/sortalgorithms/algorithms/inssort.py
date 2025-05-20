@@ -28,8 +28,8 @@
 __all__ = ["inssort",
            "inssort2",
            "inssort3",
-           "inssort_wikipedia_for",
-           "inssort_wikipedia_while"
+           "inssortw_for",
+           "inssortw_while"
            ]
 
 # xpylint: disable=import-error
@@ -40,7 +40,7 @@ __all__ = ["inssort",
 import numpy as np
 
 
-def inssort_wikipedia_for(arr: np.ndarray,
+def inssortw_for(arr: np.ndarray,
                           _: int = 0, __: int = 0,  # Dummy arguments (for compliance)
                           copylist: bool = True,
                           reverse: bool = False) -> tuple:
@@ -103,7 +103,7 @@ def inssort_wikipedia_for(arr: np.ndarray,
     return arr, ncomps, nswaps
 
 
-def inssort_wikipedia_while(arr: np.ndarray,
+def inssortw_while(arr: np.ndarray,
                             _: int = 0, __: int = 0,  # Dummy arguments (for compliance)
                             copylist: bool = True,
                             reverse: bool = False) -> tuple:

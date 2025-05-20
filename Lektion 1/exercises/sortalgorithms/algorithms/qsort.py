@@ -13,8 +13,8 @@
 
 """
 __all__ = ["qsort", "qsort2",
-           "qsort_iterative",
-           "qsort_iterative2"]
+           "qsorti",
+           "qsorti2"]
 
 # pylint: disable=multiple-statements
 # xpylint: disable=import-error
@@ -354,7 +354,7 @@ def qsort2(arr: np.ndarray, lo: int, hi: int,
     return None, stats[0], stats[1]
 
 
-def qsort_iterative(arr: np.ndarray, lo: int, hi: int,
+def qsorti(arr: np.ndarray, lo: int, hi: int,
                     copylist: bool = True,
                     reverse: bool = False) -> tuple:
     """
@@ -453,7 +453,7 @@ def qsort_iterative(arr: np.ndarray, lo: int, hi: int,
     return None, stats[0], stats[1]
 
 
-def qsort_iterative2(arr: np.ndarray, lo: int, hi: int,
+def qsorti2(arr: np.ndarray, lo: int, hi: int,
                      copylist: bool = True,
                      reverse: bool = False) -> tuple:
     """

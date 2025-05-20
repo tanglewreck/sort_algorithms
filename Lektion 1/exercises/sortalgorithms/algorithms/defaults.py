@@ -21,12 +21,12 @@ from . bubblesort import bubblesort3
 from . inssort import inssort
 from . inssort import inssort2
 from . inssort import inssort3
-from . inssort import inssort_wikipedia_for
-from . inssort import inssort_wikipedia_while
+from . inssort import inssortw_for
+from . inssort import inssortw_while
 from . qsort import qsort
 from . qsort import qsort2
-from . qsort import qsort_iterative
-from . qsort import qsort_iterative2
+from . qsort import qsorti
+from . qsort import qsorti2
 
 __all__ = ["ALGORITHMS", "ALGOSALL"]
 __all__ += ["BS", "BSALL", "IS"]
@@ -100,15 +100,15 @@ IS1 = [inssort]
 IS2 = [inssort2]
 IS3 = [inssort3]
 IS = IS1 + IS2 + IS3
-ISWFOR = [inssort_wikipedia_for]
-ISWWHILE = [inssort_wikipedia_while]
+ISWFOR = [inssortw_for]
+ISWWHILE = [inssortw_while]
 ISW = ISWFOR + ISWWHILE
 ISALL = IS + ISW
 #
 QS1 = [qsort]
 QS2 = [qsort2]
-QSI = [qsort_iterative]
-QSI2 = [qsort_iterative2]
+QSI = [qsorti]
+QSI2 = [qsorti2]
 QS = QS1 + QS2 + QSI + QSI2
 QSALL = QS
 #
